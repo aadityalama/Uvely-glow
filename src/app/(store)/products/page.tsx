@@ -3,16 +3,13 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { ProductFiltersBar } from "@/components/filters/product-filters-bar";
 import { ProductGrid } from "@/components/product/product-grid";
-import { categories } from "@/data/categories";
 import { filterProducts, type SortKey } from "@/lib/products";
-import { products } from "@/data/products";
+import { listCategories, listProducts } from "@/lib/services/catalog";
 
 export const metadata: Metadata = {
   title: "Shop",
   description: "Search, filter, and shop curated Korean beauty at Uvely Glow.",
 };
-
-const slugToId = new Map(categories.map((c) => [c.slug, c.id]));
 
 type Search = {
   q?: string;
@@ -36,7 +33,10 @@ export default async function ProductsPage({
   const sort = (sp.sort as SortKey | undefined) ?? "featured";
   const inStockOnly = sp.stock === "1";
 
-  const list = filterProducts(products, { q, categorySlug: category, minKrw, maxKrw, sort, inStockOnly }, slugToId);
+  const categories = await listCategories();
+  const slugToId = new Map(categories.map((c) => [c.slug, c.id]));
+  const base = await listProducts({ q, categorySlug: category, activeOnly: true });
+  const list = filterProducts(base, { q, categorySlug: category, minKrw, maxKrw, sort, inStockOnly }, slugToId);
 
   return (
     <Container className="py-12 sm:py-16">

@@ -4,28 +4,31 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { AddToCartSection } from "@/components/product/add-to-cart-section";
-import { categories } from "@/data/categories";
-import { getProductBySlug, products } from "@/data/products";
+import { ReviewsPanel } from "@/components/product/reviews-panel";
+import { listApprovedReviews } from "@/lib/services/reviews";
+import { getProductBySlug, listProductSlugs } from "@/lib/services/catalog";
 import { formatKRW } from "@/lib/utils";
+import { listCategories } from "@/lib/services/catalog";
+import { getSessionUser } from "@/lib/supabase/session";
+import { env } from "@/lib/env";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  const slugs = await listProductSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return { title: "Product" };
-  const title = product.name;
-  const description = product.shortDescription;
   return {
-    title,
-    description,
+    title: product.name,
+    description: product.shortDescription,
     openGraph: {
-      title,
-      description,
+      title: product.name,
+      description: product.shortDescription,
       images: [{ url: product.imageUrl, width: 900, height: 1125, alt: product.name }],
     },
   };
@@ -33,10 +36,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductDetailPage({ params }: Props) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product || !product.isActive) notFound();
 
+  const categories = await listCategories();
   const category = categories.find((c) => c.id === product.categoryId);
+  const reviews = await listApprovedReviews(product.id);
+  const user = await getSessionUser();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -48,7 +54,7 @@ export default async function ProductDetailPage({ params }: Props) {
     brand: { "@type": "Brand", name: "Uvely Glow" },
     offers: {
       "@type": "Offer",
-      url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://uvely-glow.example"}/products/${product.slug}`,
+      url: `${env.siteUrl}/products/${product.slug}`,
       priceCurrency: "KRW",
       price: product.priceKrw,
       availability:
@@ -121,9 +127,7 @@ export default async function ProductDetailPage({ params }: Props) {
               </span>
             ) : null}
           </div>
-          <p className="mt-6 text-base leading-relaxed text-muted">
-            {product.description}
-          </p>
+          <p className="mt-6 text-base leading-relaxed text-muted">{product.description}</p>
           <div className="mt-6 rounded-2xl border border-line bg-card p-5 text-sm">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
               Key ingredients
@@ -144,6 +148,13 @@ export default async function ProductDetailPage({ params }: Props) {
           </div>
         </div>
       </div>
+
+      <ReviewsPanel
+        productId={product.id}
+        slug={product.slug}
+        initialReviews={reviews}
+        canReview={Boolean(user)}
+      />
     </Container>
   );
 }

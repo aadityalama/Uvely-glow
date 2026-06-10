@@ -4,13 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { ButtonLink } from "@/components/ui/button";
+import { useCart } from "@/context/cart-context";
 import { useWishlist } from "@/context/wishlist-context";
-import { products } from "@/data/products";
 import { formatKRW } from "@/lib/utils";
 
 export default function WishlistPage() {
   const { ids, toggle } = useWishlist();
-  const items = products.filter((p) => ids.includes(p.id));
+  const { allProducts } = useCart();
+  const items = allProducts.filter((p) => ids.includes(p.id));
 
   return (
     <Container className="py-12 sm:py-16">
@@ -41,7 +42,7 @@ export default function WishlistPage() {
                 <button
                   type="button"
                   className="text-xs font-semibold uppercase tracking-widest text-accent"
-                  onClick={() => toggle(p.id)}
+                  onClick={() => void toggle(p.id)}
                 >
                   Remove
                 </button>

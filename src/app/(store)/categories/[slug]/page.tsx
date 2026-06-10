@@ -3,14 +3,14 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { ProductGrid } from "@/components/product/product-grid";
-import { getCategoryBySlug } from "@/data/categories";
-import { getProductsByCategoryId } from "@/data/products";
+import { getCategoryBySlug } from "@/lib/services/catalog";
+import { listProducts } from "@/lib/services/catalog";
 
 type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const cat = getCategoryBySlug(slug);
+  const cat = await getCategoryBySlug(slug);
   if (!cat) return { title: "Category" };
   return {
     title: cat.name,
@@ -21,9 +21,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CategoryPage({ params }: Props) {
   const { slug } = await params;
-  const cat = getCategoryBySlug(slug);
+  const cat = await getCategoryBySlug(slug);
   if (!cat) notFound();
-  const items = getProductsByCategoryId(cat.id);
+  const items = await listProducts({ categorySlug: cat.slug, activeOnly: true });
 
   return (
     <Container className="py-12 sm:py-16">

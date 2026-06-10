@@ -8,6 +8,8 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useRouter } from "next/navigation";
+import { toggleWishlistAction } from "@/app/actions/wishlist";
 
 const STORAGE = "uvely-glow-wishlist";
 
@@ -31,27 +33,48 @@ function readStorage(): string[] {
   }
 }
 
-export function WishlistProvider({ children }: { children: React.ReactNode }) {
-  const [ids, setIds] = useState<string[]>([]);
+export function WishlistProvider({
+  children,
+  userId,
+  initialDbIds,
+}: {
+  children: React.ReactNode;
+  userId: string | null;
+  initialDbIds: string[];
+}) {
+  const router = useRouter();
+  const [ids, setIds] = useState<string[]>(userId ? initialDbIds : []);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setIds(readStorage());
+    if (userId) {
+      setIds(initialDbIds);
+    } else {
+      setIds(readStorage());
+    }
     setReady(true);
-  }, []);
+  }, [userId, initialDbIds]);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || userId) return;
     window.localStorage.setItem(STORAGE, JSON.stringify(ids));
-  }, [ids, ready]);
+  }, [ids, ready, userId]);
 
-  const toggle = useCallback((productId: string) => {
-    setIds((prev) =>
-      prev.includes(productId)
-        ? prev.filter((id) => id !== productId)
-        : [...prev, productId],
-    );
-  }, []);
+  const toggle = useCallback(
+    async (productId: string) => {
+      if (userId) {
+        await toggleWishlistAction(productId);
+        router.refresh();
+        return;
+      }
+      setIds((prev) =>
+        prev.includes(productId)
+          ? prev.filter((id) => id !== productId)
+          : [...prev, productId],
+      );
+    },
+    [userId, router],
+  );
 
   const has = useCallback(
     (productId: string) => ids.includes(productId),

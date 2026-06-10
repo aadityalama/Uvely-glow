@@ -4,8 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { signOutAction } from "@/app/actions/auth";
 import { Container } from "@/components/layout/container";
 import { useCart } from "@/context/cart-context";
+import { useSession } from "@/context/session-context";
 import { useWishlist } from "@/context/wishlist-context";
 import { cn } from "@/lib/utils";
 
@@ -61,12 +63,24 @@ function IconSearch(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-export function SiteHeader() {
+export function SiteHeader({
+  serverCartCount,
+  serverWishlistCount,
+}: {
+  serverCartCount?: number;
+  serverWishlistCount?: number;
+}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
-  const { count } = useCart();
+  const { count: clientCartCount } = useCart();
   const { ids } = useWishlist();
+  const { email } = useSession();
+
+  const cartCount =
+    typeof serverCartCount === "number" ? serverCartCount : clientCartCount;
+  const wishlistCount =
+    typeof serverWishlistCount === "number" ? serverWishlistCount : ids.length;
 
   const searchHref = useMemo(() => {
     const params = new URLSearchParams();
@@ -120,6 +134,28 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex flex-1 items-center justify-end gap-2 sm:flex-none sm:gap-3">
+          {email ? (
+            <span className="hidden max-w-[10rem] truncate text-xs text-muted lg:inline">
+              {email}
+            </span>
+          ) : null}
+          {email ? (
+            <form action={signOutAction}>
+              <button
+                type="submit"
+                className="hidden rounded-full border border-line px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-accent/40 hover:text-accent lg:inline-block"
+              >
+                Log out
+              </button>
+            </form>
+          ) : (
+            <Link
+              href="/login"
+              className="hidden rounded-full border border-line px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-accent/40 hover:text-accent lg:inline-block"
+            >
+              Log in
+            </Link>
+          )}
           <form
             action={searchHref}
             className="relative hidden max-w-xs flex-1 sm:block"
@@ -143,9 +179,9 @@ export function SiteHeader() {
             aria-label="Wishlist"
           >
             <IconHeart className="h-5 w-5" />
-            {ids.length > 0 ? (
+            {wishlistCount > 0 ? (
               <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white">
-                {ids.length > 9 ? "9+" : ids.length}
+                {wishlistCount > 9 ? "9+" : wishlistCount}
               </span>
             ) : null}
           </Link>
@@ -155,9 +191,9 @@ export function SiteHeader() {
             aria-label="Cart"
           >
             <IconBag className="h-5 w-5" />
-            {count > 0 ? (
+            {cartCount > 0 ? (
               <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-deep px-1 text-[10px] font-semibold text-background">
-                {count > 9 ? "9+" : count}
+                {cartCount > 9 ? "9+" : cartCount}
               </span>
             ) : null}
           </Link>
@@ -225,6 +261,17 @@ export function SiteHeader() {
                 >
                   Admin
                 </Link>
+                {email ? (
+                  <form action={signOutAction}>
+                    <button type="submit" className="text-lg font-medium text-accent">
+                      Log out
+                    </button>
+                  </form>
+                ) : (
+                  <Link href="/login" className="text-lg font-medium text-accent">
+                    Log in
+                  </Link>
+                )}
               </div>
             </motion.nav>
           </motion.div>

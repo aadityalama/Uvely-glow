@@ -1,13 +1,12 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import { placeOrderAction } from "@/app/actions/checkout";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
-import { useAccount } from "@/context/account-context";
-import { useCart, resolveCartLines } from "@/context/cart-context";
-import type { LocalOrder, OrderStatus } from "@/types";
+import { resolveCartLines, useCart } from "@/context/cart-context";
 import { formatKRW } from "@/lib/utils";
 
 const SHIPPING = 0;
@@ -15,21 +14,14 @@ const TAX_RATE = 0.1;
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { lines, clear } = useCart();
-  const { addOrder, profile } = useAccount();
-  const resolved = resolveCartLines(lines);
+  const { lines, allProducts } = useCart();
+  const resolved = resolveCartLines(lines, allProducts);
+  const [err, setErr] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
-  const [email, setEmail] = useState(profile.email);
-  const [name, setName] = useState(profile.fullName);
-  const [line1, setLine1] = useState("");
-  const [city, setCity] = useState("");
-  const [region, setRegion] = useState("");
-  const [postal, setPostal] = useState("");
-  const [country, setCountry] = useState("KR");
-
-  const subtotal = useMemo(
-    () => resolved.reduce((s, l) => s + l.product.priceKrw * l.quantity, 0),
-    [resolved],
+  const subtotal = resolved.reduce(
+    (s, l) => s + l.product.priceKrw * l.quantity,
+    0,
   );
   const tax = Math.round(subtotal * TAX_RATE);
   const total = subtotal + SHIPPING + tax;
@@ -54,117 +46,67 @@ export default function CheckoutPage() {
     <Container className="py-12 sm:py-16">
       <h1 className="font-display text-4xl text-deep">Checkout</h1>
       <p className="mt-2 text-sm text-muted">
-        Demo checkout — orders are stored locally in your browser.
+        Secure checkout — orders are saved to your Uvely Glow account.
       </p>
       <form
         className="mt-10 grid gap-10 lg:grid-cols-[1fr_minmax(0,22rem)]"
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          const order: LocalOrder = {
-            id: crypto.randomUUID(),
-            createdAt: new Date().toISOString(),
-            email,
-            status: "paid" as OrderStatus,
-            subtotalKrw: subtotal,
-            shippingKrw: SHIPPING,
-            taxKrw: tax,
-            totalKrw: total,
-            items: resolved.map((l) => ({
-              productId: l.productId,
-              name: l.product.name,
-              unitPriceKrw: l.product.priceKrw,
-              quantity: l.quantity,
-            })),
-            shipping: {
-              name,
-              line1,
-              line2: "",
-              city,
-              region,
-              postal,
-              country,
-            },
-          };
-          addOrder(order);
-          clear();
-          router.push("/account/orders");
+          setErr(null);
+          setPending(true);
+          const fd = new FormData(e.currentTarget);
+          const res = await placeOrderAction({
+            email: String(fd.get("email")),
+            name: String(fd.get("name")),
+            line1: String(fd.get("line1")),
+            city: String(fd.get("city")),
+            region: String(fd.get("region")),
+            postal: String(fd.get("postal")),
+            country: String(fd.get("country") || "KR"),
+          });
+          setPending(false);
+          if ("error" in res) setErr(res.error);
+          else {
+            router.push("/account/orders");
+            router.refresh();
+          }
         }}
       >
         <div className="space-y-6 rounded-2xl border border-line bg-card p-6 sm:p-8">
           <h2 className="font-display text-2xl text-deep">Shipping</h2>
           <div>
             <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1.5"
-            />
+            <Input id="email" name="email" type="email" required className="mt-1.5" />
           </div>
           <div>
             <Label htmlFor="name">Full name</Label>
-            <Input
-              id="name"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1.5"
-            />
+            <Input id="name" name="name" required className="mt-1.5" />
           </div>
           <div>
             <Label htmlFor="line1">Address</Label>
-            <Input
-              id="line1"
-              required
-              value={line1}
-              onChange={(e) => setLine1(e.target.value)}
-              className="mt-1.5"
-            />
+            <Input id="line1" name="line1" required className="mt-1.5" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="city">City</Label>
-              <Input
-                id="city"
-                required
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
-                className="mt-1.5"
-              />
+              <Input id="city" name="city" required className="mt-1.5" />
             </div>
             <div>
               <Label htmlFor="region">Region</Label>
-              <Input
-                id="region"
-                value={region}
-                onChange={(e) => setRegion(e.target.value)}
-                className="mt-1.5"
-              />
+              <Input id="region" name="region" className="mt-1.5" />
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="postal">Postal code</Label>
-              <Input
-                id="postal"
-                required
-                value={postal}
-                onChange={(e) => setPostal(e.target.value)}
-                className="mt-1.5"
-              />
+              <Input id="postal" name="postal" required className="mt-1.5" />
             </div>
             <div>
               <Label htmlFor="country">Country</Label>
-              <Input
-                id="country"
-                value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className="mt-1.5"
-              />
+              <Input id="country" name="country" defaultValue="KR" className="mt-1.5" />
             </div>
           </div>
+          {err ? <p className="text-sm text-accent">{err}</p> : null}
         </div>
         <aside className="h-fit space-y-4 rounded-2xl border border-line bg-card p-6">
           <h2 className="font-display text-xl text-deep">Order summary</h2>
@@ -172,8 +114,7 @@ export default function CheckoutPage() {
             {resolved.map((l) => (
               <li key={l.productId} className="flex justify-between gap-4">
                 <span className="text-muted">
-                  {l.product.name}{" "}
-                  <span className="text-foreground">×{l.quantity}</span>
+                  {l.product.name} <span className="text-foreground">×{l.quantity}</span>
                 </span>
                 <span>{formatKRW(l.product.priceKrw * l.quantity)}</span>
               </li>
@@ -197,8 +138,13 @@ export default function CheckoutPage() {
               <span>{formatKRW(total)}</span>
             </div>
           </div>
-          <Button type="submit" variant="accent" className="mt-4 w-full justify-center py-3">
-            Place order
+          <Button
+            type="submit"
+            variant="accent"
+            className="mt-4 w-full justify-center py-3"
+            disabled={pending}
+          >
+            {pending ? "Placing order…" : "Place order"}
           </Button>
         </aside>
       </form>

@@ -9,11 +9,15 @@ export function AddToCartSection({ product }: { product: Product }) {
   const { add } = useCart();
   const [qty, setQty] = useState(1);
   const [flash, setFlash] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
       <div>
-        <label htmlFor="qty" className="text-xs font-medium uppercase tracking-widest text-muted">
+        <label
+          htmlFor="qty"
+          className="text-xs font-medium uppercase tracking-widest text-muted"
+        >
           Quantity
         </label>
         <div className="mt-2 flex items-center gap-2">
@@ -49,14 +53,25 @@ export function AddToCartSection({ product }: { product: Product }) {
       <Button
         variant="accent"
         className="sm:min-w-[12rem]"
-        disabled={product.stock <= 0}
-        onClick={() => {
-          add(product.id, qty);
-          setFlash(true);
-          window.setTimeout(() => setFlash(false), 1600);
+        disabled={product.stock <= 0 || busy}
+        onClick={async () => {
+          setBusy(true);
+          try {
+            await add(product.id, qty);
+            setFlash(true);
+            window.setTimeout(() => setFlash(false), 1600);
+          } finally {
+            setBusy(false);
+          }
         }}
       >
-        {product.stock <= 0 ? "Out of stock" : flash ? "Added to bag" : "Add to bag"}
+        {product.stock <= 0
+          ? "Out of stock"
+          : flash
+            ? "Added to bag"
+            : busy
+              ? "Adding…"
+              : "Add to bag"}
       </Button>
     </div>
   );

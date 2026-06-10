@@ -8,13 +8,20 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { CartLine } from "@/types";
-import { products } from "@/data/products";
+import { useRouter } from "next/navigation";
+import type { CartLine, Product } from "@/types";
+import {
+  addToCartAction,
+  clearCartAction,
+  removeFromCartAction,
+  setCartQtyAction,
+} from "@/app/actions/cart";
 
 const STORAGE = "uvely-glow-cart";
 
 type CartContextValue = {
   lines: CartLine[];
+  allProducts: Product[];
   add: (productId: string, qty?: number) => void;
   setQty: (productId: string, qty: number) => void;
   remove: (productId: string) => void;
@@ -36,47 +43,97 @@ function readStorage(): CartLine[] {
   }
 }
 
-export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [lines, setLines] = useState<CartLine[]>([]);
+export function CartProvider({
+  children,
+  userId,
+  initialDbLines,
+  allProducts,
+}: {
+  children: React.ReactNode;
+  userId: string | null;
+  initialDbLines: CartLine[];
+  allProducts: Product[];
+}) {
+  const router = useRouter();
+  const [lines, setLines] = useState<CartLine[]>(userId ? initialDbLines : []);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setLines(readStorage());
+    if (userId) {
+      setLines(initialDbLines);
+    } else {
+      setLines(readStorage());
+    }
     setReady(true);
-  }, []);
+  }, [userId, initialDbLines]);
 
   useEffect(() => {
-    if (!ready) return;
+    if (!ready || userId) return;
     window.localStorage.setItem(STORAGE, JSON.stringify(lines));
-  }, [lines, ready]);
+  }, [lines, ready, userId]);
 
-  const add = useCallback((productId: string, qty = 1) => {
-    setLines((prev) => {
-      const i = prev.findIndex((l) => l.productId === productId);
-      if (i === -1) return [...prev, { productId, quantity: qty }];
-      const next = [...prev];
-      next[i] = { ...next[i], quantity: next[i].quantity + qty };
-      return next;
-    });
-  }, []);
+  const refresh = useCallback(() => {
+    router.refresh();
+  }, [router]);
 
-  const setQty = useCallback((productId: string, qty: number) => {
-    const q = Math.max(0, Math.floor(qty));
-    setLines((prev) => {
-      if (q === 0) return prev.filter((l) => l.productId !== productId);
-      const i = prev.findIndex((l) => l.productId === productId);
-      if (i === -1) return [...prev, { productId, quantity: q }];
-      const next = [...prev];
-      next[i] = { ...next[i], quantity: q };
-      return next;
-    });
-  }, []);
+  const add = useCallback(
+    async (productId: string, qty = 1) => {
+      if (userId) {
+        await addToCartAction(productId, qty);
+        refresh();
+        return;
+      }
+      setLines((prev) => {
+        const i = prev.findIndex((l) => l.productId === productId);
+        if (i === -1) return [...prev, { productId, quantity: qty }];
+        const next = [...prev];
+        next[i] = { ...next[i], quantity: next[i].quantity + qty };
+        return next;
+      });
+    },
+    [userId, refresh],
+  );
 
-  const remove = useCallback((productId: string) => {
-    setLines((prev) => prev.filter((l) => l.productId !== productId));
-  }, []);
+  const setQty = useCallback(
+    async (productId: string, qty: number) => {
+      const q = Math.max(0, Math.floor(qty));
+      if (userId) {
+        await setCartQtyAction(productId, q);
+        refresh();
+        return;
+      }
+      setLines((prev) => {
+        if (q === 0) return prev.filter((l) => l.productId !== productId);
+        const i = prev.findIndex((l) => l.productId === productId);
+        if (i === -1) return [...prev, { productId, quantity: q }];
+        const next = [...prev];
+        next[i] = { ...next[i], quantity: q };
+        return next;
+      });
+    },
+    [userId, refresh],
+  );
 
-  const clear = useCallback(() => setLines([]), []);
+  const remove = useCallback(
+    async (productId: string) => {
+      if (userId) {
+        await removeFromCartAction(productId);
+        refresh();
+        return;
+      }
+      setLines((prev) => prev.filter((l) => l.productId !== productId));
+    },
+    [userId, refresh],
+  );
+
+  const clear = useCallback(async () => {
+    if (userId) {
+      await clearCartAction();
+      refresh();
+      return;
+    }
+    setLines([]);
+  }, [userId, refresh]);
 
   const count = useMemo(
     () => lines.reduce((s, l) => s + l.quantity, 0),
@@ -84,8 +141,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const value = useMemo(
-    () => ({ lines, add, setQty, remove, clear, count }),
-    [lines, add, setQty, remove, clear, count],
+    () => ({
+      lines,
+      allProducts,
+      add,
+      setQty,
+      remove,
+      clear,
+      count,
+    }),
+    [lines, allProducts, add, setQty, remove, clear, count],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
@@ -102,12 +167,15 @@ export function useCartProduct(productId: string) {
   return lines.find((l) => l.productId === productId)?.quantity ?? 0;
 }
 
-export function resolveCartLines(lines: CartLine[]) {
+export function resolveCartLines(
+  lines: CartLine[],
+  catalog: Product[],
+): Array<CartLine & { product: Product }> {
   return lines
     .map((line) => {
-      const product = products.find((p) => p.id === line.productId);
+      const product = catalog.find((p) => p.id === line.productId);
       if (!product) return null;
       return { ...line, product };
     })
-    .filter(Boolean) as Array<CartLine & { product: (typeof products)[number] }>;
+    .filter(Boolean) as Array<CartLine & { product: Product }>;
 }

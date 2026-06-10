@@ -1,20 +1,22 @@
-"use client";
-
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Container } from "@/components/layout/container";
 import { ButtonLink } from "@/components/ui/button";
-import { useAccount } from "@/context/account-context";
+import { listOrdersForUser } from "@/lib/services/orders";
+import { getSessionUser } from "@/lib/supabase/session";
 import { formatKRW } from "@/lib/utils";
 
-export default function OrdersPage() {
-  const { orders } = useAccount();
+export default async function OrdersPage() {
+  const user = await getSessionUser();
+  if (!user) redirect("/login?next=/account/orders");
+  const orders = await listOrdersForUser(user.id);
 
   return (
     <Container className="py-12 sm:py-16">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="font-display text-4xl text-deep">Order history</h1>
-          <p className="mt-2 text-muted">Placed orders in this browser session.</p>
+          <p className="mt-2 text-muted">Orders linked to your account.</p>
         </div>
         <ButtonLink href="/products" variant="outline">
           Shop again
@@ -39,7 +41,7 @@ export default function OrdersPage() {
               <p className="mt-2 text-sm text-muted">{o.email}</p>
               <ul className="mt-4 space-y-1 text-sm">
                 {o.items.map((it) => (
-                  <li key={`${o.id}-${it.productId}`} className="flex justify-between gap-4">
+                  <li key={`${o.id}-${it.productId}-${it.name}`} className="flex justify-between gap-4">
                     <span>
                       {it.name} ×{it.quantity}
                     </span>

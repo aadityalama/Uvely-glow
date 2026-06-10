@@ -4,12 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/container";
 import { Button, ButtonLink } from "@/components/ui/button";
-import { useCart, resolveCartLines } from "@/context/cart-context";
+import { resolveCartLines, useCart } from "@/context/cart-context";
 import { formatKRW } from "@/lib/utils";
 
 export default function CartPage() {
-  const { lines, setQty, remove, clear } = useCart();
-  const resolved = resolveCartLines(lines);
+  const { lines, setQty, remove, clear, allProducts } = useCart();
+  const resolved = resolveCartLines(lines, allProducts);
   const subtotal = resolved.reduce(
     (s, l) => s + l.product.priceKrw * l.quantity,
     0,
@@ -63,13 +63,13 @@ export default function CartPage() {
                       className="w-16 rounded-lg border border-line bg-background px-2 py-1 text-sm"
                       value={line.quantity}
                       onChange={(e) =>
-                        setQty(line.productId, Number(e.target.value) || 1)
+                        void setQty(line.productId, Number(e.target.value) || 1)
                       }
                     />
                     <button
                       type="button"
                       className="text-xs font-semibold uppercase tracking-widest text-accent"
-                      onClick={() => remove(line.productId)}
+                      onClick={() => void remove(line.productId)}
                     >
                       Remove
                     </button>
@@ -90,7 +90,7 @@ export default function CartPage() {
               <span>{formatKRW(subtotal)}</span>
             </div>
             <p className="mt-2 text-xs text-muted">
-              Shipping &amp; tax calculated at checkout (demo).
+              Shipping &amp; tax calculated at checkout.
             </p>
             <ButtonLink href="/checkout" variant="accent" className="mt-6 w-full justify-center py-3">
               Checkout
@@ -99,7 +99,7 @@ export default function CartPage() {
               type="button"
               variant="ghost"
               className="mt-3 w-full justify-center text-xs uppercase tracking-widest"
-              onClick={() => clear()}
+              onClick={() => void clear()}
             >
               Clear bag
             </Button>

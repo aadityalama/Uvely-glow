@@ -1,14 +1,16 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
-import { categories } from "@/data/categories";
+import { listCategories } from "@/lib/services/catalog";
 
 export const metadata: Metadata = {
   title: "Categories",
   description: "Browse Uvely Glow Korean beauty by category.",
 };
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const categories = await listCategories();
+
   return (
     <Container className="py-12 sm:py-16">
       <h1 className="font-display text-4xl text-deep sm:text-5xl">Categories</h1>

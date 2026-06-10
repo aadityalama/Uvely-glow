@@ -2,10 +2,14 @@ import Link from "next/link";
 import { HeroSection } from "@/components/home/hero-section";
 import { Container } from "@/components/layout/container";
 import { ProductGrid } from "@/components/product/product-grid";
-import { categories } from "@/data/categories";
-import { products } from "@/data/products";
+import { listCategories } from "@/lib/services/catalog";
+import { listProducts } from "@/lib/services/catalog";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [products, categories] = await Promise.all([
+    listProducts({ activeOnly: true }),
+    listCategories(),
+  ]);
   const featured = products.filter((p) => p.isFeatured).slice(0, 6);
 
   return (

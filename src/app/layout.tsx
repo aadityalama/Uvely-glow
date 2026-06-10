@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans } from "next/font/google";
 import "./globals.css";
-import { AppProviders } from "@/components/providers/app-providers";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -49,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${dmSans.variable} ${cormorant.variable} antialiased`}>
-        <AppProviders>{children}</AppProviders>
+        {children}
       </body>
     </html>
   );

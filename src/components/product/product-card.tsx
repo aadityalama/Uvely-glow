@@ -36,7 +36,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         ) : null}
         <button
           type="button"
-          onClick={() => toggle(product.id)}
+          onClick={() => void toggle(product.id)}
           className={cn(
             "absolute right-3 top-3 z-[2] inline-flex h-9 w-9 items-center justify-center rounded-full border bg-background/90 text-foreground backdrop-blur transition hover:scale-105",
             saved ? "border-accent text-accent" : "border-line",
