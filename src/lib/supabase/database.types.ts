@@ -14,6 +14,25 @@ export type OrderStatusDb =
   | "delivered"
   | "cancelled";
 
+export type PaymentMethodDb = "esewa" | "khalti" | "cash_on_delivery";
+export type PaymentStatusDb =
+  | "unpaid"
+  | "initiated"
+  | "paid"
+  | "failed"
+  | "refunded";
+export type FulfillmentStatusDb =
+  | "unfulfilled"
+  | "packed"
+  | "shipped"
+  | "delivered"
+  | "returned";
+export type NotificationTypeDb =
+  | "order_placed"
+  | "payment_success"
+  | "order_shipped"
+  | "order_delivered";
+
 export interface Database {
   public: {
     Tables: {
@@ -209,6 +228,20 @@ export interface Database {
           shipping_postal: string | null;
           shipping_country: string | null;
           stripe_payment_intent_id: string | null;
+          payment_method: PaymentMethodDb;
+          payment_status: PaymentStatusDb;
+          payment_provider_ref: string | null;
+          shipping_method: string;
+          shipping_provider: string | null;
+          delivery_fee_krw: number;
+          delivery_province: string | null;
+          delivery_district: string | null;
+          tracking_number: string | null;
+          estimated_delivery_days: number | null;
+          packed_at: string | null;
+          shipped_at: string | null;
+          delivered_at: string | null;
+          invoice_number: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -229,6 +262,20 @@ export interface Database {
           shipping_postal?: string | null;
           shipping_country?: string | null;
           stripe_payment_intent_id?: string | null;
+          payment_method?: PaymentMethodDb;
+          payment_status?: PaymentStatusDb;
+          payment_provider_ref?: string | null;
+          shipping_method?: string;
+          shipping_provider?: string | null;
+          delivery_fee_krw?: number;
+          delivery_province?: string | null;
+          delivery_district?: string | null;
+          tracking_number?: string | null;
+          estimated_delivery_days?: number | null;
+          packed_at?: string | null;
+          shipped_at?: string | null;
+          delivered_at?: string | null;
+          invoice_number?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -249,6 +296,20 @@ export interface Database {
           shipping_postal?: string | null;
           shipping_country?: string | null;
           stripe_payment_intent_id?: string | null;
+          payment_method?: PaymentMethodDb;
+          payment_status?: PaymentStatusDb;
+          payment_provider_ref?: string | null;
+          shipping_method?: string;
+          shipping_provider?: string | null;
+          delivery_fee_krw?: number;
+          delivery_province?: string | null;
+          delivery_district?: string | null;
+          tracking_number?: string | null;
+          estimated_delivery_days?: number | null;
+          packed_at?: string | null;
+          shipped_at?: string | null;
+          delivered_at?: string | null;
+          invoice_number?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -359,6 +420,108 @@ export interface Database {
           is_approved?: boolean;
           created_at?: string;
           updated_at?: string;
+        };
+        Relationships: [];
+      };
+      order_status_events: {
+        Row: {
+          id: string;
+          order_id: string;
+          status: OrderStatusDb;
+          fulfillment_status: FulfillmentStatusDb;
+          note: string | null;
+          created_by: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          order_id: string;
+          status: OrderStatusDb;
+          fulfillment_status?: FulfillmentStatusDb;
+          note?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          order_id?: string;
+          status?: OrderStatusDb;
+          fulfillment_status?: FulfillmentStatusDb;
+          note?: string | null;
+          created_by?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      order_notifications: {
+        Row: {
+          id: string;
+          order_id: string;
+          user_id: string | null;
+          type: NotificationTypeDb;
+          channel: string;
+          title: string;
+          message: string;
+          read_at: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          order_id: string;
+          user_id?: string | null;
+          type: NotificationTypeDb;
+          channel?: string;
+          title: string;
+          message: string;
+          read_at?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          order_id?: string;
+          user_id?: string | null;
+          type?: NotificationTypeDb;
+          channel?: string;
+          title?: string;
+          message?: string;
+          read_at?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      nepal_districts: {
+        Row: {
+          id: string;
+          province: string;
+          district: string;
+          zone_name: string | null;
+          base_delivery_fee_krw: number;
+          remote_surcharge_krw: number;
+          estimated_days_min: number;
+          estimated_days_max: number;
+          is_active: boolean;
+        };
+        Insert: {
+          id?: string;
+          province: string;
+          district: string;
+          zone_name?: string | null;
+          base_delivery_fee_krw?: number;
+          remote_surcharge_krw?: number;
+          estimated_days_min?: number;
+          estimated_days_max?: number;
+          is_active?: boolean;
+        };
+        Update: {
+          id?: string;
+          province?: string;
+          district?: string;
+          zone_name?: string | null;
+          base_delivery_fee_krw?: number;
+          remote_surcharge_krw?: number;
+          estimated_days_min?: number;
+          estimated_days_max?: number;
+          is_active?: boolean;
         };
         Relationships: [];
       };

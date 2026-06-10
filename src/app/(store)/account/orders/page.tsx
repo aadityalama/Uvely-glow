@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 import { Container } from "@/components/layout/container";
 import { ButtonLink } from "@/components/ui/button";
 import { listOrdersForUser } from "@/lib/services/orders";
+import { PAYMENT_METHOD_LABELS } from "@/lib/services/payments";
 import { getSessionUser } from "@/lib/supabase/session";
-import { formatKRW } from "@/lib/utils";
+import { formatNPR } from "@/lib/utils";
 
 export default async function OrdersPage() {
   const user = await getSessionUser();
@@ -39,19 +40,34 @@ export default async function OrdersPage() {
                 </span>
               </div>
               <p className="mt-2 text-sm text-muted">{o.email}</p>
+              <p className="mt-1 text-xs text-muted">
+                {o.deliveryDistrict}, {o.deliveryProvince} ·{" "}
+                {PAYMENT_METHOD_LABELS[o.paymentMethod]} ({o.paymentStatus})
+              </p>
               <ul className="mt-4 space-y-1 text-sm">
                 {o.items.map((it) => (
                   <li key={`${o.id}-${it.productId}-${it.name}`} className="flex justify-between gap-4">
                     <span>
                       {it.name} ×{it.quantity}
                     </span>
-                    <span>{formatKRW(it.unitPriceKrw * it.quantity)}</span>
+                    <span>{formatNPR(it.unitPriceKrw * it.quantity)}</span>
                   </li>
                 ))}
               </ul>
-              <p className="mt-4 text-right text-base font-semibold">
-                Total {formatKRW(o.totalKrw)}
-              </p>
+              <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex gap-3 text-sm">
+                  <Link href={`/account/orders/${o.id}`} className="text-accent hover:underline">
+                    Track order
+                  </Link>
+                  <Link
+                    href={`/account/orders/${o.id}/invoice`}
+                    className="text-accent hover:underline"
+                  >
+                    Invoice
+                  </Link>
+                </div>
+                <p className="text-base font-semibold">Total {formatNPR(o.totalKrw)}</p>
+              </div>
             </li>
           ))}
         </ul>

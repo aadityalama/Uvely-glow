@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth/admin";
+import { createOrderNotification } from "@/lib/services/notifications";
 import type { Database, OrderStatusDb } from "@/lib/supabase/database.types";
 
 type ProductInsert = Database["public"]["Tables"]["products"]["Insert"];
@@ -91,13 +92,62 @@ export async function adminAdjustInventoryAction(
 export async function adminUpdateOrderStatusAction(
   orderId: string,
   status: string,
+  trackingNumber?: string,
+  note?: string,
 ) {
-  const { supabase } = await requireAdmin();
+  const { supabase, user } = await requireAdmin();
+  const { data: existing } = await supabase
+    .from("orders")
+    .select("user_id")
+    .eq("id", orderId)
+    .maybeSingle();
   const { error } = await supabase
     .from("orders")
-    .update({ status: status as OrderStatusDb })
+    .update({
+      status: status as OrderStatusDb,
+      tracking_number: trackingNumber?.trim() || null,
+      payment_status: status === "paid" ? "paid" : undefined,
+    })
     .eq("id", orderId);
   if (error) throw new Error(error.message);
+  await supabase.from("order_status_events").insert({
+    order_id: orderId,
+    status: status as OrderStatusDb,
+    fulfillment_status:
+      status === "processing"
+        ? "packed"
+        : status === "shipped"
+          ? "shipped"
+          : status === "delivered"
+            ? "delivered"
+            : "unfulfilled",
+    note: note?.trim() || null,
+    created_by: user.id,
+  });
+  if (status === "paid") {
+    await createOrderNotification({
+      supabase,
+      orderId,
+      userId: existing?.user_id ?? null,
+      type: "payment_success",
+    });
+  }
+  if (status === "shipped") {
+    await createOrderNotification({
+      supabase,
+      orderId,
+      userId: existing?.user_id ?? null,
+      type: "order_shipped",
+    });
+  }
+  if (status === "delivered") {
+    await createOrderNotification({
+      supabase,
+      orderId,
+      userId: existing?.user_id ?? null,
+      type: "order_delivered",
+    });
+  }
   revalidatePath("/admin/orders");
   revalidatePath("/account/orders");
 }
@@ -214,7 +264,9 @@ export async function adminDeleteProductFormAction(formData: FormData) {
 export async function adminUpdateOrderFromFormAction(formData: FormData) {
   const orderId = String(formData.get("order_id") ?? "");
   const status = String(formData.get("status") ?? "");
-  await adminUpdateOrderStatusAction(orderId, status);
+  const tracking = String(formData.get("tracking_number") ?? "");
+  const note = String(formData.get("note") ?? "");
+  await adminUpdateOrderStatusAction(orderId, status, tracking, note);
   redirect("/admin/orders");
 }
 

@@ -6,6 +6,10 @@ export type OrderStatus =
   | "delivered"
   | "cancelled";
 
+export type PaymentMethod = "esewa" | "khalti" | "cash_on_delivery";
+export type PaymentStatus = "unpaid" | "initiated" | "paid" | "failed" | "refunded";
+export type ShippingMethod = "standard" | "express" | "valley_same_day";
+
 export interface Category {
   id: string;
   slug: string;
@@ -54,6 +58,14 @@ export interface LocalOrder {
   shippingKrw: number;
   taxKrw: number;
   totalKrw: number;
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
+  shippingMethod: ShippingMethod;
+  deliveryProvince: string;
+  deliveryDistrict: string;
+  trackingNumber: string;
+  estimatedDeliveryDays: number | null;
+  invoiceNumber: string;
   items: OrderLineSnapshot[];
   shipping: {
     name: string;

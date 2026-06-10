@@ -12,3 +12,11 @@ export function formatKRW(won: number) {
     maximumFractionDigits: 0,
   }).format(won);
 }
+
+export function formatNPR(amount: number) {
+  return new Intl.NumberFormat("en-NP", {
+    style: "currency",
+    currency: "NPR",
+    maximumFractionDigits: 0,
+  }).format(amount);
+}
