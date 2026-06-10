@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { logSupabaseConfigDiagnostics } from "@/lib/supabase/diagnostics";
 import { env } from "@/lib/env";
 
 export async function signInWithPasswordAction(
@@ -14,7 +15,12 @@ export async function signInWithPasswordAction(
   const password = String(formData.get("password") ?? "");
   const next = String(formData.get("next") ?? "/account");
   const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if (error) return { error: error.message };
+  if (error) {
+    if (error.message.toLowerCase().includes("api key")) {
+      logSupabaseConfigDiagnostics("signin-invalid-api-key");
+    }
+    return { error: error.message };
+  }
   revalidatePath("/", "layout");
   return { ok: true, next: next.startsWith("/") ? next : "/account" };
 }
@@ -35,7 +41,12 @@ export async function signUpAction(
       data: { full_name: fullName },
     },
   });
-  if (error) return { error: error.message };
+  if (error) {
+    if (error.message.toLowerCase().includes("api key")) {
+      logSupabaseConfigDiagnostics("signup-invalid-api-key");
+    }
+    return { error: error.message };
+  }
   return { success: true };
 }
 
@@ -55,7 +66,12 @@ export async function requestPasswordResetAction(
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${env.siteUrl}/auth/callback?next=/update-password`,
   });
-  if (error) return { error: error.message };
+  if (error) {
+    if (error.message.toLowerCase().includes("api key")) {
+      logSupabaseConfigDiagnostics("password-reset-invalid-api-key");
+    }
+    return { error: error.message };
+  }
   return { success: true };
 }
 

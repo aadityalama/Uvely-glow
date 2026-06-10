@@ -19,6 +19,7 @@
 
 - Required for browser/server Supabase clients using RLS.
 - This is the Supabase anon/public key, not the service role key.
+- Supabase projects may label this as the `anon` key or a publishable key. Either public key type is valid; do not paste a `service_role`, `sb_secret_...`, JWT secret, or placeholder value.
 - Set in Vercel Production and Preview.
 
 ## Mobile app variables
