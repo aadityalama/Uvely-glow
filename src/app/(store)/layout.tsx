@@ -1,6 +1,7 @@
 import { MergeGuestCart } from "@/components/auth/merge-guest-cart";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { NewsletterCapture } from "@/components/marketing/newsletter-capture";
 import { CartProvider } from "@/context/cart-context";
 import { SessionProvider } from "@/context/session-context";
 import { WishlistProvider } from "@/context/wishlist-context";
@@ -43,6 +44,7 @@ export default async function StoreLayout({
             />
             <main className="flex-1">{children}</main>
             <SiteFooter />
+            <NewsletterCapture />
           </div>
         </WishlistProvider>
       </CartProvider>

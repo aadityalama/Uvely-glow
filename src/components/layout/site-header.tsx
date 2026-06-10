@@ -14,6 +14,9 @@ import { cn } from "@/lib/utils";
 const nav = [
   { href: "/products", label: "Shop" },
   { href: "/categories", label: "Categories" },
+  { href: "/quiz", label: "Skin quiz" },
+  { href: "/blog", label: "Blog" },
+  { href: "/brands", label: "Brands" },
   { href: "/account", label: "Account" },
 ];
 

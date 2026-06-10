@@ -4,11 +4,21 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { AddToCartSection } from "@/components/product/add-to-cart-section";
+import { ProductGrid } from "@/components/product/product-grid";
 import { ReviewsPanel } from "@/components/product/reviews-panel";
+import {
+  RecentlyViewedProducts,
+  TrackRecentlyViewed,
+} from "@/components/product/recently-viewed";
+import { ProductViewAnalytics } from "@/components/product/product-analytics";
 import { listApprovedReviews } from "@/lib/services/reviews";
 import { getProductBySlug, listProductSlugs } from "@/lib/services/catalog";
 import { formatKRW } from "@/lib/utils";
-import { listCategories } from "@/lib/services/catalog";
+import { listCategories, listProducts } from "@/lib/services/catalog";
+import {
+  getFrequentlyBoughtTogether,
+  getRelatedProducts,
+} from "@/lib/services/recommendations";
 import { getSessionUser } from "@/lib/supabase/session";
 import { env } from "@/lib/env";
 
@@ -40,9 +50,12 @@ export default async function ProductDetailPage({ params }: Props) {
   if (!product || !product.isActive) notFound();
 
   const categories = await listCategories();
+  const allProducts = await listProducts({ activeOnly: true });
   const category = categories.find((c) => c.id === product.categoryId);
   const reviews = await listApprovedReviews(product.id);
   const user = await getSessionUser();
+  const related = getRelatedProducts(product, allProducts);
+  const bundle = getFrequentlyBoughtTogether(product, allProducts);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -70,6 +83,8 @@ export default async function ProductDetailPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <TrackRecentlyViewed productId={product.id} />
+      <ProductViewAnalytics productId={product.id} />
       <nav className="text-xs text-muted">
         <Link href="/products" className="hover:text-accent">
           Shop
@@ -99,7 +114,7 @@ export default async function ProductDetailPage({ params }: Props) {
             />
           </div>
           {product.galleryUrls.length ? (
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-3" aria-label="Premium image gallery">
               {product.galleryUrls.map((url) => (
                 <div
                   key={url}
@@ -110,6 +125,15 @@ export default async function ProductDetailPage({ params }: Props) {
               ))}
             </div>
           ) : null}
+          <div className="rounded-2xl border border-line bg-card p-5 text-sm">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+              Media support
+            </p>
+            <p className="mt-2 text-muted">
+              Phase 4 supports premium product media, video URLs, and
+              before/after galleries through the product_media table.
+            </p>
+          </div>
         </div>
 
         <div>
@@ -155,6 +179,32 @@ export default async function ProductDetailPage({ params }: Props) {
         initialReviews={reviews}
         canReview={Boolean(user)}
       />
+
+      {bundle.length > 1 ? (
+        <section className="mt-16 rounded-3xl border border-line bg-card p-6 sm:p-8">
+          <h2 className="font-display text-3xl text-deep">
+            Frequently bought together
+          </h2>
+          <p className="mt-2 text-sm text-muted">
+            Build a complete K-beauty routine with complementary textures and
+            steps.
+          </p>
+          <div className="mt-6">
+            <ProductGrid items={bundle} />
+          </div>
+        </section>
+      ) : null}
+
+      {related.length ? (
+        <section className="mt-16">
+          <h2 className="font-display text-3xl text-deep">Related products</h2>
+          <div className="mt-6">
+            <ProductGrid items={related} />
+          </div>
+        </section>
+      ) : null}
+
+      <RecentlyViewedProducts products={allProducts} />
     </Container>
   );
 }

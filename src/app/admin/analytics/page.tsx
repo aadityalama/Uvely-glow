@@ -1,4 +1,8 @@
-import { getRevenueSummary, getTopSellingProducts } from "@/lib/services/analytics";
+import {
+  getConversionDashboard,
+  getRevenueSummary,
+  getTopSellingProducts,
+} from "@/lib/services/analytics";
 import { isSupabaseConfigured } from "@/lib/env";
 import { formatNPR } from "@/lib/utils";
 
@@ -11,9 +15,10 @@ export default async function AdminAnalyticsPage() {
     );
   }
 
-  const [summary, topProducts] = await Promise.all([
+  const [summary, topProducts, conversion] = await Promise.all([
     getRevenueSummary(),
     getTopSellingProducts(10),
+    getConversionDashboard(),
   ]);
 
   return (
@@ -50,6 +55,14 @@ export default async function AdminAnalyticsPage() {
         </div>
       </div>
 
+      <div className="grid gap-4 sm:grid-cols-5">
+        <Metric label="Product views" value={conversion.productViews.toLocaleString()} />
+        <Metric label="Quiz completions" value={conversion.quizCompletions.toLocaleString()} />
+        <Metric label="Newsletter" value={conversion.newsletterSignups.toLocaleString()} />
+        <Metric label="Conversion" value={`${conversion.orderConversionRate}%`} />
+        <Metric label="Customers" value={conversion.customerCount.toLocaleString()} />
+      </div>
+
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="rounded-2xl border border-white/10 bg-white/5 p-6">
           <h2 className="font-display text-xl">Top selling products</h2>
@@ -83,6 +96,15 @@ export default async function AdminAnalyticsPage() {
           </div>
         </section>
       </div>
+    </div>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+      <p className="text-xs uppercase tracking-[0.2em] text-background/60">{label}</p>
+      <p className="mt-2 font-display text-2xl">{value}</p>
     </div>
   );
 }

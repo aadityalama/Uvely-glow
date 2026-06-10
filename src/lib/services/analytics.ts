@@ -16,6 +16,14 @@ export type TopSellingProduct = {
   revenueKrw: number;
 };
 
+export type ConversionDashboard = {
+  productViews: number;
+  quizCompletions: number;
+  newsletterSignups: number;
+  orderConversionRate: number;
+  customerCount: number;
+};
+
 const ORDER_STATUSES: OrderStatus[] = [
   "pending",
   "paid",
@@ -99,4 +107,46 @@ export async function getTopSellingProducts(limit = 5): Promise<TopSellingProduc
   return [...byProduct.values()]
     .sort((a, b) => b.quantity - a.quantity || b.revenueKrw - a.revenueKrw)
     .slice(0, limit);
+}
+
+export async function getConversionDashboard(): Promise<ConversionDashboard> {
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    return {
+      productViews: 0,
+      quizCompletions: 0,
+      newsletterSignups: 0,
+      orderConversionRate: 0,
+      customerCount: 0,
+    };
+  }
+
+  const [
+    { count: productViews },
+    { count: quizCompletions },
+    { count: newsletterSignups },
+    { count: orders },
+    { count: customerCount },
+  ] = await Promise.all([
+    supabase
+      .from("analytics_events")
+      .select("*", { count: "exact", head: true })
+      .eq("event_name", "product_view"),
+    supabase
+      .from("skincare_quiz_results")
+      .select("*", { count: "exact", head: true }),
+    supabase
+      .from("newsletter_subscribers")
+      .select("*", { count: "exact", head: true }),
+    supabase.from("orders").select("*", { count: "exact", head: true }),
+    supabase.from("profiles").select("*", { count: "exact", head: true }),
+  ]);
+
+  return {
+    productViews: productViews ?? 0,
+    quizCompletions: quizCompletions ?? 0,
+    newsletterSignups: newsletterSignups ?? 0,
+    orderConversionRate: productViews ? Math.round(((orders ?? 0) / productViews) * 1000) / 10 : 0,
+    customerCount: customerCount ?? 0,
+  };
 }

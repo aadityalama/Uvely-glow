@@ -1,10 +1,16 @@
 import type { MetadataRoute } from "next";
 import { listCategories, listProductSlugs } from "@/lib/services/catalog";
+import { listBlogPosts, listBrands } from "@/lib/services/content";
 
 const base = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, productSlugs] = await Promise.all([listCategories(), listProductSlugs()]);
+  const [categories, productSlugs, posts, brands] = await Promise.all([
+    listCategories(),
+    listProductSlugs(),
+    listBlogPosts(),
+    listBrands(),
+  ]);
 
   const staticRoutes: MetadataRoute.Sitemap = [
     "",
@@ -15,6 +21,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/wishlist",
     "/account",
     "/account/orders",
+    "/quiz",
+    "/blog",
+    "/brands",
+    "/compare",
+    "/marketing",
+    "/referrals",
+    "/affiliate",
+    "/influencers",
   ].map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date(),
@@ -36,5 +50,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...categoryRoutes, ...productRoutes];
+  const blogRoutes = posts.map((post) => ({
+    url: `${base}/blog/${post.slug}`,
+    lastModified: new Date(post.publishedAt),
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  const brandRoutes = brands.map((brand) => ({
+    url: `${base}/brands/${brand.slug}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.76,
+  }));
+
+  return [...staticRoutes, ...categoryRoutes, ...productRoutes, ...blogRoutes, ...brandRoutes];
 }

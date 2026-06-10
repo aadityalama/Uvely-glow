@@ -7,6 +7,9 @@ export type ReviewView = {
   body: string | null;
   createdAt: string;
   author: string;
+  isVerifiedPurchase: boolean;
+  beforeImageUrl: string | null;
+  afterImageUrl: string | null;
 };
 
 export async function listApprovedReviews(
@@ -16,7 +19,7 @@ export async function listApprovedReviews(
   if (!supabase) return [];
   const { data, error } = await supabase
     .from("reviews")
-    .select("id, rating, title, body, created_at")
+    .select("id, rating, title, body, created_at, is_verified_purchase, before_image_url, after_image_url")
     .eq("product_id", productId)
     .eq("is_approved", true)
     .order("created_at", { ascending: false });
@@ -28,6 +31,9 @@ export async function listApprovedReviews(
     body: r.body,
     createdAt: r.created_at,
     author: "Verified buyer",
+    isVerifiedPurchase: r.is_verified_purchase,
+    beforeImageUrl: r.before_image_url,
+    afterImageUrl: r.after_image_url,
   }));
 }
 

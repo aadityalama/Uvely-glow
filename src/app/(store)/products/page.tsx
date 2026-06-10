@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container";
 import { ProductFiltersBar } from "@/components/filters/product-filters-bar";
 import { ProductGrid } from "@/components/product/product-grid";
 import { filterProducts, type SortKey } from "@/lib/products";
+import { getSearchSuggestions } from "@/lib/services/recommendations";
 import { listCategories, listProducts } from "@/lib/services/catalog";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default async function ProductsPage({
   const slugToId = new Map(categories.map((c) => [c.slug, c.id]));
   const base = await listProducts({ q, categorySlug: category, activeOnly: true });
   const list = filterProducts(base, { q, categorySlug: category, minKrw, maxKrw, sort, inStockOnly }, slugToId);
+  const suggestions = getSearchSuggestions(base, q ?? "");
 
   return (
     <Container className="py-12 sm:py-16">
@@ -46,6 +48,17 @@ export default async function ProductsPage({
           {list.length} {list.length === 1 ? "product" : "products"}
           {q ? ` matching “${q}”` : ""}
         </p>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {suggestions.map((suggestion) => (
+            <a
+              key={suggestion}
+              href={`/products?q=${encodeURIComponent(suggestion)}`}
+              className="rounded-full border border-line bg-card px-3 py-1 text-xs text-muted transition hover:border-accent hover:text-accent"
+            >
+              {suggestion}
+            </a>
+          ))}
+        </div>
       </div>
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,17rem)_1fr]">
         <aside className="lg:sticky lg:top-24 lg:self-start">

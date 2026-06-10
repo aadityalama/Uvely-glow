@@ -29,13 +29,24 @@ export const metadata: Metadata = {
     title: "Uvely Glow",
     description: "Curated K-beauty with a Seoul glow.",
     type: "website",
-    locale: "ko_KR",
+    locale: "en_US",
     siteName: "Uvely Glow",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1200&q=80",
+        width: 1200,
+        height: 630,
+        alt: "Uvely Glow Korean beauty marketplace",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Uvely Glow",
     description: "Curated K-beauty with a Seoul glow.",
+    images: [
+      "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1200&q=80",
+    ],
   },
   robots: { index: true, follow: true },
 };
@@ -46,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="en">
       <body className={`${dmSans.variable} ${cormorant.variable} antialiased`}>
         {children}
       </body>

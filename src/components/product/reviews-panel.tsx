@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { submitReviewAction } from "@/app/actions/reviews";
@@ -36,11 +37,27 @@ export function ReviewsPanel({
               <li key={r.id} className="rounded-xl border border-line bg-card p-4">
                 <div className="flex items-center justify-between gap-2">
                   <p className="text-sm font-semibold">{r.title || "Five stars"}</p>
-                  <span className="text-xs text-muted">{r.rating}★</span>
+                  <span className="text-xs text-accent">
+                    {"★".repeat(r.rating)}
+                    <span className="text-muted">{"★".repeat(5 - r.rating)}</span>
+                  </span>
                 </div>
                 {r.body ? <p className="mt-2 text-sm text-muted">{r.body}</p> : null}
+                {r.beforeImageUrl || r.afterImageUrl ? (
+                  <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                    {r.beforeImageUrl ? (
+                      <ReviewImage src={r.beforeImageUrl} label="Before" />
+                    ) : null}
+                    {r.afterImageUrl ? <ReviewImage src={r.afterImageUrl} label="After" /> : null}
+                  </div>
+                ) : null}
                 <p className="mt-2 text-xs text-muted">
                   {r.author} · {new Date(r.createdAt).toLocaleDateString("ko-KR")}
+                  {r.isVerifiedPurchase ? (
+                    <span className="ml-2 rounded-full bg-accent-soft px-2 py-0.5 text-accent">
+                      Verified purchase
+                    </span>
+                  ) : null}
                 </p>
               </li>
             ))
@@ -103,6 +120,19 @@ export function ReviewsPanel({
           to share your experience.
         </p>
       )}
+    </div>
+  );
+}
+
+function ReviewImage({ src, label }: { src: string; label: string }) {
+  return (
+    <div className="overflow-hidden rounded-xl border border-line">
+      <div className="relative aspect-[4/3]">
+        <Image src={src} alt={`${label} review`} fill className="object-cover" sizes="320px" />
+      </div>
+      <p className="bg-background px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted">
+        {label}
+      </p>
     </div>
   );
 }

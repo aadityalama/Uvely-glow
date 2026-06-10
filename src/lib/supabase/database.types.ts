@@ -83,6 +83,12 @@ export interface Database {
           is_active: boolean;
           meta_title: string | null;
           meta_description: string | null;
+          brand_id: string | null;
+          skin_concerns: string[];
+          skin_types: string[];
+          routine_step: string | null;
+          video_url: string | null;
+          conversion_score: number;
           created_at: string;
           updated_at: string;
         };
@@ -105,6 +111,12 @@ export interface Database {
           is_active?: boolean;
           meta_title?: string | null;
           meta_description?: string | null;
+          brand_id?: string | null;
+          skin_concerns?: string[];
+          skin_types?: string[];
+          routine_step?: string | null;
+          video_url?: string | null;
+          conversion_score?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -127,6 +139,12 @@ export interface Database {
           is_active?: boolean;
           meta_title?: string | null;
           meta_description?: string | null;
+          brand_id?: string | null;
+          skin_concerns?: string[];
+          skin_types?: string[];
+          routine_step?: string | null;
+          video_url?: string | null;
+          conversion_score?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -396,6 +414,9 @@ export interface Database {
           title: string | null;
           body: string | null;
           is_approved: boolean;
+          is_verified_purchase: boolean;
+          before_image_url: string | null;
+          after_image_url: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -407,6 +428,9 @@ export interface Database {
           title?: string | null;
           body?: string | null;
           is_approved?: boolean;
+          is_verified_purchase?: boolean;
+          before_image_url?: string | null;
+          after_image_url?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -418,8 +442,236 @@ export interface Database {
           title?: string | null;
           body?: string | null;
           is_approved?: boolean;
+          is_verified_purchase?: boolean;
+          before_image_url?: string | null;
+          after_image_url?: string | null;
           created_at?: string;
           updated_at?: string;
+        };
+        Relationships: [];
+      };
+      brands: {
+        Row: {
+          id: string;
+          slug: string;
+          name: string;
+          tagline: string | null;
+          description: string | null;
+          hero_image_url: string | null;
+          logo_url: string | null;
+          country: string;
+          seo_title: string | null;
+          seo_description: string | null;
+          is_featured: boolean;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          name: string;
+          tagline?: string | null;
+          description?: string | null;
+          hero_image_url?: string | null;
+          logo_url?: string | null;
+          country?: string;
+          seo_title?: string | null;
+          seo_description?: string | null;
+          is_featured?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+          name?: string;
+          tagline?: string | null;
+          description?: string | null;
+          hero_image_url?: string | null;
+          logo_url?: string | null;
+          country?: string;
+          seo_title?: string | null;
+          seo_description?: string | null;
+          is_featured?: boolean;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      blog_posts: {
+        Row: {
+          id: string;
+          slug: string;
+          title: string;
+          excerpt: string;
+          body: string;
+          author_name: string;
+          hero_image_url: string | null;
+          tags: string[];
+          related_product_ids: string[];
+          seo_title: string | null;
+          seo_description: string | null;
+          og_image_url: string | null;
+          published_at: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          title: string;
+          excerpt: string;
+          body: string;
+          author_name?: string;
+          hero_image_url?: string | null;
+          tags?: string[];
+          related_product_ids?: string[];
+          seo_title?: string | null;
+          seo_description?: string | null;
+          og_image_url?: string | null;
+          published_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+          title?: string;
+          excerpt?: string;
+          body?: string;
+          author_name?: string;
+          hero_image_url?: string | null;
+          tags?: string[];
+          related_product_ids?: string[];
+          seo_title?: string | null;
+          seo_description?: string | null;
+          og_image_url?: string | null;
+          published_at?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      newsletter_subscribers: {
+        Row: {
+          id: string;
+          email: string;
+          source: string;
+          skin_concern: string | null;
+          coupon_code: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          email: string;
+          source?: string;
+          skin_concern?: string | null;
+          coupon_code?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          email?: string;
+          source?: string;
+          skin_concern?: string | null;
+          coupon_code?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      skincare_quiz_results: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          email: string | null;
+          skin_type: string;
+          concerns: string[];
+          budget_krw: number | null;
+          routine_goal: string | null;
+          recommended_product_ids: string[];
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          email?: string | null;
+          skin_type: string;
+          concerns?: string[];
+          budget_krw?: number | null;
+          routine_goal?: string | null;
+          recommended_product_ids?: string[];
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string | null;
+          email?: string | null;
+          skin_type?: string;
+          concerns?: string[];
+          budget_krw?: number | null;
+          routine_goal?: string | null;
+          recommended_product_ids?: string[];
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      product_media: {
+        Row: {
+          id: string;
+          product_id: string;
+          media_type: string;
+          url: string;
+          alt: string | null;
+          sort_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          product_id: string;
+          media_type: string;
+          url: string;
+          alt?: string | null;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          product_id?: string;
+          media_type?: string;
+          url?: string;
+          alt?: string | null;
+          sort_order?: number;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      analytics_events: {
+        Row: {
+          id: string;
+          user_id: string | null;
+          event_name: string;
+          product_id: string | null;
+          order_id: string | null;
+          metadata: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id?: string | null;
+          event_name: string;
+          product_id?: string | null;
+          order_id?: string | null;
+          metadata?: Json;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string | null;
+          event_name?: string;
+          product_id?: string | null;
+          order_id?: string | null;
+          metadata?: Json;
+          created_at?: string;
         };
         Relationships: [];
       };
