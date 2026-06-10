@@ -2,12 +2,12 @@ import { categories as fallbackCategories } from "@/data/categories";
 import { products as fallbackProducts } from "@/data/products";
 import { isSupabaseConfigured } from "@/lib/env";
 import { mapCategory, mapProduct } from "@/lib/mappers/catalog";
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createPublicSupabaseClient } from "@/lib/supabase/public";
 import type { Category, Product } from "@/types";
 
 export async function listCategories(): Promise<Category[]> {
   if (!isSupabaseConfigured()) return fallbackCategories;
-  const supabase = await createServerSupabaseClient();
+  const supabase = createPublicSupabaseClient();
   if (!supabase) return fallbackCategories;
   const { data, error } = await supabase
     .from("categories")
@@ -30,7 +30,7 @@ export async function listProducts(options?: {
   if (!isSupabaseConfigured()) {
     return filterLocal(fallbackProducts, options);
   }
-  const supabase = await createServerSupabaseClient();
+  const supabase = createPublicSupabaseClient();
   if (!supabase) return filterLocal(fallbackProducts, options);
 
   let q = supabase.from("products").select("*").order("name");
@@ -60,7 +60,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   if (!isSupabaseConfigured()) {
     return fallbackProducts.find((p) => p.slug === slug) ?? null;
   }
-  const supabase = await createServerSupabaseClient();
+  const supabase = createPublicSupabaseClient();
   if (!supabase) return fallbackProducts.find((p) => p.slug === slug) ?? null;
   const { data, error } = await supabase
     .from("products")

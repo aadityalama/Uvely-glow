@@ -1,4 +1,4 @@
-import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { createPublicSupabaseClient } from "@/lib/supabase/public";
 import type { Product } from "@/types";
 
 export type BlogPost = {
@@ -104,7 +104,7 @@ const fallbackBrands: BrandProfile[] = [
 ];
 
 export async function listBlogPosts(): Promise<BlogPost[]> {
-  const supabase = await createServerSupabaseClient();
+  const supabase = createPublicSupabaseClient();
   if (!supabase) return fallbackPosts;
   const { data, error } = await supabase
     .from("blog_posts")
@@ -132,7 +132,7 @@ export async function getBlogPost(slug: string) {
 }
 
 export async function listBrands(): Promise<BrandProfile[]> {
-  const supabase = await createServerSupabaseClient();
+  const supabase = createPublicSupabaseClient();
   if (!supabase) return fallbackBrands;
   const { data, error } = await supabase
     .from("brands")
