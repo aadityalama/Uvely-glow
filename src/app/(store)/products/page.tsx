@@ -43,7 +43,12 @@ export default async function ProductsPage({
   return (
     <Container className="py-12 sm:py-16">
       <div className="max-w-2xl">
-        <h1 className="font-display text-4xl text-deep sm:text-5xl">Shop</h1>
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
+          Korean beauty atelier
+        </p>
+        <h1 className="mt-3 font-display text-5xl leading-none text-deep sm:text-7xl">
+          Shop the glow edit
+        </h1>
         <p className="mt-4 text-muted">
           {list.length} {list.length === 1 ? "product" : "products"}
           {q ? ` matching “${q}”` : ""}
@@ -60,15 +65,13 @@ export default async function ProductsPage({
           ))}
         </div>
       </div>
-      <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,17rem)_1fr]">
-        <aside className="lg:sticky lg:top-24 lg:self-start">
-          <Suspense fallback={<div className="h-40 animate-pulse rounded-2xl bg-accent-soft/40" />}>
-            <ProductFiltersBar />
-          </Suspense>
-        </aside>
-        <div>
-          <ProductGrid items={list} />
-        </div>
+      <div className="mt-10">
+        <Suspense fallback={<div className="h-32 animate-pulse rounded-[2rem] bg-accent-soft/50" />}>
+          <ProductFiltersBar categories={categories} />
+        </Suspense>
+      </div>
+      <div className="mt-10">
+        <ProductGrid items={list} />
       </div>
     </Container>
   );

@@ -2,18 +2,18 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useTransition } from "react";
-import { categories } from "@/data/categories";
 import type { SortKey } from "@/lib/products";
 import { Button } from "@/components/ui/button";
+import type { Category } from "@/types";
 
 const sorts: { value: SortKey; label: string }[] = [
   { value: "featured", label: "Featured" },
-  { value: "price-asc", label: "Price ↑" },
-  { value: "price-desc", label: "Price ↓" },
-  { value: "name", label: "Name" },
+  { value: "price-asc", label: "Price low" },
+  { value: "price-desc", label: "Price high" },
+  { value: "name", label: "A-Z" },
 ];
 
-export function ProductFiltersBar() {
+export function ProductFiltersBar({ categories }: { categories: Category[] }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
@@ -36,15 +36,44 @@ export function ProductFiltersBar() {
   const min = searchParams.get("min") ?? "";
   const max = searchParams.get("max") ?? "";
   const stock = searchParams.get("stock") === "1";
+  const activeFilters = [category, min, max, stock ? "stock" : ""].filter(Boolean).length;
 
   return (
-    <div className="space-y-6 rounded-2xl border border-line bg-card p-5 sm:p-6">
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-          Search
-        </p>
+    <div className="rounded-[2rem] border border-line bg-card/95 p-4 backdrop-blur sm:p-5">
+      <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted">
+              Refine your ritual
+            </p>
+            <p className="mt-1 text-sm text-muted">
+              Search by ingredient, concern, texture, or brand.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.18em] text-muted">
+            {activeFilters ? (
+              <button
+                type="button"
+                onClick={() =>
+                  push((p) => {
+                    p.delete("category");
+                    p.delete("min");
+                    p.delete("max");
+                    p.delete("stock");
+                    p.delete("sort");
+                  })
+                }
+                className="rounded-full border border-line px-3 py-2 transition hover:border-deep hover:text-deep"
+              >
+                Clear {activeFilters}
+              </button>
+            ) : null}
+            {pending ? <span>Updating edit...</span> : <span>Live curation</span>}
+          </div>
+        </div>
+
         <form
-          className="mt-3 flex gap-2"
+          className="grid gap-3 lg:grid-cols-[minmax(18rem,1fr)_auto_auto_auto]"
           onSubmit={(e) => {
             e.preventDefault();
             const fd = new FormData(e.currentTarget);
@@ -55,23 +84,54 @@ export function ProductFiltersBar() {
             });
           }}
         >
-          <input
-            name="q"
-            defaultValue={q}
-            placeholder="Ingredients, brand…"
-            className="min-w-0 flex-1 rounded-xl border border-line bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-accent-soft"
-          />
-          <Button type="submit" variant="accent" className="shrink-0 px-4">
-            Go
+          <div className="relative">
+            <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-muted">
+              Search
+            </span>
+            <input
+              name="q"
+              defaultValue={q}
+              placeholder="Snail mucin, SPF, centella..."
+              className="h-12 w-full rounded-full border border-line bg-background pl-20 pr-4 text-sm outline-none transition focus:border-deep focus:ring-4 focus:ring-accent-soft"
+            />
+          </div>
+          <Button type="submit" variant="accent" className="h-12 px-7">
+            Search
           </Button>
+          <select
+            value={sort}
+            onChange={(e) =>
+              push((p) => {
+                const next = e.target.value;
+                if (next === "featured") p.delete("sort");
+                else p.set("sort", next);
+              })
+            }
+            className="h-12 rounded-full border border-line bg-background px-4 text-sm text-foreground outline-none transition focus:border-deep focus:ring-4 focus:ring-accent-soft"
+          >
+            {sorts.map((s) => (
+              <option key={s.value} value={s.value}>
+                {s.label}
+              </option>
+            ))}
+          </select>
+          <label className="flex h-12 cursor-pointer items-center justify-center gap-2 rounded-full border border-line bg-background px-4 text-sm text-muted transition hover:border-deep hover:text-deep">
+            <input
+              type="checkbox"
+              checked={stock}
+              onChange={() =>
+                push((p) => {
+                  if (stock) p.delete("stock");
+                  else p.set("stock", "1");
+                })
+              }
+              className="rounded border-line text-accent focus:ring-accent-soft"
+            />
+            In stock
+          </label>
         </form>
-      </div>
 
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-          Category
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
+        <div className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <button
             type="button"
             onClick={() =>
@@ -79,7 +139,7 @@ export function ProductFiltersBar() {
                 p.delete("category");
               })
             }
-            className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+            className={`shrink-0 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
               !category
                 ? "border-deep bg-deep text-background"
                 : "border-line bg-background text-muted hover:border-foreground/30"
@@ -96,7 +156,7 @@ export function ProductFiltersBar() {
                   p.set("category", c.slug);
                 })
               }
-              className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+              className={`shrink-0 rounded-full border px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition ${
                 category === c.slug
                   ? "border-deep bg-deep text-background"
                   : "border-line bg-background text-muted hover:border-foreground/30"
@@ -106,18 +166,16 @@ export function ProductFiltersBar() {
             </button>
           ))}
         </div>
-      </div>
 
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-          Price (KRW)
-        </p>
-        <div className="mt-3 flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 border-t border-line pt-4">
+          <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
+            Price
+          </span>
           <input
             inputMode="numeric"
             placeholder="Min"
             defaultValue={min}
-            className="w-24 rounded-xl border border-line bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-accent-soft"
+            className="h-10 w-28 rounded-full border border-line bg-background px-4 text-sm outline-none transition focus:border-deep focus:ring-4 focus:ring-accent-soft"
             onBlur={(e) => {
               const v = e.target.value.trim();
               push((p) => {
@@ -126,12 +184,12 @@ export function ProductFiltersBar() {
               });
             }}
           />
-          <span className="text-muted">—</span>
+          <span className="text-muted">to</span>
           <input
             inputMode="numeric"
             placeholder="Max"
             defaultValue={max}
-            className="w-24 rounded-xl border border-line bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-accent-soft"
+            className="h-10 w-28 rounded-full border border-line bg-background px-4 text-sm outline-none transition focus:border-deep focus:ring-4 focus:ring-accent-soft"
             onBlur={(e) => {
               const v = e.target.value.trim();
               push((p) => {
@@ -140,53 +198,6 @@ export function ProductFiltersBar() {
               });
             }}
           />
-        </div>
-      </div>
-
-      <div className="flex flex-wrap items-center gap-4">
-        <label className="flex cursor-pointer items-center gap-2 text-sm text-muted">
-          <input
-            type="checkbox"
-            checked={stock}
-            onChange={() =>
-              push((p) => {
-                if (stock) p.delete("stock");
-                else p.set("stock", "1");
-              })
-            }
-            className="rounded border-line text-accent focus:ring-accent-soft"
-          />
-          In stock only
-        </label>
-        {pending ? (
-          <span className="text-xs text-muted">Updating…</span>
-        ) : null}
-      </div>
-
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
-          Sort
-        </p>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {sorts.map((s) => (
-            <button
-              key={s.value}
-              type="button"
-              onClick={() =>
-                push((p) => {
-                  if (s.value === "featured") p.delete("sort");
-                  else p.set("sort", s.value);
-                })
-              }
-              className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
-                (sort === s.value) || (s.value === "featured" && !searchParams.get("sort"))
-                  ? "border-accent bg-accent-soft text-accent"
-                  : "border-line bg-background text-muted hover:border-foreground/30"
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
         </div>
       </div>
     </div>
