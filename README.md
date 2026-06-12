@@ -5,7 +5,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - **Environment variables:** [docs/SUPABASE_ENV.md](docs/SUPABASE_ENV.md) — copy [.env.example](.env.example) to `.env.local`.
 - **Check env (no secrets printed):** `npm run env:check`
 - **Migrations & production:** [docs/SUPABASE_PRODUCTION_SETUP.md](docs/SUPABASE_PRODUCTION_SETUP.md)
-- **Apply migrations to a linked project:** `npm run db:push` (requires [Supabase CLI](https://supabase.com/docs/guides/cli) and `supabase link`).
+- **Apply migrations to a hosted project:** [docs/SUPABASE_APPLY_MIGRATIONS.md](docs/SUPABASE_APPLY_MIGRATIONS.md) — `supabase login`, `supabase link --project-ref …`, then `npm run db:push` (requires [Supabase CLI](https://supabase.com/docs/guides/cli)).
 
 ## Getting Started
 
