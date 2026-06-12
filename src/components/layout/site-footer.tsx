@@ -80,7 +80,32 @@ export function SiteFooter() {
         </div>
       </Container>
       <div className="border-t border-line py-6 text-center text-xs text-muted">
-        © {new Date().getFullYear()} Uvely Glow · Demo storefront
+        <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2">
+          <Link className="hover:text-accent" href="/about">
+            About
+          </Link>
+          <span className="text-line" aria-hidden>
+            ·
+          </span>
+          <Link className="hover:text-accent" href="/contact">
+            Contact
+          </Link>
+          <span className="text-line" aria-hidden>
+            ·
+          </span>
+          <Link className="hover:text-accent" href="/privacy">
+            Privacy
+          </Link>
+          <span className="text-line" aria-hidden>
+            ·
+          </span>
+          <Link className="hover:text-accent" href="/terms">
+            Terms
+          </Link>
+        </p>
+        <p className="mt-3">
+          © {new Date().getFullYear()} Uvely Glow · Demo storefront
+        </p>
       </div>
     </footer>
   );
