@@ -18,6 +18,7 @@ Apply migrations in order:
 5. `00005_phase3_nepal_commerce_engine.sql`
 6. `00006_phase4_premium_growth_conversion_engine.sql`
 7. `00007_phase5_enterprise_ecosystem_scale.sql`
+8. `00008_first_user_admin.sql`
 
 After applying migrations, verify:
 
@@ -54,17 +55,20 @@ Recommended auth settings:
 
 ## 4. Bootstrap first admin
 
-1. Create the first user through signup.
-2. In Supabase SQL editor, run:
+Migrations include `00008_first_user_admin.sql`:
+
+- The **first** `public.profiles` row created at signup gets `is_admin = true` automatically (via `handle_new_user` trigger).
+- If you already had profiles with no admin, the migration promotes the **oldest** profile to admin once.
+
+Manual override (optional):
 
 ```sql
 update public.profiles
 set is_admin = true
-where email = 'admin@example.com';
+where email = 'you@example.com';
 ```
 
-3. Log in and verify `/admin` loads.
-4. Keep the number of admin users minimal.
+Log in and verify `/admin` loads. Keep the number of admin users minimal.
 
 ## 5. Storage setup
 

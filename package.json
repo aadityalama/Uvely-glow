@@ -7,7 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "env:check": "node scripts/env-status.mjs",
+    "db:push": "npx --yes supabase@latest db push",
+    "db:reset": "npx --yes supabase@latest db reset"
   },
   "dependencies": {
     "@supabase/ssr": "^0.6.1",

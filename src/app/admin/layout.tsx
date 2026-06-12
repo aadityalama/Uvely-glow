@@ -1,6 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import { Container } from "@/components/layout/container";
+import { isSupabaseConfigured } from "@/lib/env";
+import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: { default: "Admin", template: "%s · Admin · Uvely Glow" },
@@ -26,11 +29,37 @@ const links = [
   { href: "/admin/reviews", label: "Reviews" },
 ];
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  if (!isSupabaseConfigured()) {
+    redirect("/login?next=/admin&error=supabase_env");
+  }
+
+  const supabase = await createServerSupabaseClient();
+  if (!supabase) {
+    redirect("/login?next=/admin&error=supabase_env");
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) {
+    redirect("/login?next=/admin");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (!profile?.is_admin) {
+    redirect("/");
+  }
+
   return (
     <div className="min-h-screen bg-deep text-background">
       <div className="border-b border-white/10">

@@ -1,5 +1,12 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Supabase
+
+- **Environment variables:** [docs/SUPABASE_ENV.md](docs/SUPABASE_ENV.md) — copy [.env.example](.env.example) to `.env.local`.
+- **Check env (no secrets printed):** `npm run env:check`
+- **Migrations & production:** [docs/SUPABASE_PRODUCTION_SETUP.md](docs/SUPABASE_PRODUCTION_SETUP.md)
+- **Apply migrations to a linked project:** `npm run db:push` (requires [Supabase CLI](https://supabase.com/docs/guides/cli) and `supabase link`).
+
 ## Getting Started
 
 First, run the development server:
