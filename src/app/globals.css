@@ -1,14 +1,20 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fbf8f3;
-  --foreground: #17130f;
-  --muted: #746b61;
+  --background: #faf6f7;
+  --foreground: #1a1416;
+  --muted: #6b5e62;
   --card: #ffffff;
-  --accent: #9f4f5c;
-  --accent-soft: #f2e7e2;
-  --line: #e8ded2;
-  --deep: #12100d;
+  --accent: #b76e79;
+  --accent-soft: #f5e8ea;
+  --line: #e8d5d9;
+  --deep: #120f11;
+  --rose-gold: #b76e79;
+  --rose-gold-light: #d4a08a;
+  --champagne: #c9a57a;
+  --blush: #fcecef;
+  --blush-deep: #e8c4cb;
+  --ivory: #fffdfb;
 }
 
 @theme inline {
@@ -20,8 +26,14 @@
   --color-accent-soft: var(--accent-soft);
   --color-line: var(--line);
   --color-deep: var(--deep);
-  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --color-rose-gold: var(--rose-gold);
+  --color-rose-gold-light: var(--rose-gold-light);
+  --color-champagne: var(--champagne);
+  --color-blush: var(--blush);
+  --color-blush-deep: var(--blush-deep);
+  --color-ivory: var(--ivory);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
 }
 
 html {
@@ -31,11 +43,46 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-family: var(--font-sans), system-ui, sans-serif;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
   background: var(--accent-soft);
   color: var(--deep);
+}
+
+/* Luxury gradient text */
+.text-gradient-rose {
+  background: linear-gradient(
+    120deg,
+    var(--champagne) 0%,
+    var(--rose-gold) 45%,
+    var(--blush-deep) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle noise overlay for depth (CSS-only) */
+.texture-noise {
+  position: relative;
+}
+.texture-noise::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Hide scrollbar for horizontal carousels */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

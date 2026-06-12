@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-inter",
   display: "swap",
 });
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-cormorant",
+  variable: "--font-playfair",
   display: "swap",
 });
 
@@ -20,32 +20,32 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://uvely-glow.example"
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Uvely Glow · Korean beauty ecommerce",
+    default: "Uvely Glow · Luxury Korean beauty",
     template: "%s · Uvely Glow",
   },
   description:
-    "Luxury Korean beauty—toners, serums, creams, and SPF with premium textures and mobile-first shopping.",
+    "Premium K-beauty skincare and cosmetics—Seoul-curated rituals, rose-gold textures, and clinically inspired glow.",
   openGraph: {
     title: "Uvely Glow",
-    description: "Curated K-beauty with a Seoul glow.",
+    description: "Luxury Korean beauty. Ritual-grade radiance.",
     type: "website",
     locale: "en_US",
     siteName: "Uvely Glow",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1200&q=80",
+        url: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1200&q=85",
         width: 1200,
         height: 630,
-        alt: "Uvely Glow Korean beauty marketplace",
+        alt: "Uvely Glow luxury Korean beauty",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Uvely Glow",
-    description: "Curated K-beauty with a Seoul glow.",
+    description: "Luxury Korean beauty. Ritual-grade radiance.",
     images: [
-      "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=1200&q=85",
     ],
   },
   robots: { index: true, follow: true },
@@ -58,7 +58,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmSans.variable} ${cormorant.variable} antialiased`}>
+      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
         {children}
       </body>
     </html>

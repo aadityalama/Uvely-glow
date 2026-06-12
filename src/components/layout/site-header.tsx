@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOutAction } from "@/app/actions/auth";
+import { UvelyLogo } from "@/components/brand/uvely-logo";
 import { Container } from "@/components/layout/container";
 import { useCart } from "@/context/cart-context";
 import { useSession } from "@/context/session-context";
@@ -92,7 +93,7 @@ export function SiteHeader({
   }, [q]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/80 bg-background/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-line/70 bg-background/90 backdrop-blur-xl">
       <Container className="flex h-16 items-center justify-between gap-4 sm:h-[4.25rem]">
         <div className="flex items-center gap-3">
           <button
@@ -103,14 +104,8 @@ export function SiteHeader({
           >
             <span className="block h-0.5 w-5 bg-foreground" />
           </button>
-          <Link href="/" className="group flex items-center gap-2">
-            <span className="font-display text-2xl tracking-tight text-deep sm:text-[1.65rem]">
-              Uvely Glow
-            </span>
-            <span className="hidden rounded-full bg-accent-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-accent sm:inline-block">
-              Seoul
-            </span>
-          </Link>
+          <UvelyLogo size="sm" href="/" className="sm:hidden" />
+          <UvelyLogo size="md" href="/" className="hidden sm:flex" />
         </div>
 
         <nav className="hidden items-center gap-8 md:flex">
