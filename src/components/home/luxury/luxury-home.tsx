@@ -9,6 +9,7 @@ import { LuxuryEditorialGrid } from "./luxury-editorial-grid";
 import { LuxuryFullscreenHero } from "./luxury-fullscreen-hero";
 import { NewArrivalsSection } from "./new-arrivals-section";
 import { SkincareRoutineSection } from "./skincare-routine-section";
+import { buildFeaturedBrandPreviews } from "@/lib/home/featured-brand-previews";
 import { StorefrontBrandStrip } from "../storefront-brand-strip";
 
 function pickBestsellers(products: Product[]) {
@@ -34,11 +35,12 @@ export function LuxuryHome({
 }) {
   const bestsellers = pickBestsellers(products);
   const newArrivals = pickNewArrivals(products);
+  const brandPreviews = buildFeaturedBrandPreviews(products);
 
   return (
     <div className="bg-background antialiased">
       <LuxuryFullscreenHero hero={messages.hero} />
-      <StorefrontBrandStrip title={messages.brands.title} />
+      <StorefrontBrandStrip title={messages.brands.title} brands={brandPreviews} />
       <LuxuryEditorialGrid />
       <BestsellerCarousel products={bestsellers} />
       <NewArrivalsSection products={newArrivals} />
