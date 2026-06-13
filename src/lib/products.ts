@@ -12,15 +12,16 @@ export interface ProductFilters {
   inStockOnly?: boolean;
 }
 
-function matchesQuery(p: Product, q: string) {
-  const s = q.trim().toLowerCase();
+/** Case-insensitive match across searchable fields; tolerates nullish values from DB or mappers. */
+export function productMatchesQuery(p: Product, rawQ: string) {
+  const s = rawQ.trim().toLowerCase();
   if (!s) return true;
-  return (
-    p.name.toLowerCase().includes(s) ||
-    p.shortDescription.toLowerCase().includes(s) ||
-    p.description.toLowerCase().includes(s) ||
-    p.ingredients.toLowerCase().includes(s)
-  );
+  const fields = [p.name, p.shortDescription, p.description, p.ingredients];
+  return fields.some((f) => String(f ?? "").toLowerCase().includes(s));
+}
+
+function matchesQuery(p: Product, q: string) {
+  return productMatchesQuery(p, q);
 }
 
 export function filterProducts(
@@ -46,8 +47,14 @@ export function filterProducts(
   const sorted = [...out];
   if (sort === "price-asc") sorted.sort((a, b) => a.priceKrw - b.priceKrw);
   else if (sort === "price-desc") sorted.sort((a, b) => b.priceKrw - a.priceKrw);
-  else if (sort === "name") sorted.sort((a, b) => a.name.localeCompare(b.name));
-  else sorted.sort((a, b) => Number(b.isFeatured) - Number(a.isFeatured) || a.name.localeCompare(b.name));
+  else if (sort === "name")
+    sorted.sort((a, b) => String(a.name ?? "").localeCompare(String(b.name ?? "")));
+  else
+    sorted.sort(
+      (a, b) =>
+        Number(b.isFeatured) - Number(a.isFeatured) ||
+        String(a.name ?? "").localeCompare(String(b.name ?? "")),
+    );
 
   return sorted;
 }

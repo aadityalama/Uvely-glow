@@ -23,6 +23,7 @@ export function scoreProductForQuiz(product: Product, input: SkinQuizInput) {
     product.shortDescription,
     product.ingredients,
   ]
+    .map((x) => String(x ?? ""))
     .join(" ")
     .toLowerCase();
 
@@ -58,8 +59,8 @@ export function getRelatedProducts(product: Product, products: Product[], limit 
   );
   const ingredientMatches = products.filter((item) => {
     if (item.id === product.id || item.categoryId === product.categoryId) return false;
-    const source = product.ingredients.toLowerCase();
-    return item.ingredients
+    const source = String(product.ingredients ?? "").toLowerCase();
+    return String(item.ingredients ?? "")
       .toLowerCase()
       .split(/,\s*/)
       .some((part) => part && source.includes(part.split(" ")[0]));
@@ -83,7 +84,7 @@ export function getSearchSuggestions(products: Product[], q: string) {
     return ["snail mucin", "centella ampoule", "rice sunscreen", "barrier cream"];
   }
   return products
-    .filter((product) => product.name.toLowerCase().includes(query))
+    .filter((product) => String(product.name ?? "").toLowerCase().includes(query))
     .map((product) => product.name)
     .slice(0, 5);
 }

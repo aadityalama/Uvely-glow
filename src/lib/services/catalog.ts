@@ -2,6 +2,7 @@ import { categories as fallbackCategories } from "@/data/categories";
 import { products as fallbackProducts } from "@/data/products";
 import { isSupabaseConfigured } from "@/lib/env";
 import { mapCategory, mapProduct } from "@/lib/mappers/catalog";
+import { productMatchesQuery } from "@/lib/products";
 import { createPublicSupabaseClient } from "@/lib/supabase/public";
 import type { Category, Product } from "@/types";
 
@@ -45,13 +46,7 @@ export async function listProducts(options?: {
     if (cat) mapped = mapped.filter((p) => p.categoryId === cat.id);
   }
   if (options?.q?.trim()) {
-    const s = options.q.trim().toLowerCase();
-    mapped = mapped.filter(
-      (p) =>
-        p.name.toLowerCase().includes(s) ||
-        p.shortDescription.toLowerCase().includes(s) ||
-        p.description.toLowerCase().includes(s),
-    );
+    mapped = mapped.filter((p) => productMatchesQuery(p, options.q ?? ""));
   }
   return mapped;
 }
@@ -87,12 +82,7 @@ function filterLocal(
     if (cat) out = out.filter((p) => p.categoryId === cat.id);
   }
   if (options?.q?.trim()) {
-    const s = options.q.trim().toLowerCase();
-    out = out.filter(
-      (p) =>
-        p.name.toLowerCase().includes(s) ||
-        p.shortDescription.toLowerCase().includes(s),
-    );
+    out = out.filter((p) => productMatchesQuery(p, options.q ?? ""));
   }
   return out;
 }

@@ -66,7 +66,7 @@ export function buildFeaturedBrandPreviews(products: Product[]): FeaturedBrandPr
     const sorted = [...matched].sort((a, b) => {
       const f = Number(b.isFeatured) - Number(a.isFeatured);
       if (f !== 0) return f;
-      return a.name.localeCompare(b.name);
+      return String(a.name ?? "").localeCompare(String(b.name ?? ""));
     });
 
     let chosen = sorted.slice(0, MAX_PREVIEW);
@@ -76,12 +76,15 @@ export function buildFeaturedBrandPreviews(products: Product[]): FeaturedBrandPr
       const loose = active.filter((p) => {
         if (chosen.some((c) => c.id === p.id)) return false;
         const q = def.catalogQuery.toLowerCase();
-        return p.name.toLowerCase().includes(q) || p.slug.toLowerCase().includes(q.replace(/\s+/g, "-"));
+        return (
+          String(p.name ?? "").toLowerCase().includes(q) ||
+          String(p.slug ?? "").toLowerCase().includes(q.replace(/\s+/g, "-"))
+        );
       });
       const merged = [...chosen, ...loose].sort((a, b) => {
         const f = Number(b.isFeatured) - Number(a.isFeatured);
         if (f !== 0) return f;
-        return a.name.localeCompare(b.name);
+        return String(a.name ?? "").localeCompare(String(b.name ?? ""));
       });
       chosen = merged.slice(0, MAX_PREVIEW);
     }

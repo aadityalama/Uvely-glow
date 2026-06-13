@@ -159,6 +159,9 @@ export async function getBrand(slug: string) {
 export function matchBrandProducts(brand: BrandProfile, products: Product[]) {
   const needle = brand.name.toLowerCase().replace(/[^a-z0-9]/g, "");
   return products.filter((product) =>
-    product.name.toLowerCase().replace(/[^a-z0-9]/g, "").includes(needle),
+    String(product.name ?? "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]/g, "")
+      .includes(needle),
   );
 }
