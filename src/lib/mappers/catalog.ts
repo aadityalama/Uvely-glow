@@ -15,17 +15,24 @@ export function mapCategory(row: CategoryRow): Category {
 }
 
 export function mapProduct(row: ProductRow): Product {
+  const priceKrw = Number(row.price_krw);
+  const compareRaw = row.compare_at_krw;
+  const compareAtKrw =
+    compareRaw === null || compareRaw === undefined ? null : Number(compareRaw);
+  const stock = Number(row.stock);
+  const lowStock = Number(row.low_stock_threshold);
+
   return {
     id: row.id,
     slug: row.slug ?? "",
     name: row.name ?? "",
     description: row.description ?? "",
     shortDescription: row.short_description ?? "",
-    priceKrw: row.price_krw,
-    compareAtKrw: row.compare_at_krw,
+    priceKrw: Number.isFinite(priceKrw) ? priceKrw : 0,
+    compareAtKrw: compareAtKrw !== null && Number.isFinite(compareAtKrw) ? compareAtKrw : null,
     sku: row.sku ?? "",
-    stock: row.stock,
-    lowStockThreshold: row.low_stock_threshold,
+    stock: Number.isFinite(stock) ? stock : 0,
+    lowStockThreshold: Number.isFinite(lowStock) ? lowStock : 0,
     imageUrl: row.image_url ?? "",
     galleryUrls: row.gallery_urls ?? [],
     categoryId: row.category_id ?? "",
