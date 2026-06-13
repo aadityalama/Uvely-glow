@@ -1,48 +1,68 @@
 /**
- * Static mega-menu tree — edit labels/hrefs here to match REFERENCE.png 1:1
- * (see docs/screenshots/storefront/README.md).
+ * Mega-menu tree aligned with storefront reference (CATEGORIES dropdown).
  */
 export type MegaMenuLink = { href: string; label: string };
+
+export type MegaCollectionItem = {
+  href: string;
+  label: string;
+  hint: string;
+  /** Small circular thumbnail */
+  imageSrc: string;
+};
 
 export const REFERENCE_MEGA_MENU = {
   skincare: [
     { href: "/products?q=cleanser", label: "Cleansers" },
-    { href: "/categories/toners", label: "Toners & mists" },
-    { href: "/categories/serums-essences", label: "Essences & serums" },
+    { href: "/categories/toners", label: "Toners" },
+    { href: "/categories/serums-essences", label: "Serums & Ampoules" },
     { href: "/categories/creams", label: "Moisturizers" },
-    { href: "/categories/sun-protection", label: "Sun care" },
-    { href: "/categories/lips-masks", label: "Masks & packs" },
-    { href: "/products?q=eye", label: "Eye care" },
-    { href: "/products?q=lip", label: "Lip care" },
+    { href: "/categories/sun-protection", label: "Sunscreen" },
+    { href: "/categories/lips-masks", label: "Sheet Masks" },
+    { href: "/products?q=eye", label: "Eye Care" },
+    { href: "/products?q=lip", label: "Lip Care" },
   ] satisfies MegaMenuLink[],
   makeup: [
-    { href: "/products?q=base", label: "Base & cushion" },
-    { href: "/products?q=concealer", label: "Concealer" },
-    { href: "/products?q=eye", label: "Eye makeup" },
-    { href: "/products?q=lip", label: "Lip makeup" },
-    { href: "/products?q=cheek", label: "Cheek & contour" },
-    { href: "/products?q=brow", label: "Brows" },
-    { href: "/products?q=tool", label: "Tools & brushes" },
-    { href: "/products?q=set", label: "Makeup sets" },
+    { href: "/products?q=face", label: "Face" },
+    { href: "/products?q=lip", label: "Lips" },
+    { href: "/products?q=eye", label: "Eyes" },
+    { href: "/products?q=base", label: "Base Makeup" },
+    { href: "/products?q=tool", label: "Makeup Tools" },
   ] satisfies MegaMenuLink[],
   hairBody: [
-    { href: "/products?q=shampoo", label: "Shampoo & care" },
-    { href: "/products?q=treatment", label: "Hair treatment" },
-    { href: "/products?q=styling", label: "Styling" },
-    { href: "/products?q=body", label: "Body care" },
-    { href: "/products?q=hand", label: "Hand & foot" },
-    { href: "/products?q=scalp", label: "Scalp care" },
-    { href: "/products?q=bath", label: "Bath" },
-    { href: "/products?q=oral", label: "Oral care" },
+    { href: "/products?q=hair", label: "Hair Care" },
+    { href: "/products?q=body", label: "Body Care" },
+    { href: "/products?q=hand", label: "Hand & Foot" },
+    { href: "/products?q=fragrance", label: "Fragrance" },
   ] satisfies MegaMenuLink[],
   collections: [
-    { href: "/bestsellers", label: "Bestsellers" },
-    { href: "/products", label: "New arrivals" },
-    { href: "/products?q=set", label: "Sets & bundles" },
-    { href: "/products?q=gift", label: "Gifts" },
-    { href: "/wishlist", label: "Editor’s picks" },
-    { href: "/brands", label: "Shop by brand" },
-    { href: "/blog", label: "Journal features" },
-    { href: "/quiz", label: "Routine finder" },
-  ] satisfies MegaMenuLink[],
+    {
+      href: "/bestsellers",
+      label: "Glass Skin Edit",
+      hint: "For radiant skin",
+      imageSrc:
+        "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=120&h=120&q=80",
+    },
+    {
+      href: "/products",
+      label: "K-Beauty Essentials",
+      hint: "Daily must-haves",
+      imageSrc:
+        "https://images.unsplash.com/photo-1570172619644-dfd03ed5d88?auto=format&fit=crop&w=120&h=120&q=80",
+    },
+    {
+      href: "/products?q=anti-aging",
+      label: "Anti-Aging Solutions",
+      hint: "Timeless beauty",
+      imageSrc:
+        "https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=120&h=120&q=80",
+    },
+    {
+      href: "/products?q=clean",
+      label: "Clean Beauty",
+      hint: "Gentle & effective",
+      imageSrc:
+        "https://images.unsplash.com/photo-1596755094514-f87e34085b87?auto=format&fit=crop&w=120&h=120&q=80",
+    },
+  ] satisfies MegaCollectionItem[],
 } as const;

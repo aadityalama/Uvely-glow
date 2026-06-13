@@ -1,41 +1,75 @@
 "use client";
 
+import type { ComponentType } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
+import type { MegaCollectionItem, MegaMenuLink } from "@/config/storefront-mega-menu";
 import { cn } from "@/lib/utils";
+import type { StoreMessages } from "@/lib/i18n/store-messages";
 
-export type MegaLink = { href: string; label: string };
+export type MegaMenuCopy = StoreMessages["mega"];
 
-export type MegaMenuCopy = {
-  skincare: string;
-  makeup: string;
-  hairBody: string;
-  collections: string;
-  promoTitle: string;
-  promoBody: string;
-  promoCta: string;
-  viewAll: string;
-};
+function IconSkincareColumn({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path
+        d="M12 3v18M9 6h6M8 21h8"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinecap="round"
+      />
+      <path
+        d="M10 6c0-1.1.9-2 2-2s2 .9 2 2v3H10V6Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
-export function ShopMegaMenu({
-  shopHref,
-  shopLabel,
+function IconMakeupColumn({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <rect x="5" y="5" width="14" height="14" rx="2" stroke="currentColor" strokeWidth="1.35" />
+      <circle cx="12" cy="12" r="3.25" stroke="currentColor" strokeWidth="1.35" />
+    </svg>
+  );
+}
+
+function IconPumpColumn({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path
+        d="M9 4h6v3H9V4ZM8 7h8v13a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2V7Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+      <path d="M10 11h4" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function CategoriesMegaMenu({
+  categoriesHref,
+  categoriesLabel,
   mega,
   skincareLinks,
   makeupLinks,
   hairBodyLinks,
-  collectionLinks,
+  collectionItems,
   promoImageSrc,
   promoImageAlt,
 }: {
-  shopHref: string;
-  shopLabel: string;
+  categoriesHref: string;
+  categoriesLabel: string;
   mega: MegaMenuCopy;
-  skincareLinks: MegaLink[];
-  makeupLinks: MegaLink[];
-  hairBodyLinks: MegaLink[];
-  collectionLinks: MegaLink[];
+  skincareLinks: MegaMenuLink[];
+  makeupLinks: MegaMenuLink[];
+  hairBodyLinks: MegaMenuLink[];
+  collectionItems: MegaCollectionItem[];
   promoImageSrc: string;
   promoImageAlt: string;
 }) {
@@ -51,7 +85,7 @@ export function ShopMegaMenu({
 
   const scheduleClose = useCallback(() => {
     clearTimer();
-    closeTimer.current = setTimeout(() => setOpen(false), 140);
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
   }, [clearTimer]);
 
   const onEnter = useCallback(() => {
@@ -59,45 +93,11 @@ export function ShopMegaMenu({
     setOpen(true);
   }, [clearTimer]);
 
-  function column(
-    title: string,
-    links: MegaLink[],
-    viewHref: string,
-    opts?: { collectionsPanel?: boolean },
-  ) {
-    const panel = opts?.collectionsPanel;
+  function columnHeader(title: string, Icon: ComponentType<{ className?: string }>) {
     return (
-      <div
-        className={cn(
-          "min-w-0",
-          panel &&
-            "rounded-md border border-zinc-200 bg-zinc-50/90 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)]",
-        )}
-      >
-        <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">{title}</p>
-        <ul className={cn("mt-3 space-y-1.5", panel && "mt-4")}>
-          {links.map((l) => (
-            <li key={l.href}>
-              <Link
-                href={l.href}
-                className={cn(
-                  "block py-0.5 text-[13px] leading-snug text-zinc-900 transition hover:text-accent",
-                  panel && "rounded-sm px-1 py-1 hover:bg-white/80",
-                )}
-                onClick={() => setOpen(false)}
-              >
-                {l.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <Link
-          href={viewHref}
-          className="mt-4 inline-block text-[10px] font-semibold uppercase tracking-[0.2em] text-accent transition hover:underline"
-          onClick={() => setOpen(false)}
-        >
-          {mega.viewAll}
-        </Link>
+      <div className="flex items-center gap-2">
+        <Icon className="h-4 w-4 shrink-0 text-[#b08d55]" />
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{title}</p>
       </div>
     );
   }
@@ -111,69 +111,160 @@ export function ShopMegaMenu({
       onBlur={scheduleClose}
     >
       <Link
-        href={shopHref}
+        href={categoriesHref}
         className={cn(
-          "inline-flex items-center gap-1 text-[13px] font-medium tracking-wide text-muted transition hover:text-accent",
+          "inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted transition hover:text-accent xl:text-[11px] xl:tracking-[0.1em]",
           open && "text-accent",
         )}
         aria-expanded={open}
         aria-haspopup="true"
       >
-        {shopLabel}
-        <span className="text-[9px] leading-none opacity-60" aria-hidden>
+        {categoriesLabel}
+        <span className="text-[9px] leading-none text-zinc-400" aria-hidden>
           ▾
         </span>
       </Link>
 
       <div
         className={cn(
-          "pointer-events-none absolute left-1/2 top-full z-50 w-[min(100vw-1.5rem,1200px)] -translate-x-1/2 pt-2 opacity-0 transition duration-150",
+          "pointer-events-none absolute left-1/2 top-full z-50 w-[min(100vw-1.5rem,1120px)] -translate-x-1/2 pt-[11px] opacity-0 transition duration-150",
           open && "pointer-events-auto opacity-100",
         )}
         onMouseEnter={onEnter}
         onMouseLeave={scheduleClose}
       >
-        <div className="border border-zinc-200 bg-white shadow-[0_20px_50px_-12px_rgba(0,0,0,0.18)]">
+        <div className="overflow-hidden rounded-xl border border-zinc-200/90 bg-white shadow-[0_24px_60px_-16px_rgba(0,0,0,0.16)]">
           <div className="overflow-x-auto">
-            <div className="grid min-w-[960px] gap-0 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_220px] lg:items-stretch">
-            <div className="border-b border-zinc-100 p-6 lg:border-b-0 lg:border-r lg:py-8 lg:pl-8 lg:pr-6">
-              {column(mega.skincare, skincareLinks, "/categories")}
+            <div className="grid min-w-[920px] grid-cols-[1fr_1fr_1fr_1.15fr_238px] gap-0">
+              <div className="border-b border-zinc-100 px-7 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+                {columnHeader(mega.skincare, IconSkincareColumn)}
+                <ul className="mt-4 space-y-0">
+                  {skincareLinks.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        className="block py-[5px] text-[13px] leading-snug text-zinc-900 transition hover:text-[#b08d55]"
+                        onClick={() => setOpen(false)}
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/categories"
+                  className="mt-5 inline-block text-[10px] font-semibold uppercase tracking-[0.18em] text-[#b08d55] transition hover:underline"
+                  onClick={() => setOpen(false)}
+                >
+                  {mega.viewAllSkincare}
+                </Link>
+              </div>
+
+              <div className="border-b border-zinc-100 px-7 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+                {columnHeader(mega.makeup, IconMakeupColumn)}
+                <ul className="mt-4 space-y-0">
+                  {makeupLinks.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        className="block py-[5px] text-[13px] leading-snug text-zinc-900 transition hover:text-[#b08d55]"
+                        onClick={() => setOpen(false)}
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/products?q=makeup"
+                  className="mt-5 inline-block text-[10px] font-semibold uppercase tracking-[0.18em] text-[#b08d55] transition hover:underline"
+                  onClick={() => setOpen(false)}
+                >
+                  {mega.viewAllMakeup}
+                </Link>
+              </div>
+
+              <div className="border-b border-zinc-100 px-7 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+                {columnHeader(mega.hairBody, IconPumpColumn)}
+                <ul className="mt-4 space-y-0">
+                  {hairBodyLinks.map((l) => (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        className="block py-[5px] text-[13px] leading-snug text-zinc-900 transition hover:text-[#b08d55]"
+                        onClick={() => setOpen(false)}
+                      >
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+                <Link
+                  href="/products?q=body"
+                  className="mt-5 inline-block text-[10px] font-semibold uppercase tracking-[0.18em] text-[#b08d55] transition hover:underline"
+                  onClick={() => setOpen(false)}
+                >
+                  {mega.viewAllHairBody}
+                </Link>
+              </div>
+
+              <div className="border-b border-zinc-100 px-6 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{mega.collections}</p>
+                <ul className="mt-4 space-y-3">
+                  {collectionItems.map((c) => (
+                    <li key={c.href}>
+                      <Link
+                        href={c.href}
+                        className="group flex items-start gap-3 rounded-md py-0.5 transition hover:bg-zinc-50"
+                        onClick={() => setOpen(false)}
+                      >
+                        <span className="relative mt-0.5 block h-11 w-11 shrink-0 overflow-hidden rounded-full border border-zinc-200 bg-zinc-100">
+                          <Image
+                            src={c.imageSrc}
+                            alt={c.label}
+                            fill
+                            className="object-cover"
+                            sizes="44px"
+                          />
+                        </span>
+                        <span className="min-w-0 pt-0.5">
+                          <span className="block text-[13px] font-medium leading-tight text-zinc-900 group-hover:text-[#b08d55]">
+                            {c.label}
+                          </span>
+                          <span className="mt-0.5 block text-[12px] leading-snug text-zinc-500">{c.hint}</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="p-3 lg:p-3 lg:pr-3">
+                <Link
+                  href="/products"
+                  className="group relative flex aspect-[238/380] w-full flex-col justify-end overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100"
+                  onClick={() => setOpen(false)}
+                >
+                  <Image
+                    src={promoImageSrc}
+                    alt={promoImageAlt}
+                    fill
+                    className="object-cover object-center transition duration-500 group-hover:scale-[1.02]"
+                    sizes="238px"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                  <div className="relative z-10 p-4">
+                    <p className="text-[11px] font-semibold uppercase leading-snug tracking-[0.2em] text-white">
+                      {mega.promoTitle}
+                    </p>
+                    <p className="mt-2 text-[13px] font-medium leading-snug text-white/95">{mega.promoBody}</p>
+                    <span className="mt-4 inline-flex h-9 items-center justify-center rounded-full bg-zinc-950 px-5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition group-hover:bg-zinc-800">
+                      {mega.promoCta}
+                    </span>
+                  </div>
+                </Link>
+              </div>
             </div>
-            <div className="border-b border-zinc-100 p-6 lg:border-b-0 lg:border-r lg:py-8 lg:px-6">
-              {column(mega.makeup, makeupLinks, "/products?q=base")}
-            </div>
-            <div className="border-b border-zinc-100 p-6 lg:border-b-0 lg:border-r lg:py-8 lg:px-6">
-              {column(mega.hairBody, hairBodyLinks, "/products?q=body")}
-            </div>
-            <div className="border-b border-zinc-100 p-6 lg:border-b-0 lg:border-r lg:py-8 lg:px-6">
-              {column(mega.collections, collectionLinks, "/bestsellers", { collectionsPanel: true })}
-            </div>
-            <div className="p-4 lg:p-4 lg:pr-4">
-              <Link
-                href="/products"
-                className="group relative flex h-full min-h-[260px] flex-col justify-end overflow-hidden border border-zinc-200 bg-zinc-100 lg:min-h-[300px]"
-                onClick={() => setOpen(false)}
-              >
-                <Image
-                  src={promoImageSrc}
-                  alt={promoImageAlt}
-                  fill
-                  className="object-cover transition duration-500 group-hover:scale-[1.02]"
-                  sizes="220px"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-transparent" />
-                <div className="relative z-10 p-4">
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-champagne">
-                    {mega.promoTitle}
-                  </p>
-                  <p className="mt-2 text-[13px] font-medium leading-snug text-white">{mega.promoBody}</p>
-                  <span className="mt-3 inline-flex text-[10px] font-semibold uppercase tracking-[0.2em] text-white underline-offset-4 group-hover:underline">
-                    {mega.promoCta}
-                  </span>
-                </div>
-              </Link>
-            </div>
-          </div>
           </div>
         </div>
       </div>

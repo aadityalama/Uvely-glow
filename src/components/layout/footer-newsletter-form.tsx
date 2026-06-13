@@ -36,7 +36,7 @@ export function FooterNewsletterForm({
             light
               ? "border-zinc-300 bg-white text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-zinc-900/15"
               : luxury
-                ? "border-white/15 bg-[#1a1a1a] text-white placeholder:text-white/45 focus:border-champagne/50 focus:ring-champagne/20"
+                ? "border-zinc-300 bg-white text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-zinc-900/15"
                 : "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:border-champagne/60 focus:ring-champagne/25",
           )}
         />
@@ -48,7 +48,7 @@ export function FooterNewsletterForm({
             light
               ? "border border-zinc-900 bg-zinc-900 text-white hover:bg-zinc-800"
               : luxury
-                ? "bg-gradient-to-r from-champagne via-champagne to-rose-gold-light text-deep shadow-[0_8px_30px_-8px_rgba(201,165,122,0.55)] hover:brightness-105"
+                ? "rounded-none border-0 bg-[#c9a57a] px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-950 hover:brightness-105"
                 : "rounded-full bg-gradient-to-r from-champagne to-rose-gold-light text-deep shadow-lg hover:opacity-95",
           )}
         >

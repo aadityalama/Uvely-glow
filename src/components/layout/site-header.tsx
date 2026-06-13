@@ -6,9 +6,11 @@ import { useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOutAction } from "@/app/actions/auth";
 import { UvelyLogo } from "@/components/brand/uvely-logo";
+import { StorefrontTrustBar } from "@/components/home/storefront-trust-bar";
 import { Container } from "@/components/layout/container";
 import { HeaderLanguageSwitch } from "@/components/layout/header-language-switch";
-import { ShopMegaMenu } from "@/components/layout/shop-mega-menu";
+import { HeaderLocaleDropdown } from "@/components/layout/header-locale-dropdown";
+import { CategoriesMegaMenu } from "@/components/layout/shop-mega-menu";
 import { REFERENCE_MEGA_MENU } from "@/config/storefront-mega-menu";
 import { useCart } from "@/context/cart-context";
 import { useSession } from "@/context/session-context";
@@ -66,6 +68,76 @@ function IconSearch(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
+function IconTruckTiny(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
+      <path
+        d="M3 7h11v10H3V7Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M14 10h3l3 3v4h-3"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+      <circle cx="7.5" cy="18" r="1.5" fill="currentColor" />
+      <circle cx="17" cy="18" r="1.5" fill="currentColor" />
+    </svg>
+  );
+}
+
+function IconShieldTiny(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
+      <path
+        d="M12 3 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-3Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function IconLeafTiny(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
+      <path
+        d="M6 20s10-2 12-12C8 10 6 20 6 20Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+      <path d="M6 20c2-4 6-7 12-8" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function IconPinTiny(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
+      <path
+        d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11Z"
+        stroke="currentColor"
+        strokeWidth="1.35"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="10" r="2.25" stroke="currentColor" strokeWidth="1.35" />
+    </svg>
+  );
+}
+
+function IconChevronTiny(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
+      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function SiteHeader({
   serverCartCount,
   serverWishlistCount,
@@ -107,7 +179,6 @@ export function SiteHeader({
   );
 
   const navRest = [
-    { href: "/categories", label: t.nav.categories },
     { href: "/quiz", label: t.nav.skinQuiz },
     { href: "/brands", label: t.nav.brands },
     { href: "/bestsellers", label: t.nav.bestsellers },
@@ -119,35 +190,42 @@ export function SiteHeader({
     const active =
       pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
     return cn(
-      "shrink-0 text-[13px] font-medium tracking-wide text-muted transition hover:text-accent",
+      "shrink-0 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted transition hover:text-accent xl:text-[11px] xl:tracking-[0.1em]",
       active ? "text-accent" : "text-muted",
     );
   }
 
   return (
-    <header className="sticky top-0 z-50 isolate border-b border-zinc-200 bg-background/98 backdrop-blur-md">
-      <div className="border-b border-zinc-900 bg-zinc-950 text-white">
-        <Container className="flex h-9 max-w-[1200px] items-center justify-between gap-3 px-5 sm:px-8 lg:px-10">
-          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-2 overflow-x-auto whitespace-nowrap py-1 text-[10px] font-semibold uppercase tracking-[0.14em] sm:gap-0 sm:tracking-[0.16em]">
-            <span className="shrink-0 sm:pr-3">{t.announcement.freeShipping}</span>
-            <span className="hidden text-zinc-600 sm:inline" aria-hidden>
-              |
+    <header className="sticky top-0 z-50 isolate bg-white shadow-[0_1px_0_rgba(0,0,0,0.06)]">
+      <div className="bg-zinc-950 text-white">
+        <Container className="flex h-[var(--store-announcement-h)] max-w-[1200px] items-center gap-3 px-5 sm:px-8 lg:px-10">
+          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-x-0 overflow-x-auto whitespace-nowrap py-0 text-[10px] font-semibold uppercase tracking-[0.14em] sm:gap-x-0">
+            <span className="inline-flex shrink-0 items-center gap-1.5 pr-2 sm:pr-4">
+              <IconTruckTiny className="h-3.5 w-3.5 shrink-0 text-white/85" />
+              {t.announcement.freeShipping}
             </span>
-            <span className="shrink-0 sm:px-3">{t.announcement.authentic}</span>
-            <span className="hidden text-zinc-600 sm:inline" aria-hidden>
-              |
+            <span className="hidden h-3 w-px shrink-0 bg-white/25 sm:block" aria-hidden />
+            <span className="inline-flex shrink-0 items-center gap-1.5 px-2 sm:px-4">
+              <IconShieldTiny className="h-3.5 w-3.5 shrink-0 text-white/85" />
+              {t.announcement.authentic}
             </span>
-            <span className="shrink-0 sm:px-3">{t.announcement.pureKorean}</span>
+            <span className="hidden h-3 w-px shrink-0 bg-white/25 sm:block" aria-hidden />
+            <span className="inline-flex shrink-0 items-center gap-1.5 px-2 sm:px-4">
+              <IconLeafTiny className="h-3.5 w-3.5 shrink-0 text-white/85" />
+              {t.announcement.pureKorean}
+            </span>
           </div>
           <div className="flex shrink-0 items-center gap-4 sm:gap-5">
-            <span className="hidden text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 lg:inline">
+            <span className="hidden items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/85 lg:inline-flex">
+              <IconPinTiny className="h-3.5 w-3.5 text-white/80" aria-hidden />
               {t.announcement.location}
+              <IconChevronTiny className="h-3 w-3 text-white/45" aria-hidden />
             </span>
-            <HeaderLanguageSwitch
-              variant="onDark"
+            <HeaderLocaleDropdown
               locale={locale}
-              englishLabel={t.tools.english}
-              koreanLabel={t.tools.korean}
+              englishPrimaryLabel={t.footer.langEnglishPrimary}
+              koreanSecondaryLabel={t.footer.langKoreanSecondary}
+              currentLabel={locale === "ko" ? t.tools.korean : t.tools.english}
               ariaLabel={t.tools.language}
             />
           </div>
@@ -164,23 +242,30 @@ export function SiteHeader({
           >
             <span className="block h-0.5 w-5 bg-foreground" />
           </button>
-          <UvelyLogo size="sm" href="/" className="sm:hidden" />
-          <UvelyLogo size="md" href="/" className="hidden sm:flex" />
+          <UvelyLogo size="sm" href="/" wordmarkOnly className="sm:hidden" />
+          <UvelyLogo size="sm" href="/" wordmarkOnly className="hidden sm:flex md:hidden" />
+          <UvelyLogo size="md" href="/" wordmarkOnly className="hidden md:flex" />
         </div>
 
         <nav
           aria-label="Primary"
-          className="relative z-20 hidden min-w-0 flex-1 overflow-x-auto overflow-y-visible scrollbar-hide md:flex md:justify-center"
+          className="relative z-20 hidden min-w-0 flex-1 md:flex md:justify-center md:overflow-visible"
         >
-          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-7 lg:gap-x-9">
-            <ShopMegaMenu
-              shopHref="/products"
-              shopLabel={t.nav.shop}
+          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-2 md:gap-x-2.5 lg:gap-x-3 xl:gap-x-4">
+            <Link href="/products" className={cn(linkClass("/products"), "inline-flex items-center gap-1")}>
+              {t.nav.shop}
+              <span className="text-[9px] leading-none text-zinc-400" aria-hidden>
+                ▾
+              </span>
+            </Link>
+            <CategoriesMegaMenu
+              categoriesHref="/categories"
+              categoriesLabel={t.nav.categories}
               mega={megaModel.mega}
               skincareLinks={megaModel.skincare}
               makeupLinks={megaModel.makeup}
               hairBodyLinks={megaModel.hairBody}
-              collectionLinks={megaModel.collections}
+              collectionItems={megaModel.collections}
               promoImageSrc={PROMO_CARD_IMAGE}
               promoImageAlt={megaModel.mega.promoTitle}
             />
@@ -193,7 +278,7 @@ export function SiteHeader({
               <Link
                 href="/admin"
                 prefetch={false}
-                className="shrink-0 text-[13px] font-medium tracking-wide text-muted transition hover:text-accent"
+                className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted transition hover:text-accent xl:text-[11px] xl:tracking-[0.1em]"
               >
                 {t.nav.admin}
               </Link>
@@ -201,72 +286,52 @@ export function SiteHeader({
           </div>
         </nav>
 
-        <div className="relative z-10 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-2 sm:gap-3 md:ml-0">
-          {email ? (
-            <span className="hidden max-w-[10rem] truncate text-xs text-muted lg:inline">
-              {email}
-            </span>
-          ) : null}
-          {email ? (
-            <form action={signOutAction}>
-              <button
-                type="submit"
-                className="hidden rounded-sm border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-zinc-400 hover:text-foreground lg:inline-block"
-              >
-                {t.tools.logOut}
-              </button>
-            </form>
-          ) : (
-            <Link
-              href="/login"
-              className="hidden rounded-sm border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-zinc-400 hover:text-foreground lg:inline-block"
-            >
-              {t.tools.logIn}
-            </Link>
-          )}
+        <div className="relative z-10 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-1.5 sm:gap-2 md:ml-0 md:gap-3">
           <form
             action={searchHref}
-            className="relative hidden w-[200px] shrink-0 sm:block lg:w-[260px]"
+            className="relative hidden w-[180px] shrink-0 sm:block lg:w-[220px] xl:w-[248px]"
             onSubmit={(e) => {
               e.preventDefault();
               window.location.href = searchHref;
             }}
           >
-            <IconSearch className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
             <input
               name="q"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={t.tools.searchPlaceholder}
-              className="h-9 w-full rounded-sm border border-zinc-300 bg-white pl-9 pr-3 text-[13px] text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900/10"
+              className="h-10 w-full rounded-full border border-zinc-200 bg-zinc-100/70 pl-4 pr-11 text-[13px] text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-400 focus:bg-white focus:ring-1 focus:ring-zinc-900/10"
             />
+            <IconSearch className="pointer-events-none absolute right-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-zinc-500" />
           </form>
           <Link
             href="/wishlist"
-            className="relative inline-flex h-9 w-9 items-center justify-center rounded-sm border border-zinc-300 bg-white text-foreground transition hover:border-zinc-400 sm:h-10 sm:w-10"
+            className="relative inline-flex h-10 w-10 items-center justify-center text-zinc-900 transition hover:text-zinc-600"
             aria-label={t.tools.wishlist}
           >
-            <IconHeart className="h-[18px] w-[18px] sm:h-5 sm:w-5" />
+            <IconHeart className="h-[19px] w-[19px]" />
             {wishlistCount > 0 ? (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-sm bg-accent px-1 text-[10px] font-semibold text-white">
+              <span className="absolute right-0.5 top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#c9a57a] px-1 text-[10px] font-semibold text-white">
                 {wishlistCount > 9 ? "9+" : wishlistCount}
               </span>
             ) : null}
           </Link>
           <Link
             href="/cart"
-            className="relative inline-flex h-9 w-9 items-center justify-center rounded-sm border border-zinc-300 bg-white text-foreground transition hover:border-zinc-400 sm:h-10 sm:w-10"
+            className="relative inline-flex h-10 w-10 items-center justify-center text-zinc-900 transition hover:text-zinc-600"
             aria-label={t.tools.cart}
           >
-            <IconBag className="h-[18px] w-[18px] sm:h-5 sm:w-5" />
+            <IconBag className="h-[19px] w-[19px]" />
             {cartCount > 0 ? (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-sm bg-zinc-900 px-1 text-[10px] font-semibold text-white">
+              <span className="absolute right-0.5 top-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[#c9a57a] px-1 text-[10px] font-semibold text-white">
                 {cartCount > 9 ? "9+" : cartCount}
               </span>
             ) : null}
           </Link>
         </div>
       </Container>
+
+      <StorefrontTrustBar trust={t.trustBar} />
 
       <AnimatePresence>
         {open ? (
@@ -315,13 +380,13 @@ export function SiteHeader({
                   window.location.href = searchHref;
                 }}
               >
-                <IconSearch className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder={t.tools.searchPlaceholder}
-                  className="h-10 w-full rounded-sm border border-zinc-300 bg-white pl-9 pr-3 text-[13px] outline-none"
+                  className="h-10 w-full rounded-full border border-zinc-300 bg-white pl-4 pr-11 text-[13px] outline-none"
                 />
+                <IconSearch className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
               </form>
               <div className="flex flex-col gap-1">
                 <Link
@@ -330,6 +395,13 @@ export function SiteHeader({
                   onClick={() => setOpen(false)}
                 >
                   {t.nav.shop}
+                </Link>
+                <Link
+                  href="/categories"
+                  className="text-lg font-medium"
+                  onClick={() => setOpen(false)}
+                >
+                  {t.nav.categories}
                 </Link>
                 <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                   {t.mega.skincare}

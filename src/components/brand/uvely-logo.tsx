@@ -35,29 +35,34 @@ export function UvelyLogo({
   href,
   className,
   inverted,
+  wordmarkOnly = false,
 }: {
   size?: LogoSize;
   href?: string;
   className?: string;
   /** Light-on-dark treatment */
   inverted?: boolean;
+  /** Reference header: serif wordmark without monogram circle */
+  wordmarkOnly?: boolean;
 }) {
   const s = sizeClasses[size];
   const content = (
-    <span className={cn("inline-flex items-center", s.wrap, className)}>
-      <span
-        className={cn(
-          "flex shrink-0 items-center justify-center rounded-full border font-display font-semibold leading-none",
-          s.monogram,
-          inverted
-            ? "border-white/35 bg-white/10 text-white backdrop-blur-md"
-            : "border-rose-gold/35 bg-gradient-to-br from-rose-gold/15 to-blush-deep/10 text-deep",
-        )}
-        aria-hidden
-      >
-        UG
-      </span>
-      <span className="flex min-w-0 flex-col">
+    <span className={cn("inline-flex items-center", wordmarkOnly ? "gap-0" : s.wrap, className)}>
+      {wordmarkOnly ? null : (
+        <span
+          className={cn(
+            "flex shrink-0 items-center justify-center rounded-full border font-display font-semibold leading-none",
+            s.monogram,
+            inverted
+              ? "border-white/35 bg-white/10 text-white backdrop-blur-md"
+              : "border-rose-gold/35 bg-gradient-to-br from-rose-gold/15 to-blush-deep/10 text-deep",
+          )}
+          aria-hidden
+        >
+          UG
+        </span>
+      )}
+      <span className={cn("flex min-w-0 flex-col", wordmarkOnly && "-mt-0.5")}>
         <span
           className={cn(
             "font-display font-medium leading-none",

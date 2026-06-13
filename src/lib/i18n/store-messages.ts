@@ -25,7 +25,9 @@ export type StoreMessages = {
     promoTitle: string;
     promoBody: string;
     promoCta: string;
-    viewAll: string;
+    viewAllSkincare: string;
+    viewAllMakeup: string;
+    viewAllHairBody: string;
   };
   tools: {
     searchPlaceholder: string;
@@ -41,22 +43,23 @@ export type StoreMessages = {
     korean: string;
   };
   hero: {
-    topIntro: string;
     eyebrow: string;
-    titleBefore: string;
-    titleAccent: string;
-    titleAfter: string;
+    titleLine: string;
     subtitle: string;
     ctaShop: string;
     ctaQuiz: string;
-    footerTrust: string;
-    discover: string;
   };
   trustBar: {
-    secure: string;
-    shipping: string;
-    authenticBadge: string;
-    support: string;
+    newArrivalsTitle: string;
+    newArrivalsSub: string;
+    bestSellersTitle: string;
+    bestSellersSub: string;
+    cleanSafeTitle: string;
+    cleanSafeSub: string;
+    premiumTitle: string;
+    premiumSub: string;
+    secureTitle: string;
+    secureSub: string;
   };
   brands: {
     title: string;
@@ -68,12 +71,14 @@ export type StoreMessages = {
     shopHeading: string;
     helpHeading: string;
     companyHeading: string;
+    customerCareHeading: string;
     subscribeHeading: string;
     newsletterHint: string;
     emailPlaceholder: string;
     subscribe: string;
     privacyNote: string;
     privacyLink: string;
+    langHeading: string;
     shop: {
       skincare: string;
       makeup: string;
@@ -99,8 +104,11 @@ export type StoreMessages = {
     };
     customerCare: {
       fastDelivery: string;
+      fastDeliveryDetail: string;
       easyReturns: string;
+      easyReturnsDetail: string;
       securePayments: string;
+      securePaymentsDetail: string;
     };
     craftedLine: string;
     rights: string;
@@ -109,6 +117,8 @@ export type StoreMessages = {
     langGroupAria: string;
     socialInstagramAria: string;
     socialFacebookAria: string;
+    socialTiktokAria: string;
+    socialYoutubeAria: string;
   };
 };
 
@@ -134,13 +144,15 @@ const en: StoreMessages = {
     makeup: "Makeup",
     hairBody: "Hair & Body",
     collections: "Collections",
-    promoTitle: "New in",
-    promoBody: "Fresh drops from Seoul labs—limited units for Nepal.",
-    promoCta: "Shop new arrivals",
-    viewAll: "View all",
+    promoTitle: "Discover the Glass-Skin Collection",
+    promoBody: "Curated for that healthy, dewy glow.",
+    promoCta: "SHOP NOW",
+    viewAllSkincare: "View all skincare →",
+    viewAllMakeup: "View all makeup →",
+    viewAllHairBody: "View all →",
   },
   tools: {
-    searchPlaceholder: "Search products",
+    searchPlaceholder: "Search K-beauty…",
     wishlist: "Wishlist",
     cart: "Cart",
     logIn: "Log in",
@@ -153,24 +165,24 @@ const en: StoreMessages = {
     korean: "한국어",
   },
   hero: {
-    topIntro:
-      "Dermatologist-informed formulas, Seoul sourcing, and textures that melt like silk. This is K-beauty elevated for the modern luxury wardrobe.",
-    eyebrow: "The glass-skin collection",
-    titleBefore: "Radiance, distilled in",
-    titleAccent: "Seoul",
-    titleAfter: ".",
+    eyebrow: "THE GLASS-SKIN COLLECTION",
+    titleLine: "Radiance, distilled in Seoul.",
     subtitle:
       "Full-screen luxury. Micro-layered hydration. Finishes that read expensive on camera—and unforgettable in person.",
-    ctaShop: "Shop bestsellers",
-    ctaQuiz: "Skin ritual quiz",
-    footerTrust: "Complimentary shipping · Authenticity guaranteed",
-    discover: "Discover the edit",
+    ctaShop: "SHOP COLLECTION →",
+    ctaQuiz: "SKIN QUIZ",
   },
   trustBar: {
-    secure: "Secure checkout",
-    shipping: "Free shipping NPR 7,000+",
-    authenticBadge: "100% authentic",
-    support: "Kathmandu support",
+    newArrivalsTitle: "New arrivals",
+    newArrivalsSub: "Fresh picks every week",
+    bestSellersTitle: "Best sellers",
+    bestSellersSub: "Customer favorites",
+    cleanSafeTitle: "Clean & safe",
+    cleanSafeSub: "Dermatologist tested",
+    premiumTitle: "Premium quality",
+    premiumSub: "Made in Korea",
+    secureTitle: "Secure payment",
+    secureSub: "100% safe checkout",
   },
   brands: {
     title: "",
@@ -182,12 +194,14 @@ const en: StoreMessages = {
     shopHeading: "Shop",
     helpHeading: "Help",
     companyHeading: "Company",
-    subscribeHeading: "Subscribe For Beauty Tips",
-    newsletterHint: "Editorial drops, ritual notes, and member-only codes—delivered quietly to your inbox.",
+    customerCareHeading: "Customer care",
+    subscribeHeading: "SUBSCRIBE FOR BEAUTY TIPS",
+    newsletterHint: "Get exclusive offers, beauty tips and early access to new launches.",
     emailPlaceholder: "Email address",
     subscribe: "Subscribe",
     privacyNote: "By subscribing you agree to our",
     privacyLink: "privacy policy",
+    langHeading: "Language / 언어",
     shop: {
       skincare: "Skincare",
       makeup: "Makeup",
@@ -212,9 +226,12 @@ const en: StoreMessages = {
       terms: "Terms of Service",
     },
     customerCare: {
-      fastDelivery: "Fast Delivery",
-      easyReturns: "Easy Returns",
-      securePayments: "Secure Payments",
+      fastDelivery: "Fast delivery",
+      fastDeliveryDetail: "2–4 days across Nepal",
+      easyReturns: "Easy returns",
+      easyReturnsDetail: "Hassle-free within 7 days",
+      securePayments: "Secure payments",
+      securePaymentsDetail: "100% safe & protected",
     },
     craftedLine: "Crafted in Korea. Curated for Nepal.",
     rights: "All rights reserved.",
@@ -223,6 +240,8 @@ const en: StoreMessages = {
     langGroupAria: "Store language",
     socialInstagramAria: "Uvely Glow on Instagram",
     socialFacebookAria: "Uvely Glow on Facebook",
+    socialTiktokAria: "Uvely Glow on TikTok",
+    socialYoutubeAria: "Uvely Glow on YouTube",
   },
 };
 
@@ -248,13 +267,15 @@ const ko: StoreMessages = {
     makeup: "메이크업",
     hairBody: "헤어 & 바디",
     collections: "컬렉션",
-    promoTitle: "신상",
-    promoBody: "서울 연구소의 신제품—네팔 한정 수량.",
-    promoCta: "신상 쇼핑",
-    viewAll: "전체 보기",
+    promoTitle: "글래스 스킨 컬렉션",
+    promoBody: "건강하고 촉촉한 광채를 위해 엄선했습니다.",
+    promoCta: "쇼핑하기",
+    viewAllSkincare: "스킨케어 전체 →",
+    viewAllMakeup: "메이크업 전체 →",
+    viewAllHairBody: "전체 보기 →",
   },
   tools: {
-    searchPlaceholder: "상품 검색",
+    searchPlaceholder: "K-뷰티 검색…",
     wishlist: "위시리스트",
     cart: "장바구니",
     logIn: "로그인",
@@ -267,24 +288,24 @@ const ko: StoreMessages = {
     korean: "한국어",
   },
   hero: {
-    topIntro:
-      "피부과에서 검증된 포뮬러와 서울 소싱, 실크처럼 스며드는 텍스처. 현대 럭셔리 워드로브를 위한 K-뷰티입니다.",
     eyebrow: "글래스 스킨 컬렉션",
-    titleBefore: "빛나는 피부,",
-    titleAccent: "서울",
-    titleAfter: "에서 완성되다.",
+    titleLine: "서울에서 증류한 광채.",
     subtitle:
       "풀스크린 럭셔리. 층층이 쌓는 수분. 카메라 앞에서는 고급스럽게, 직접 볼 때는 잊히지 않는 마무리.",
-    ctaShop: "베스트셀러 쇼핑",
-    ctaQuiz: "피부 리추얼 퀴즈",
-    footerTrust: "무료 배송 · 정품 보증",
-    discover: "에디트 살펴보기",
+    ctaShop: "컬렉션 쇼핑 →",
+    ctaQuiz: "피부 퀴즈",
   },
   trustBar: {
-    secure: "안전 결제",
-    shipping: "NPR 7,000 이상 무료 배송",
-    authenticBadge: "100% 정품",
-    support: "카트만두 고객 지원",
+    newArrivalsTitle: "신상품",
+    newArrivalsSub: "매주 새로운 추천",
+    bestSellersTitle: "베스트셀러",
+    bestSellersSub: "고객이 사랑한 제품",
+    cleanSafeTitle: "클린 & 세이프",
+    cleanSafeSub: "피부과 테스트 완료",
+    premiumTitle: "프리미엄 퀄리티",
+    premiumSub: "한국 제조",
+    secureTitle: "안전 결제",
+    secureSub: "100% 안전한 결제",
   },
   brands: {
     title: "",
@@ -296,12 +317,14 @@ const ko: StoreMessages = {
     shopHeading: "쇼핑",
     helpHeading: "고객 지원",
     companyHeading: "회사",
+    customerCareHeading: "고객 케어",
     subscribeHeading: "뷰티 팁 구독",
-    newsletterHint: "에디토리얼 신상, 리추얼 노트, 회원 전용 혜택을 차분하게 전해 드립니다.",
+    newsletterHint: "독점 혜택, 뷰티 팁, 신제품 얼리 액세스를 받아보세요.",
     emailPlaceholder: "이메일 주소",
     subscribe: "구독",
     privacyNote: "구독 시 당사",
     privacyLink: "개인정보 처리방침",
+    langHeading: "언어 / Language",
     shop: {
       skincare: "스킨케어",
       makeup: "메이크업",
@@ -327,8 +350,11 @@ const ko: StoreMessages = {
     },
     customerCare: {
       fastDelivery: "빠른 배송",
+      fastDeliveryDetail: "네팔 전역 2–4일",
       easyReturns: "간편한 반품",
+      easyReturnsDetail: "7일 이내 간편 반품",
       securePayments: "안전한 결제",
+      securePaymentsDetail: "100% 안전하게 보호",
     },
     craftedLine: "한국에서 엄선했습니다. 네팔을 위해 큐레이션했습니다.",
     rights: "모든 권리 보유.",
@@ -337,6 +363,8 @@ const ko: StoreMessages = {
     langGroupAria: "스토어 언어",
     socialInstagramAria: "인스타그램의 Uvely Glow",
     socialFacebookAria: "페이스북의 Uvely Glow",
+    socialTiktokAria: "틱톡의 Uvely Glow",
+    socialYoutubeAria: "유튜브의 Uvely Glow",
   },
 };
 

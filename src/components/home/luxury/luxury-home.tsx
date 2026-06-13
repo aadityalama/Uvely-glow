@@ -10,7 +10,6 @@ import { LuxuryFullscreenHero } from "./luxury-fullscreen-hero";
 import { NewArrivalsSection } from "./new-arrivals-section";
 import { SkincareRoutineSection } from "./skincare-routine-section";
 import { StorefrontBrandStrip } from "../storefront-brand-strip";
-import { StorefrontTrustBar } from "../storefront-trust-bar";
 
 function pickBestsellers(products: Product[]) {
   const featured = products.filter((p) => p.isFeatured);
@@ -39,7 +38,6 @@ export function LuxuryHome({
   return (
     <div className="bg-background">
       <LuxuryFullscreenHero hero={messages.hero} />
-      <StorefrontTrustBar trust={messages.trustBar} />
       <StorefrontBrandStrip title={messages.brands.title} />
       <LuxuryEditorialGrid />
       <BestsellerCarousel products={bestsellers} />

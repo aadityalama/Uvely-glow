@@ -2,8 +2,9 @@
 
 :root {
   --store-announcement-h: 2.25rem;
-  --store-nav-h: 4rem;
-  --store-header-total: calc(var(--store-announcement-h) + var(--store-nav-h));
+  --store-nav-h: 4.5rem;
+  --store-trust-h: 6.25rem;
+  --store-header-total: calc(var(--store-announcement-h) + var(--store-nav-h) + var(--store-trust-h));
   --background: #faf6f7;
   --foreground: #1a1416;
   --muted: #6b5e62;
