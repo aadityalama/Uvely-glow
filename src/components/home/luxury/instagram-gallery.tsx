@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const TILES = [
   {
-    src: "https://images.unsplash.com/photo-1598440947619-c3f3409e0fd4?auto=format&fit=crop&w=800&q=80",
+    src: "https://images.unsplash.com/photo-1741896135705-9dfb73461085?auto=format&fit=crop&w=800&q=80",
     alt: "Flat lay of glass skincare bottles on blush surface",
   },
   {

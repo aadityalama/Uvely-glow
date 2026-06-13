@@ -48,7 +48,7 @@ export const REFERENCE_MEGA_MENU = {
       label: "K-Beauty Essentials",
       hint: "Daily must-haves",
       imageSrc:
-        "https://images.unsplash.com/photo-1570172619644-dfd03ed5d88?auto=format&fit=crop&w=120&h=120&q=80",
+        "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=120&h=120&q=80",
     },
     {
       href: "/products?q=anti-aging",
@@ -62,7 +62,7 @@ export const REFERENCE_MEGA_MENU = {
       label: "Clean Beauty",
       hint: "Gentle & effective",
       imageSrc:
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b87?auto=format&fit=crop&w=120&h=120&q=80",
+        "https://images.unsplash.com/photo-1741896136069-f3588d8993b5?auto=format&fit=crop&w=120&h=120&q=80",
     },
   ] satisfies MegaCollectionItem[],
 } as const;

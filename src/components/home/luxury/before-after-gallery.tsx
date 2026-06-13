@@ -8,7 +8,7 @@ const CASES = [
     id: "clarity",
     label: "Clarity · 8 weeks",
     before:
-      "https://images.unsplash.com/photo-1515377905705-c4788e51af15?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1571875257727-256c39da42af?auto=format&fit=crop&w=900&q=80",
     after:
       "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=900&q=80",
     caption: "Barrier-first routine with centella layering.",
@@ -17,9 +17,9 @@ const CASES = [
     id: "glass",
     label: "Glass-skin · 6 weeks",
     before:
-      "https://images.unsplash.com/photo-1556228578-8c89e33adf19?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=900&q=80",
     after:
-      "https://images.unsplash.com/photo-1617897903246-7192428e0560?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1741896135518-ce303a539bc0?auto=format&fit=crop&w=900&q=80",
     caption: "Hydration stack: essence, hyaluronic serum, dewy SPF.",
   },
 ] as const;
