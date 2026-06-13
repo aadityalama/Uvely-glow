@@ -47,38 +47,56 @@ export function LuxuryFullscreenHero({ hero }: { hero: StoreMessages["hero"] }) 
         sizes="100vw"
         className="object-cover object-[center_42%] sm:object-[center_38%]"
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white/88 via-white/55 to-white/25" />
+      {/* Layered white veils — readability without flattening photography */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_115%_90%_at_0%_45%,rgba(255,255,255,0.97)_0%,rgba(255,255,255,0.72)_38%,rgba(255,255,255,0.28)_62%,transparent_78%)]"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-white via-white/88 to-white/15"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/45 via-transparent to-white/25"
+        aria-hidden
+      />
+      <div
+        className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-transparent via-transparent to-white/20"
+        aria-hidden
+      />
 
-      <div className="relative z-10 flex min-h-[calc(100dvh-var(--store-header-total))] flex-col justify-between px-5 pb-8 pt-10 sm:px-8 sm:pb-10 sm:pt-12 lg:px-12">
+      <div className="relative z-10 flex min-h-[calc(100dvh-var(--store-header-total))] flex-col justify-between px-5 pb-10 pt-12 sm:px-8 sm:pb-12 sm:pt-14 lg:px-12 lg:pb-14 lg:pt-16">
         <div className="mx-auto w-full max-w-[1200px] flex-1">
-          <p className="font-sans text-[10px] font-semibold uppercase tracking-[0.38em] text-[#b08d55] sm:text-[11px]">
+          <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.32em] text-[#6b5420] sm:text-xs">
             {hero.eyebrow}
           </p>
-          <h1 className="mt-4 max-w-[min(34rem,100%)] font-display text-[2.35rem] font-medium leading-[1.08] tracking-tight text-zinc-950 sm:text-5xl md:text-[3.25rem] lg:text-[3.5rem]">
+          <h1 className="mt-5 max-w-[600px] font-display text-[2.5rem] font-bold leading-[1.06] tracking-[-0.03em] text-zinc-950 [text-shadow:0_1px_0_rgba(255,255,255,0.9),0_2px_24px_rgba(255,255,255,0.65)] sm:text-5xl md:text-[3.35rem] lg:text-[3.65rem]">
             {hero.titleLine}
           </h1>
-          <p className="mt-6 max-w-xl text-[14px] leading-relaxed text-zinc-700 sm:text-[15px]">{hero.subtitle}</p>
-          <div className="mt-9 flex flex-wrap items-center gap-3 sm:mt-10 sm:gap-4">
+          <p className="mt-7 max-w-xl text-[18px] font-medium leading-[1.8] text-zinc-800 sm:max-w-[36rem]">
+            {hero.subtitle}
+          </p>
+          <div className="mt-10 flex flex-wrap items-center gap-3 sm:mt-12 sm:gap-4">
             <Link
               href="/products"
-              className="inline-flex h-11 min-w-[11rem] items-center justify-center rounded-full bg-zinc-950 px-7 text-[10px] font-semibold uppercase tracking-[0.22em] text-white transition hover:bg-zinc-800 sm:h-12 sm:min-w-[12.5rem]"
+              className="inline-flex h-12 min-w-[11.5rem] items-center justify-center rounded-full bg-zinc-950 px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-white shadow-[var(--luxury-shadow-sm)] transition hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 sm:h-[3.25rem] sm:min-w-[13rem]"
             >
               {hero.ctaShop}
             </Link>
             <Link
               href="/quiz"
-              className="inline-flex h-11 min-w-[9.5rem] items-center justify-center rounded-full border border-zinc-900/90 bg-white/90 px-7 text-[10px] font-semibold uppercase tracking-[0.22em] text-zinc-900 shadow-sm backdrop-blur-sm transition hover:bg-white sm:h-12"
+              className="inline-flex h-12 min-w-[10rem] items-center justify-center rounded-full border-2 border-zinc-900/90 bg-white/95 px-8 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-950 shadow-[var(--luxury-shadow-sm)] backdrop-blur-sm transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 sm:h-[3.25rem]"
             >
               {hero.ctaQuiz}
             </Link>
           </div>
         </div>
 
-        <div className="relative mx-auto mt-10 w-full max-w-[1200px] pb-2">
+        <div className="relative mx-auto mt-12 w-full max-w-[1200px] pb-3">
           <button
             type="button"
             onClick={prev}
-            className="absolute left-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white/55 text-zinc-900 shadow-sm backdrop-blur-md transition hover:bg-white/80 sm:h-14 sm:w-14"
+            className="absolute left-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/70 text-zinc-900 shadow-[var(--luxury-shadow-sm)] backdrop-blur-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30 focus-visible:ring-offset-2 sm:h-14 sm:w-14"
             aria-label="Previous slide"
           >
             <Chevron dir="left" />
@@ -86,13 +104,13 @@ export function LuxuryFullscreenHero({ hero }: { hero: StoreMessages["hero"] }) 
           <button
             type="button"
             onClick={next}
-            className="absolute right-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/60 bg-white/55 text-zinc-900 shadow-sm backdrop-blur-md transition hover:bg-white/80 sm:h-14 sm:w-14"
+            className="absolute right-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/70 text-zinc-900 shadow-[var(--luxury-shadow-sm)] backdrop-blur-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30 focus-visible:ring-offset-2 sm:h-14 sm:w-14"
             aria-label="Next slide"
           >
             <Chevron dir="right" />
           </button>
 
-          <div className="flex justify-center gap-2 pb-1 pt-6">
+          <div className="flex justify-center gap-2.5 pb-1 pt-8">
             {HERO_SLIDES.map((id, i) => (
               <button
                 key={id}
@@ -101,8 +119,8 @@ export function LuxuryFullscreenHero({ hero }: { hero: StoreMessages["hero"] }) 
                 aria-current={slide === i}
                 onClick={() => setSlide(i)}
                 className={cn(
-                  "h-2 w-2 rounded-full border border-white/80 transition sm:h-2.5 sm:w-2.5",
-                  slide === i ? "bg-white" : "bg-transparent",
+                  "h-2.5 w-2.5 rounded-full border-2 border-white/90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 sm:h-3 sm:w-3",
+                  slide === i ? "bg-white shadow-sm" : "bg-white/25 hover:bg-white/50",
                 )}
               />
             ))}

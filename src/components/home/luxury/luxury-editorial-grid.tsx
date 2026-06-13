@@ -24,31 +24,31 @@ const EDITORIAL = [
 
 export function LuxuryEditorialGrid() {
   return (
-    <section className="bg-ivory py-16 sm:py-24">
+    <section className="bg-ivory py-20 sm:py-28 md:py-32">
       <div className="mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
-        <div className="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+        <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.45em] text-rose-gold sm:text-xs">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-rose-gold">
               The campaign
             </p>
-            <h2 className="mt-3 max-w-xl font-display text-3xl font-medium tracking-tight text-deep sm:text-4xl md:text-5xl">
+            <h2 className="mt-4 max-w-xl font-display text-3xl font-semibold leading-[1.12] tracking-tight text-deep sm:text-4xl md:text-5xl lg:text-[3.25rem]">
               Objects of desire.{" "}
               <span className="italic text-rose-gold">Proven</span> on skin.
             </h2>
           </div>
-          <p className="max-w-md text-sm leading-relaxed text-muted sm:text-base">
+          <p className="max-w-md text-base leading-relaxed text-zinc-700 sm:text-[17px] sm:leading-[1.75]">
             Oversized photography, museum lighting, and packaging worthy of your
             vanity. Every hero is photographed in-house to match the exact finish
             you receive.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-4 sm:grid-cols-3 sm:gap-5">
+        <div className="mt-14 grid gap-6 sm:grid-cols-3 sm:gap-8">
           {EDITORIAL.map((item, i) => (
             <Link
               key={item.src}
               href={item.href}
-              className="group relative aspect-[3/4] overflow-hidden rounded-2xl bg-blush sm:aspect-[4/5] sm:rounded-3xl"
+              className="group relative aspect-[3/4] overflow-hidden rounded-[1.75rem] bg-blush shadow-[var(--luxury-shadow)] ring-1 ring-black/[0.04] transition-shadow duration-300 hover:shadow-[var(--luxury-shadow-lg)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 sm:aspect-[4/5] sm:rounded-[2rem]"
               style={{ animationDelay: `${i * 60}ms` }}
             >
               <Image

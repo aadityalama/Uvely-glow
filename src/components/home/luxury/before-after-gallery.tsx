@@ -40,7 +40,7 @@ function BeforeAfterSlide({
 
   return (
     <figure className="space-y-4">
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-line bg-blush shadow-xl">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[1.75rem] border border-zinc-100/90 bg-blush shadow-[var(--luxury-shadow-lg)] ring-1 ring-black/[0.04] sm:rounded-[2rem]">
         <Image
           src={after}
           alt="Skin after consistent Korean skincare routine"
@@ -95,23 +95,23 @@ function BeforeAfterSlide({
 
 export function BeforeAfterGallery() {
   return (
-    <section className="bg-background py-16 sm:py-24">
+    <section className="bg-background py-20 sm:py-28 md:py-32">
       <div className="mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
         <div className="max-w-3xl">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.45em] text-rose-gold sm:text-xs">
+          <p className="text-xs font-semibold uppercase tracking-[0.35em] text-rose-gold">
             Clinical glow, editorial light
           </p>
-          <h2 className="mt-3 font-display text-3xl font-medium text-deep sm:text-4xl md:text-5xl">
+          <h2 className="mt-4 font-display text-3xl font-semibold leading-[1.12] text-deep sm:text-4xl md:text-5xl">
             Before / After gallery
           </h2>
-          <p className="mt-4 text-sm leading-relaxed text-muted sm:text-base">
+          <p className="mt-5 text-base leading-relaxed text-zinc-700 sm:text-[17px] sm:leading-[1.75]">
             Drag the slider on mobile or desktop. Results vary by skin type;
             imagery represents authentic routine outcomes from our community
             trials—never over-retouched.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-2 md:gap-10">
+        <div className="mt-14 grid gap-8 md:grid-cols-2 md:gap-10">
           {CASES.map((c) => (
             <BeforeAfterSlide
               key={c.id}

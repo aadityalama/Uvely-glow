@@ -36,7 +36,7 @@ export function LuxuryHome({
   const newArrivals = pickNewArrivals(products);
 
   return (
-    <div className="bg-background">
+    <div className="bg-background antialiased">
       <LuxuryFullscreenHero hero={messages.hero} />
       <StorefrontBrandStrip title={messages.brands.title} />
       <LuxuryEditorialGrid />

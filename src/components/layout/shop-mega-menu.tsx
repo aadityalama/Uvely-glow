@@ -97,7 +97,7 @@ export function CategoriesMegaMenu({
     return (
       <div className="flex items-center gap-2">
         <Icon className="h-4 w-4 shrink-0 text-[#b08d55]" />
-        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{title}</p>
+        <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-600">{title}</p>
       </div>
     );
   }
@@ -113,7 +113,7 @@ export function CategoriesMegaMenu({
       <Link
         href={categoriesHref}
         className={cn(
-          "inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted transition hover:text-accent xl:text-[11px] xl:tracking-[0.1em]",
+          "inline-flex items-center gap-1 rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 xl:text-[11px] xl:tracking-[0.1em]",
           open && "text-accent",
         )}
         aria-expanded={open}
@@ -133,7 +133,7 @@ export function CategoriesMegaMenu({
         onMouseEnter={onEnter}
         onMouseLeave={scheduleClose}
       >
-        <div className="overflow-hidden rounded-xl border border-zinc-200/90 bg-white shadow-[0_24px_60px_-16px_rgba(0,0,0,0.16)]">
+        <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[var(--luxury-shadow-lg)] sm:rounded-3xl">
           <div className="overflow-x-auto">
             <div className="grid min-w-[920px] grid-cols-[1fr_1fr_1fr_1.15fr_238px] gap-0">
               <div className="border-b border-zinc-100 px-7 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
@@ -143,7 +143,7 @@ export function CategoriesMegaMenu({
                     <li key={l.href}>
                       <Link
                         href={l.href}
-                        className="block py-[5px] text-[13px] leading-snug text-zinc-900 transition hover:text-[#b08d55]"
+                        className="block py-[5px] text-[13px] font-medium leading-snug text-zinc-900 transition hover:text-[#b08d55]"
                         onClick={() => setOpen(false)}
                       >
                         {l.label}
@@ -167,7 +167,7 @@ export function CategoriesMegaMenu({
                     <li key={l.href}>
                       <Link
                         href={l.href}
-                        className="block py-[5px] text-[13px] leading-snug text-zinc-900 transition hover:text-[#b08d55]"
+                        className="block py-[5px] text-[13px] font-medium leading-snug text-zinc-900 transition hover:text-[#b08d55]"
                         onClick={() => setOpen(false)}
                       >
                         {l.label}
@@ -191,7 +191,7 @@ export function CategoriesMegaMenu({
                     <li key={l.href}>
                       <Link
                         href={l.href}
-                        className="block py-[5px] text-[13px] leading-snug text-zinc-900 transition hover:text-[#b08d55]"
+                        className="block py-[5px] text-[13px] font-medium leading-snug text-zinc-900 transition hover:text-[#b08d55]"
                         onClick={() => setOpen(false)}
                       >
                         {l.label}
@@ -209,7 +209,7 @@ export function CategoriesMegaMenu({
               </div>
 
               <div className="border-b border-zinc-100 px-6 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">{mega.collections}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-600">{mega.collections}</p>
                 <ul className="mt-4 space-y-3">
                   {collectionItems.map((c) => (
                     <li key={c.href}>
@@ -231,7 +231,7 @@ export function CategoriesMegaMenu({
                           <span className="block text-[13px] font-medium leading-tight text-zinc-900 group-hover:text-[#b08d55]">
                             {c.label}
                           </span>
-                          <span className="mt-0.5 block text-[12px] leading-snug text-zinc-500">{c.hint}</span>
+                          <span className="mt-0.5 block text-[12px] leading-snug text-zinc-600">{c.hint}</span>
                         </span>
                       </Link>
                     </li>
@@ -242,7 +242,7 @@ export function CategoriesMegaMenu({
               <div className="p-3 lg:p-3 lg:pr-3">
                 <Link
                   href="/products"
-                  className="group relative flex aspect-[238/380] w-full flex-col justify-end overflow-hidden rounded-lg border border-zinc-200 bg-zinc-100"
+                  className="group relative flex aspect-[238/380] w-full flex-col justify-end overflow-hidden rounded-2xl border border-zinc-200/90 bg-zinc-100 shadow-[var(--luxury-shadow-sm)]"
                   onClick={() => setOpen(false)}
                 >
                   <Image

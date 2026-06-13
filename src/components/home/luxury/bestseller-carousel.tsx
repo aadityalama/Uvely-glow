@@ -19,14 +19,14 @@ export function BestsellerCarousel({ products }: { products: Product[] }) {
   if (!products.length) return null;
 
   return (
-    <section className="border-y border-line/80 bg-card py-16 sm:py-24">
+    <section className="border-y border-line/80 bg-card py-20 sm:py-28 md:py-32">
       <div className="mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.45em] text-rose-gold sm:text-xs">
+            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-rose-gold">
               Bestsellers
             </p>
-            <h2 className="mt-3 font-display text-3xl font-medium tracking-tight text-deep sm:text-4xl md:text-5xl">
+            <h2 className="mt-4 font-display text-3xl font-semibold leading-[1.12] tracking-tight text-deep sm:text-4xl md:text-5xl">
               The icons everyone restocks.
             </h2>
           </div>
@@ -34,7 +34,7 @@ export function BestsellerCarousel({ products }: { products: Product[] }) {
             <button
               type="button"
               onClick={() => scrollBy(-1)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-background text-deep transition hover:border-rose-gold/40 hover:text-rose-gold"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-background text-deep shadow-[var(--luxury-shadow-sm)] transition hover:border-rose-gold/40 hover:text-rose-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2"
               aria-label="Scroll bestsellers left"
             >
               ←
@@ -42,7 +42,7 @@ export function BestsellerCarousel({ products }: { products: Product[] }) {
             <button
               type="button"
               onClick={() => scrollBy(1)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-background text-deep transition hover:border-rose-gold/40 hover:text-rose-gold"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-line bg-background text-deep shadow-[var(--luxury-shadow-sm)] transition hover:border-rose-gold/40 hover:text-rose-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2"
               aria-label="Scroll bestsellers right"
             >
               →
@@ -58,7 +58,7 @@ export function BestsellerCarousel({ products }: { products: Product[] }) {
             <article
               key={p.id}
               className={cn(
-                "relative w-[min(100%,20rem)] shrink-0 snap-start overflow-hidden rounded-2xl border border-line/90 bg-ivory sm:w-[22rem] sm:rounded-3xl",
+                "relative w-[min(100%,20rem)] shrink-0 snap-start overflow-hidden rounded-[1.75rem] border border-zinc-100/90 bg-ivory shadow-[var(--luxury-shadow)] ring-1 ring-black/[0.03] transition-shadow hover:shadow-[var(--luxury-shadow-lg)] sm:w-[22rem] sm:rounded-[2rem]",
                 i === 0 && "sm:ml-0",
               )}
             >
@@ -79,7 +79,7 @@ export function BestsellerCarousel({ products }: { products: Product[] }) {
                   <h3 className="font-display text-xl leading-snug text-deep sm:text-2xl">
                     {p.name}
                   </h3>
-                  <p className="line-clamp-2 text-sm text-muted">{p.shortDescription}</p>
+                  <p className="line-clamp-2 text-sm leading-relaxed text-zinc-700">{p.shortDescription}</p>
                   <div className="flex items-baseline justify-between pt-2">
                     <span className="text-sm font-semibold tracking-tight">
                       {formatKRW(p.priceKrw)}

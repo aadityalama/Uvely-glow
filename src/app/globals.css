@@ -7,7 +7,8 @@
   --store-header-total: calc(var(--store-announcement-h) + var(--store-nav-h) + var(--store-trust-h));
   --background: #faf6f7;
   --foreground: #1a1416;
-  --muted: #6b5e62;
+  /* Darker secondary text for AA contrast on ivory/cream surfaces */
+  --muted: #524548;
   --card: #ffffff;
   --accent: #b76e79;
   --accent-soft: #f5e8ea;
@@ -19,9 +20,12 @@
   --blush: #fcecef;
   --blush-deep: #e8c4cb;
   --ivory: #fffdfb;
+  --luxury-radius: 1.25rem;
+  --luxury-radius-lg: 1.75rem;
+  --luxury-shadow-sm: 0 1px 2px rgba(15, 10, 12, 0.04), 0 4px 16px -4px rgba(15, 10, 12, 0.08);
+  --luxury-shadow: 0 2px 4px rgba(15, 10, 12, 0.04), 0 12px 40px -8px rgba(15, 10, 12, 0.1);
+  --luxury-shadow-lg: 0 4px 8px rgba(15, 10, 12, 0.05), 0 24px 56px -12px rgba(15, 10, 12, 0.14);
 }
-
-@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);

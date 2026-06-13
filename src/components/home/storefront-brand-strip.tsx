@@ -15,10 +15,10 @@ const BRANDS = [
 
 export function StorefrontBrandStrip({ title }: { title: StoreMessages["brands"]["title"] }) {
   return (
-    <section className="border-y border-zinc-200 bg-white">
-      <Container className="max-w-[1200px] py-5 sm:py-6">
+    <section className="border-y border-zinc-200/90 bg-white py-8 sm:py-12">
+      <Container className="max-w-[1200px]">
         {title ? (
-          <p className="text-center text-[10px] font-semibold uppercase tracking-[0.35em] text-zinc-500">
+          <p className="text-center text-[11px] font-semibold uppercase tracking-[0.32em] text-zinc-600">
             {title}
           </p>
         ) : null}
@@ -33,7 +33,7 @@ export function StorefrontBrandStrip({ title }: { title: StoreMessages["brands"]
               key={name}
               href={`/products?q=${encodeURIComponent(name)}`}
               className={cn(
-                "shrink-0 text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-800 transition hover:text-accent sm:text-xs",
+                "shrink-0 text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-900 transition hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 sm:text-xs",
                 name.includes(" ") ? "whitespace-nowrap" : "",
               )}
             >

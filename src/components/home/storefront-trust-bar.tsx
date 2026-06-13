@@ -91,7 +91,7 @@ export function StorefrontTrustBar({ trust }: { trust: StoreMessages["trustBar"]
               <p className="text-[10px] font-semibold uppercase leading-tight tracking-[0.16em] text-zinc-800">
                 {title}
               </p>
-              <p className="max-w-[11rem] text-[12px] font-normal leading-snug tracking-normal text-zinc-600 sm:max-w-[13rem]">
+              <p className="max-w-[11rem] text-[13px] font-normal leading-relaxed tracking-normal text-zinc-700 sm:max-w-[13rem]">
                 {sub}
               </p>
             </div>

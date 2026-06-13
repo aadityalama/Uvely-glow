@@ -190,16 +190,18 @@ export function SiteHeader({
     const active =
       pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
     return cn(
-      "shrink-0 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted transition hover:text-accent xl:text-[11px] xl:tracking-[0.1em]",
-      active ? "text-accent" : "text-muted",
+      "inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 xl:text-[11px] xl:tracking-[0.1em]",
+      "hover:bg-zinc-100 hover:text-zinc-950",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2",
+      active ? "text-accent" : "text-zinc-700",
     );
   }
 
   return (
-    <header className="sticky top-0 z-50 isolate bg-white shadow-[0_1px_0_rgba(0,0,0,0.06)]">
+    <header className="sticky top-0 z-50 isolate bg-white shadow-[0_1px_0_rgba(0,0,0,0.05),0_12px_40px_-16px_rgba(15,10,12,0.07)]">
       <div className="bg-zinc-950 text-white">
         <Container className="flex h-[var(--store-announcement-h)] max-w-[1200px] items-center gap-3 px-5 sm:px-8 lg:px-10">
-          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-x-0 overflow-x-auto whitespace-nowrap py-0 text-[10px] font-semibold uppercase tracking-[0.14em] sm:gap-x-0">
+          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-x-0 overflow-x-auto whitespace-nowrap py-0 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/95 sm:gap-x-0">
             <span className="inline-flex shrink-0 items-center gap-1.5 pr-2 sm:pr-4">
               <IconTruckTiny className="h-3.5 w-3.5 shrink-0 text-white/85" />
               {t.announcement.freeShipping}
@@ -251,7 +253,7 @@ export function SiteHeader({
           aria-label="Primary"
           className="relative z-20 hidden min-w-0 flex-1 md:flex md:justify-center md:overflow-visible"
         >
-          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-2 md:gap-x-2.5 lg:gap-x-3 xl:gap-x-4">
+          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-1.5 md:gap-x-2.5 lg:gap-x-3 xl:gap-x-4">
             <Link href="/products" className={cn(linkClass("/products"), "inline-flex items-center gap-1")}>
               {t.nav.shop}
               <span className="text-[9px] leading-none text-zinc-400" aria-hidden>
@@ -278,7 +280,7 @@ export function SiteHeader({
               <Link
                 href="/admin"
                 prefetch={false}
-                className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted transition hover:text-accent xl:text-[11px] xl:tracking-[0.1em]"
+                className="inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 xl:text-[11px] xl:tracking-[0.1em]"
               >
                 {t.nav.admin}
               </Link>
@@ -300,13 +302,13 @@ export function SiteHeader({
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={t.tools.searchPlaceholder}
-              className="h-10 w-full rounded-full border border-zinc-200 bg-zinc-100/70 pl-4 pr-11 text-[13px] text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-400 focus:bg-white focus:ring-1 focus:ring-zinc-900/10"
+              className="h-11 w-full rounded-full border border-zinc-200/95 bg-white pl-5 pr-12 text-[14px] text-zinc-950 shadow-[var(--luxury-shadow-sm)] outline-none transition placeholder:text-zinc-500 focus:border-zinc-300 focus:shadow-[var(--luxury-shadow)] focus:ring-2 focus:ring-zinc-900/12"
             />
-            <IconSearch className="pointer-events-none absolute right-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-zinc-500" />
+            <IconSearch className="pointer-events-none absolute right-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-zinc-500" />
           </form>
           <Link
             href="/wishlist"
-            className="relative inline-flex h-10 w-10 items-center justify-center text-zinc-900 transition hover:text-zinc-600"
+            className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-zinc-900 transition-colors hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2"
             aria-label={t.tools.wishlist}
           >
             <IconHeart className="h-[19px] w-[19px]" />
@@ -318,7 +320,7 @@ export function SiteHeader({
           </Link>
           <Link
             href="/cart"
-            className="relative inline-flex h-10 w-10 items-center justify-center text-zinc-900 transition hover:text-zinc-600"
+            className="relative inline-flex h-11 w-11 items-center justify-center rounded-full text-zinc-900 transition-colors hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2"
             aria-label={t.tools.cart}
           >
             <IconBag className="h-[19px] w-[19px]" />
@@ -384,7 +386,7 @@ export function SiteHeader({
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder={t.tools.searchPlaceholder}
-                  className="h-10 w-full rounded-full border border-zinc-300 bg-white pl-4 pr-11 text-[13px] outline-none"
+                  className="h-11 w-full rounded-full border border-zinc-200/95 bg-white pl-5 pr-12 text-[14px] text-zinc-950 shadow-[var(--luxury-shadow-sm)] outline-none placeholder:text-zinc-500 focus:border-zinc-300 focus:ring-2 focus:ring-zinc-900/12"
                 />
                 <IconSearch className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
               </form>
