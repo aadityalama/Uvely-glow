@@ -71,14 +71,18 @@ export function StorefrontTrustBar({ trust }: { trust: StoreMessages["trustBar"]
   ] as const;
 
   return (
-    <section className="border-b border-line/80 bg-card">
-      <Container className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 py-4 sm:justify-between sm:py-5">
-        {items.map(({ icon: Icon, label }) => (
-          <div key={label} className="flex items-center gap-2.5 text-sm text-foreground/85">
-            <Icon className="h-5 w-5 shrink-0 text-accent" />
-            <span className="font-medium tracking-wide">{label}</span>
-          </div>
-        ))}
+    <section className="border-b border-zinc-200 bg-zinc-100">
+      <Container className="max-w-[1200px] py-8 sm:py-9">
+        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 sm:gap-6">
+          {items.map(({ icon: Icon, label }) => (
+            <div key={label} className="flex flex-col items-center text-center">
+              <Icon className="h-6 w-6 text-zinc-700" />
+              <p className="mt-3 max-w-[11rem] text-[10px] font-semibold uppercase leading-snug tracking-[0.18em] text-zinc-700 sm:max-w-none">
+                {label}
+              </p>
+            </div>
+          ))}
+        </div>
       </Container>
     </section>
   );

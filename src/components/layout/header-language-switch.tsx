@@ -11,11 +11,13 @@ export function HeaderLanguageSwitch({
   englishLabel,
   koreanLabel,
   ariaLabel,
+  variant = "onDark",
 }: {
   locale: StoreLocale;
   englishLabel: string;
   koreanLabel: string;
   ariaLabel: string;
+  variant?: "onDark" | "onLight";
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -28,9 +30,15 @@ export function HeaderLanguageSwitch({
     });
   }
 
+  const inactive =
+    variant === "onDark" ? "text-white/55 hover:text-white/90" : "text-zinc-500 hover:text-zinc-800";
+  const active =
+    variant === "onDark" ? "text-white border-white" : "text-deep border-deep";
+  const sep = variant === "onDark" ? "text-white/35" : "text-zinc-300";
+
   return (
     <div
-      className="inline-flex items-center rounded-full border border-white/20 bg-white/5 p-0.5"
+      className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em]"
       role="group"
       aria-label={ariaLabel}
     >
@@ -39,23 +47,22 @@ export function HeaderLanguageSwitch({
         disabled={pending}
         onClick={() => pick("en")}
         className={cn(
-          "rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] transition",
-          locale === "en"
-            ? "bg-white text-deep shadow-sm"
-            : "text-white/70 hover:text-white",
+          "border-b border-transparent pb-0.5 transition",
+          locale === "en" ? active : inactive,
         )}
       >
         {englishLabel}
       </button>
+      <span className={cn("select-none text-[10px] font-normal", sep)} aria-hidden>
+        |
+      </span>
       <button
         type="button"
         disabled={pending}
         onClick={() => pick("ko")}
         className={cn(
-          "rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] transition",
-          locale === "ko"
-            ? "bg-white text-deep shadow-sm"
-            : "text-white/70 hover:text-white",
+          "border-b border-transparent pb-0.5 transition",
+          locale === "ko" ? active : inactive,
         )}
       >
         {koreanLabel}

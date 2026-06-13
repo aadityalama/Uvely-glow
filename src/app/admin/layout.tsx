@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+/** Admin is auth-gated; avoid static prerender (fixes Next clientReferenceManifest invariant on build). */
+export const dynamic = "force-dynamic";
+
 const links = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/products", label: "Products" },

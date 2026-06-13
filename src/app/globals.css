@@ -2,7 +2,7 @@
 
 :root {
   --store-announcement-h: 2.25rem;
-  --store-nav-h: 4.25rem;
+  --store-nav-h: 4rem;
   --store-header-total: calc(var(--store-announcement-h) + var(--store-nav-h));
   --background: #faf6f7;
   --foreground: #1a1416;

@@ -38,7 +38,7 @@ export function LuxuryHome({
 
   return (
     <div className="bg-background">
-      <LuxuryFullscreenHero hero={messages.hero} trust={messages.trustBar} />
+      <LuxuryFullscreenHero hero={messages.hero} />
       <StorefrontTrustBar trust={messages.trustBar} />
       <StorefrontBrandStrip title={messages.brands.title} />
       <LuxuryEditorialGrid />

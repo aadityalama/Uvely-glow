@@ -8,14 +8,14 @@ import { signOutAction } from "@/app/actions/auth";
 import { UvelyLogo } from "@/components/brand/uvely-logo";
 import { Container } from "@/components/layout/container";
 import { HeaderLanguageSwitch } from "@/components/layout/header-language-switch";
-import { ShopMegaMenu, type MegaLink } from "@/components/layout/shop-mega-menu";
+import { ShopMegaMenu } from "@/components/layout/shop-mega-menu";
+import { REFERENCE_MEGA_MENU } from "@/config/storefront-mega-menu";
 import { useCart } from "@/context/cart-context";
 import { useSession } from "@/context/session-context";
 import { useWishlist } from "@/context/wishlist-context";
 import type { StoreLocale } from "@/lib/i18n/constants";
 import type { StoreMessages } from "@/lib/i18n/store-messages";
 import { cn } from "@/lib/utils";
-import type { Category } from "@/types";
 
 const PROMO_CARD_IMAGE =
   "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=85";
@@ -66,67 +66,16 @@ function IconSearch(props: React.SVGProps<SVGSVGElement>) {
   );
 }
 
-function IconPin(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" aria-hidden {...props}>
-      <path
-        d="M12 21s6-5.2 6-10a6 6 0 1 0-12 0c0 4.8 6 10 6 10Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      <circle cx="12" cy="11" r="2" fill="currentColor" />
-    </svg>
-  );
-}
-
-function buildMegaModel(
-  categories: Category[],
-  m: StoreMessages["mega"],
-): {
-  skincare: MegaLink[];
-  makeup: MegaLink[];
-  hairBody: MegaLink[];
-  collections: MegaLink[];
-  mega: StoreMessages["mega"];
-} {
-  const skincare: MegaLink[] = categories.map((c) => ({
-    href: `/categories/${c.slug}`,
-    label: c.name,
-  }));
-  const makeup: MegaLink[] = [
-    { href: "/products?q=lip", label: "Lip & masks" },
-    { href: "/products?q=base", label: "Base & cushion" },
-    { href: "/products?q=eye", label: "Eyes & brows" },
-    { href: "/products?q=cheek", label: "Cheek & glow" },
-  ];
-  const hairBody: MegaLink[] = [
-    { href: "/products?q=hair", label: "Hair care" },
-    { href: "/products?q=scalp", label: "Scalp treatments" },
-    { href: "/products?q=body", label: "Body care" },
-    { href: "/products?q=hand", label: "Hands & feet" },
-  ];
-  const collections: MegaLink[] = [
-    { href: "/bestsellers", label: "Bestsellers" },
-    { href: "/products?sort=featured", label: "Staff picks" },
-    { href: "/wishlist", label: "Saved list" },
-    { href: "/brands", label: "Shop by brand" },
-  ];
-  return { skincare, makeup, hairBody, collections, mega: m };
-}
-
 export function SiteHeader({
   serverCartCount,
   serverWishlistCount,
   locale,
   messages: t,
-  categories,
 }: {
   serverCartCount?: number;
   serverWishlistCount?: number;
   locale: StoreLocale;
   messages: StoreMessages;
-  categories: Category[];
 }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -146,7 +95,16 @@ export function SiteHeader({
     return `/products${params.toString() ? `?${params}` : ""}`;
   }, [q]);
 
-  const megaModel = useMemo(() => buildMegaModel(categories, t.mega), [categories, t.mega]);
+  const megaModel = useMemo(
+    () => ({
+      skincare: [...REFERENCE_MEGA_MENU.skincare],
+      makeup: [...REFERENCE_MEGA_MENU.makeup],
+      hairBody: [...REFERENCE_MEGA_MENU.hairBody],
+      collections: [...REFERENCE_MEGA_MENU.collections],
+      mega: t.mega,
+    }),
+    [t.mega],
+  );
 
   const navRest = [
     { href: "/categories", label: t.nav.categories },
@@ -161,28 +119,32 @@ export function SiteHeader({
     const active =
       pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
     return cn(
-      "shrink-0 text-sm font-medium tracking-wide transition hover:text-accent",
+      "shrink-0 text-[13px] font-medium tracking-wide text-muted transition hover:text-accent",
       active ? "text-accent" : "text-muted",
     );
   }
 
   return (
-    <header className="sticky top-0 z-50 isolate border-b border-line/80 bg-background/95 backdrop-blur-xl">
-      <div className="border-b border-white/10 bg-deep text-white">
-        <Container className="flex h-9 items-center justify-between gap-2 text-[10px] font-semibold uppercase tracking-[0.12em] sm:tracking-[0.16em]">
-          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-3 overflow-x-auto whitespace-nowrap py-1 sm:gap-5">
-            <span className="shrink-0 text-white/95">{t.announcement.freeShipping}</span>
-            <span className="hidden h-3 w-px shrink-0 bg-white/25 sm:block" aria-hidden />
-            <span className="shrink-0 text-white/90">{t.announcement.authentic}</span>
-            <span className="hidden h-3 w-px shrink-0 bg-white/25 md:block" aria-hidden />
-            <span className="hidden shrink-0 text-white/90 md:inline">{t.announcement.pureKorean}</span>
+    <header className="sticky top-0 z-50 isolate border-b border-zinc-200 bg-background/98 backdrop-blur-md">
+      <div className="border-b border-zinc-900 bg-zinc-950 text-white">
+        <Container className="flex h-9 max-w-[1200px] items-center justify-between gap-3 px-5 sm:px-8 lg:px-10">
+          <div className="scrollbar-hide flex min-w-0 flex-1 items-center gap-2 overflow-x-auto whitespace-nowrap py-1 text-[10px] font-semibold uppercase tracking-[0.14em] sm:gap-0 sm:tracking-[0.16em]">
+            <span className="shrink-0 sm:pr-3">{t.announcement.freeShipping}</span>
+            <span className="hidden text-zinc-600 sm:inline" aria-hidden>
+              |
+            </span>
+            <span className="shrink-0 sm:px-3">{t.announcement.authentic}</span>
+            <span className="hidden text-zinc-600 sm:inline" aria-hidden>
+              |
+            </span>
+            <span className="shrink-0 sm:px-3">{t.announcement.pureKorean}</span>
           </div>
-          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-            <span className="hidden items-center gap-1 text-white/85 lg:inline-flex">
-              <IconPin className="h-3.5 w-3.5 text-champagne/90" />
+          <div className="flex shrink-0 items-center gap-4 sm:gap-5">
+            <span className="hidden text-[10px] font-semibold uppercase tracking-[0.14em] text-white/80 lg:inline">
               {t.announcement.location}
             </span>
             <HeaderLanguageSwitch
+              variant="onDark"
               locale={locale}
               englishLabel={t.tools.english}
               koreanLabel={t.tools.korean}
@@ -192,11 +154,11 @@ export function SiteHeader({
         </Container>
       </div>
 
-      <Container className="flex h-[var(--store-nav-h)] items-center gap-3 sm:gap-4">
+      <Container className="flex h-[var(--store-nav-h)] max-w-[1200px] items-center gap-4 px-5 sm:gap-5 sm:px-8 lg:px-10">
         <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-card text-foreground md:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-zinc-300 bg-white text-foreground md:hidden"
             aria-label={t.tools.openMenu}
             onClick={() => setOpen(true)}
           >
@@ -210,7 +172,7 @@ export function SiteHeader({
           aria-label="Primary"
           className="relative z-20 hidden min-w-0 flex-1 overflow-x-auto overflow-y-visible scrollbar-hide md:flex md:justify-center"
         >
-          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-5 lg:gap-x-7">
+          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-7 lg:gap-x-9">
             <ShopMegaMenu
               shopHref="/products"
               shopLabel={t.nav.shop}
@@ -231,7 +193,7 @@ export function SiteHeader({
               <Link
                 href="/admin"
                 prefetch={false}
-                className="shrink-0 text-sm font-medium tracking-wide text-muted transition hover:text-accent"
+                className="shrink-0 text-[13px] font-medium tracking-wide text-muted transition hover:text-accent"
               >
                 {t.nav.admin}
               </Link>
@@ -249,7 +211,7 @@ export function SiteHeader({
             <form action={signOutAction}>
               <button
                 type="submit"
-                className="hidden rounded-full border border-line px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-accent/40 hover:text-accent lg:inline-block"
+                className="hidden rounded-sm border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-zinc-400 hover:text-foreground lg:inline-block"
               >
                 {t.tools.logOut}
               </button>
@@ -257,48 +219,48 @@ export function SiteHeader({
           ) : (
             <Link
               href="/login"
-              className="hidden rounded-full border border-line px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-accent/40 hover:text-accent lg:inline-block"
+              className="hidden rounded-sm border border-zinc-300 bg-white px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-muted transition hover:border-zinc-400 hover:text-foreground lg:inline-block"
             >
               {t.tools.logIn}
             </Link>
           )}
           <form
             action={searchHref}
-            className="relative hidden w-full max-w-xs shrink-0 sm:block sm:w-56 md:w-64 lg:max-w-xs"
+            className="relative hidden w-[200px] shrink-0 sm:block lg:w-[260px]"
             onSubmit={(e) => {
               e.preventDefault();
               window.location.href = searchHref;
             }}
           >
-            <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+            <IconSearch className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
             <input
               name="q"
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={t.tools.searchPlaceholder}
-              className="h-10 w-full rounded-full border border-line bg-card pl-10 pr-4 text-sm outline-none transition focus:border-foreground/40 focus:ring-2 focus:ring-accent-soft"
+              className="h-9 w-full rounded-sm border border-zinc-300 bg-white pl-9 pr-3 text-[13px] text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-1 focus:ring-zinc-900/10"
             />
           </form>
           <Link
             href="/wishlist"
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-card text-foreground transition hover:border-accent/40 hover:text-accent"
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-sm border border-zinc-300 bg-white text-foreground transition hover:border-zinc-400 sm:h-10 sm:w-10"
             aria-label={t.tools.wishlist}
           >
-            <IconHeart className="h-5 w-5" />
+            <IconHeart className="h-[18px] w-[18px] sm:h-5 sm:w-5" />
             {wishlistCount > 0 ? (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold text-white">
+              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-sm bg-accent px-1 text-[10px] font-semibold text-white">
                 {wishlistCount > 9 ? "9+" : wishlistCount}
               </span>
             ) : null}
           </Link>
           <Link
             href="/cart"
-            className="relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-card text-foreground transition hover:border-accent/40 hover:text-accent"
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-sm border border-zinc-300 bg-white text-foreground transition hover:border-zinc-400 sm:h-10 sm:w-10"
             aria-label={t.tools.cart}
           >
-            <IconBag className="h-5 w-5" />
+            <IconBag className="h-[18px] w-[18px] sm:h-5 sm:w-5" />
             {cartCount > 0 ? (
-              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-deep px-1 text-[10px] font-semibold text-background">
+              <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-sm bg-zinc-900 px-1 text-[10px] font-semibold text-white">
                 {cartCount > 9 ? "9+" : cartCount}
               </span>
             ) : null}
@@ -309,7 +271,7 @@ export function SiteHeader({
       <AnimatePresence>
         {open ? (
           <motion.div
-            className="fixed inset-0 z-50 bg-deep/40 md:hidden"
+            className="fixed inset-0 z-50 bg-black/40 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -327,17 +289,18 @@ export function SiteHeader({
                 <span className="font-display text-xl">{t.tools.menu}</span>
                 <button
                   type="button"
-                  className="rounded-full border border-line px-3 py-1 text-xs uppercase tracking-widest"
+                  className="rounded-sm border border-zinc-300 px-3 py-1 text-xs uppercase tracking-widest"
                   onClick={() => setOpen(false)}
                 >
                   {t.tools.closeMenu}
                 </button>
               </div>
-              <div className="flex items-center justify-between gap-2 border-b border-line pb-4">
+              <div className="flex items-center justify-between gap-2 border-b border-zinc-200 pb-4">
                 <span className="text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                   {t.tools.language}
                 </span>
                 <HeaderLanguageSwitch
+                  variant="onLight"
                   locale={locale}
                   englishLabel={t.tools.english}
                   koreanLabel={t.tools.korean}
@@ -352,12 +315,12 @@ export function SiteHeader({
                   window.location.href = searchHref;
                 }}
               >
-                <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                <IconSearch className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-500" />
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
                   placeholder={t.tools.searchPlaceholder}
-                  className="h-11 w-full rounded-full border border-line bg-card pl-10 pr-4 text-sm outline-none"
+                  className="h-10 w-full rounded-sm border border-zinc-300 bg-white pl-9 pr-3 text-[13px] outline-none"
                 />
               </form>
               <div className="flex flex-col gap-1">
@@ -371,7 +334,7 @@ export function SiteHeader({
                 <p className="text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                   {t.mega.skincare}
                 </p>
-                <div className="ml-2 flex flex-col gap-2 border-l border-line pl-3">
+                <div className="ml-2 flex flex-col gap-2 border-l border-zinc-200 pl-3">
                   {megaModel.skincare.map((l) => (
                     <Link
                       key={l.href}
@@ -386,7 +349,7 @@ export function SiteHeader({
                 <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                   {t.mega.makeup}
                 </p>
-                <div className="ml-2 flex flex-col gap-2 border-l border-line pl-3">
+                <div className="ml-2 flex flex-col gap-2 border-l border-zinc-200 pl-3">
                   {megaModel.makeup.map((l) => (
                     <Link
                       key={l.href}
@@ -401,7 +364,7 @@ export function SiteHeader({
                 <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                   {t.mega.hairBody}
                 </p>
-                <div className="ml-2 flex flex-col gap-2 border-l border-line pl-3">
+                <div className="ml-2 flex flex-col gap-2 border-l border-zinc-200 pl-3">
                   {megaModel.hairBody.map((l) => (
                     <Link
                       key={l.href}
@@ -416,7 +379,7 @@ export function SiteHeader({
                 <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.25em] text-muted">
                   {t.mega.collections}
                 </p>
-                <div className="ml-2 flex flex-col gap-2 border-l border-line pl-3">
+                <div className="ml-2 flex flex-col gap-2 border-l border-zinc-200 pl-3">
                   {megaModel.collections.map((l) => (
                     <Link
                       key={l.href}
@@ -429,7 +392,7 @@ export function SiteHeader({
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-3 border-t border-line pt-4">
+              <div className="flex flex-col gap-3 border-t border-zinc-200 pt-4">
                 {navRest.map((item) => (
                   <Link
                     key={item.href}

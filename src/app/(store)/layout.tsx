@@ -10,7 +10,7 @@ import {
   getCartItemCount,
   getCartLinesForUser,
 } from "@/lib/services/cart";
-import { listCategories, listProducts } from "@/lib/services/catalog";
+import { listProducts } from "@/lib/services/catalog";
 import { getWishlistIdsForUser } from "@/lib/services/wishlist";
 import { getSessionUserWithAdmin } from "@/lib/supabase/session";
 
@@ -22,7 +22,6 @@ export default async function StoreLayout({
   const { user, isAdmin } = await getSessionUserWithAdmin();
   const locale = await getStoreLocale();
   const messages = getStoreMessages(locale);
-  const categories = await listCategories();
   const catalog = await listProducts({ activeOnly: false });
   const initialLines = user ? await getCartLinesForUser(user.id) : [];
   const initialWishlist = user ? await getWishlistIdsForUser(user.id) : [];
@@ -47,9 +46,8 @@ export default async function StoreLayout({
               serverWishlistCount={serverWishlistCount}
               locale={locale}
               messages={messages}
-              categories={categories}
             />
-            <main className="flex-1">{children}</main>
+            <main className="min-h-0 flex-1">{children}</main>
             <SiteFooter messages={messages} />
           </div>
         </WishlistProvider>

@@ -41,13 +41,15 @@ export type StoreMessages = {
     korean: string;
   };
   hero: {
+    topIntro: string;
     eyebrow: string;
-    titleLine1: string;
+    titleBefore: string;
     titleAccent: string;
-    titleLine2: string;
+    titleAfter: string;
     subtitle: string;
     ctaShop: string;
     ctaQuiz: string;
+    footerTrust: string;
     discover: string;
   };
   trustBar: {
@@ -87,7 +89,7 @@ export type StoreMessages = {
 
 const en: StoreMessages = {
   announcement: {
-    freeShipping: "FREE SHIPPING on orders over NPR 7,000",
+    freeShipping: "FREE SHIPPING ON ORDERS OVER NPR 7,000",
     authentic: "100% AUTHENTIC K-BEAUTY",
     pureKorean: "PURE KOREAN PRODUCTS",
     location: "Kathmandu, Nepal",
@@ -107,13 +109,13 @@ const en: StoreMessages = {
     makeup: "Makeup",
     hairBody: "Hair & Body",
     collections: "Collections",
-    promoTitle: "New arrivals",
-    promoBody: "Layered hydration and Seoul-tested textures—edited weekly for Nepal.",
-    promoCta: "Shop the drop",
+    promoTitle: "New in",
+    promoBody: "Fresh drops from Seoul labs—limited units for Nepal.",
+    promoCta: "Shop new arrivals",
     viewAll: "View all",
   },
   tools: {
-    searchPlaceholder: "Search K-beauty…",
+    searchPlaceholder: "Search products",
     wishlist: "Wishlist",
     cart: "Cart",
     logIn: "Log in",
@@ -126,14 +128,17 @@ const en: StoreMessages = {
     korean: "한국어",
   },
   hero: {
-    eyebrow: "Seoul-curated K-beauty",
-    titleLine1: "Radiance,",
-    titleAccent: "delivered",
-    titleLine2: "to Kathmandu.",
+    topIntro:
+      "Dermatologist-informed formulas, Seoul sourcing, and textures that melt like silk. This is K-beauty elevated for the modern luxury wardrobe.",
+    eyebrow: "The glass-skin collection",
+    titleBefore: "Radiance, distilled in",
+    titleAccent: "Seoul",
+    titleAfter: ".",
     subtitle:
-      "Dermatologist-loved formulas, authenticated sourcing, and textures that melt like silk—shipped from Nepal with concierge care.",
+      "Full-screen luxury. Micro-layered hydration. Finishes that read expensive on camera—and unforgettable in person.",
     ctaShop: "Shop bestsellers",
-    ctaQuiz: "Skin quiz",
+    ctaQuiz: "Skin ritual quiz",
+    footerTrust: "Complimentary shipping · Authenticity guaranteed",
     discover: "Discover the edit",
   },
   trustBar: {
@@ -143,7 +148,7 @@ const en: StoreMessages = {
     support: "Kathmandu support",
   },
   brands: {
-    title: "Featured brands",
+    title: "",
   },
   footer: {
     tagline:
@@ -175,7 +180,7 @@ const en: StoreMessages = {
 
 const ko: StoreMessages = {
   announcement: {
-    freeShipping: "NPR 7,000 이상 무료 배송",
+    freeShipping: "NPR 7,000 이상 주문 시 무료 배송",
     authentic: "100% 정품 K-뷰티",
     pureKorean: "순수 한국 제품",
     location: "네팔 카트만두",
@@ -195,13 +200,13 @@ const ko: StoreMessages = {
     makeup: "메이크업",
     hairBody: "헤어 & 바디",
     collections: "컬렉션",
-    promoTitle: "신상품",
-    promoBody: "층층이 쌓는 수분과 서울에서 검증된 텍스처—네팔을 위해 매주 엄선합니다.",
-    promoCta: "신상 보기",
+    promoTitle: "신상",
+    promoBody: "서울 연구소의 신제품—네팔 한정 수량.",
+    promoCta: "신상 쇼핑",
     viewAll: "전체 보기",
   },
   tools: {
-    searchPlaceholder: "K-뷰티 검색…",
+    searchPlaceholder: "상품 검색",
     wishlist: "위시리스트",
     cart: "장바구니",
     logIn: "로그인",
@@ -214,14 +219,17 @@ const ko: StoreMessages = {
     korean: "한국어",
   },
   hero: {
-    eyebrow: "서울 엄선 K-뷰티",
-    titleLine1: "빛나는 피부,",
-    titleAccent: "카트만두",
-    titleLine2: "까지.",
+    topIntro:
+      "피부과에서 검증된 포뮬러와 서울 소싱, 실크처럼 스며드는 텍스처. 현대 럭셔리 워드로브를 위한 K-뷰티입니다.",
+    eyebrow: "글래스 스킨 컬렉션",
+    titleBefore: "빛나는 피부,",
+    titleAccent: "서울",
+    titleAfter: "에서 완성되다.",
     subtitle:
-      "피부과에서 사랑받는 포뮬러, 정품 소싱, 실크처럼 스며드는 텍스처—네팔에서 컨시어지 케어로 배송됩니다.",
+      "풀스크린 럭셔리. 층층이 쌓는 수분. 카메라 앞에서는 고급스럽게, 직접 볼 때는 잊히지 않는 마무리.",
     ctaShop: "베스트셀러 쇼핑",
-    ctaQuiz: "피부 퀴즈",
+    ctaQuiz: "피부 리추얼 퀴즈",
+    footerTrust: "무료 배송 · 정품 보증",
     discover: "에디트 살펴보기",
   },
   trustBar: {
@@ -231,7 +239,7 @@ const ko: StoreMessages = {
     support: "카트만두 고객 지원",
   },
   brands: {
-    title: "추천 브랜드",
+    title: "",
   },
   footer: {
     tagline:
