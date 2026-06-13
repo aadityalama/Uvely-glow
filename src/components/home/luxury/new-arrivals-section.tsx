@@ -12,7 +12,7 @@ export function NewArrivalsSection({ products }: { products: Product[] }) {
       <div className="mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-rose-gold">
+            <p className="text-[14px] font-semibold uppercase tracking-[0.35em] text-rose-gold">
               New arrivals
             </p>
             <h2 className="mt-3 font-display text-3xl font-semibold leading-[1.12] text-deep sm:text-4xl md:text-5xl">

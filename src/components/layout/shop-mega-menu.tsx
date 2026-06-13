@@ -113,7 +113,7 @@ export function CategoriesMegaMenu({
       <Link
         href={categoriesHref}
         className={cn(
-          "inline-flex items-center gap-1 rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 xl:text-[11px] xl:tracking-[0.1em]",
+          "inline-flex items-center gap-1 rounded-full px-2.5 py-2 text-[15px] font-semibold uppercase tracking-[0.06em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 md:px-3 md:tracking-[0.08em]",
           open && "text-accent",
         )}
         aria-expanded={open}
@@ -127,16 +127,17 @@ export function CategoriesMegaMenu({
 
       <div
         className={cn(
-          "pointer-events-none absolute left-1/2 top-full z-50 w-[min(100vw-1.5rem,1120px)] -translate-x-1/2 pt-[11px] opacity-0 transition duration-150",
+          /* Viewport-centered panel: absolute % is relative to the narrow trigger and skews the flyout right */
+          "pointer-events-none fixed left-1/2 top-[calc(var(--store-announcement-h)+var(--store-nav-h)+0.25rem)] z-[60] w-[min(100vw-1.5rem,1120px)] -translate-x-1/2 pt-[10px] opacity-0 transition duration-150",
           open && "pointer-events-auto opacity-100",
         )}
         onMouseEnter={onEnter}
         onMouseLeave={scheduleClose}
       >
         <div className="overflow-hidden rounded-2xl border border-zinc-200/80 bg-white shadow-[var(--luxury-shadow-lg)] sm:rounded-3xl">
-          <div className="overflow-x-auto">
-            <div className="grid min-w-[920px] grid-cols-[1fr_1fr_1fr_1.15fr_238px] gap-0">
-              <div className="border-b border-zinc-100 px-7 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+          <div className="overflow-x-auto overscroll-x-contain px-3 sm:px-4">
+            <div className="mx-auto grid w-full min-w-[920px] max-w-[1040px] grid-cols-[repeat(4,minmax(0,1fr))_minmax(208px,238px)] gap-0">
+              <div className="border-b border-zinc-100 px-4 py-6 sm:px-5 sm:py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
                 {columnHeader(mega.skincare, IconSkincareColumn)}
                 <ul className="mt-4 space-y-0">
                   {skincareLinks.map((l) => (
@@ -160,7 +161,7 @@ export function CategoriesMegaMenu({
                 </Link>
               </div>
 
-              <div className="border-b border-zinc-100 px-7 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+              <div className="border-b border-zinc-100 px-4 py-6 sm:px-5 sm:py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
                 {columnHeader(mega.makeup, IconMakeupColumn)}
                 <ul className="mt-4 space-y-0">
                   {makeupLinks.map((l) => (
@@ -184,7 +185,7 @@ export function CategoriesMegaMenu({
                 </Link>
               </div>
 
-              <div className="border-b border-zinc-100 px-7 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+              <div className="border-b border-zinc-100 px-4 py-6 sm:px-5 sm:py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
                 {columnHeader(mega.hairBody, IconPumpColumn)}
                 <ul className="mt-4 space-y-0">
                   {hairBodyLinks.map((l) => (
@@ -208,7 +209,7 @@ export function CategoriesMegaMenu({
                 </Link>
               </div>
 
-              <div className="border-b border-zinc-100 px-6 py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
+              <div className="border-b border-zinc-100 px-4 py-6 sm:px-5 sm:py-7 lg:border-b-0 lg:border-r lg:border-zinc-100">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-600">{mega.collections}</p>
                 <ul className="mt-4 space-y-3">
                   {collectionItems.map((c) => (
@@ -239,7 +240,7 @@ export function CategoriesMegaMenu({
                 </ul>
               </div>
 
-              <div className="p-3 lg:p-3 lg:pr-3">
+              <div className="border-b border-zinc-100 p-3 sm:p-4 lg:border-b-0 lg:pl-3 lg:pr-4">
                 <Link
                   href="/products"
                   className="group relative flex aspect-[238/380] w-full flex-col justify-end overflow-hidden rounded-2xl border border-zinc-200/90 bg-zinc-100 shadow-[var(--luxury-shadow-sm)]"

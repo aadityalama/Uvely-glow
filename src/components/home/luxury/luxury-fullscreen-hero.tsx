@@ -70,10 +70,10 @@ export function LuxuryFullscreenHero({ hero }: { hero: StoreMessages["hero"] }) 
           <p className="font-sans text-[11px] font-semibold uppercase tracking-[0.32em] text-[#6b5420] sm:text-xs">
             {hero.eyebrow}
           </p>
-          <h1 className="mt-5 max-w-[600px] font-display text-[2.5rem] font-bold leading-[1.06] tracking-[-0.03em] text-zinc-950 [text-shadow:0_1px_0_rgba(255,255,255,0.9),0_2px_24px_rgba(255,255,255,0.65)] sm:text-5xl md:text-[3.35rem] lg:text-[3.65rem]">
+          <h1 className="mt-5 max-w-[42rem] font-display text-[2.625rem] font-extrabold leading-[1.05] tracking-[-0.035em] text-zinc-950 [text-shadow:0_1px_0_rgba(255,255,255,0.92),0_2px_28px_rgba(255,255,255,0.7)] sm:text-5xl md:text-[3.25rem] lg:text-[72px] xl:text-[5rem] xl:leading-[1.02]">
             {hero.titleLine}
           </h1>
-          <p className="mt-7 max-w-xl text-[18px] font-medium leading-[1.8] text-zinc-800 sm:max-w-[36rem]">
+          <p className="mt-7 max-w-xl text-[20px] font-medium leading-[1.85] text-zinc-900 text-pretty antialiased sm:max-w-[36rem] lg:text-[21px] lg:leading-[1.9]">
             {hero.subtitle}
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-3 sm:mt-12 sm:gap-4">
@@ -96,7 +96,7 @@ export function LuxuryFullscreenHero({ hero }: { hero: StoreMessages["hero"] }) 
           <button
             type="button"
             onClick={prev}
-            className="absolute left-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/70 text-zinc-900 shadow-[var(--luxury-shadow-sm)] backdrop-blur-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30 focus-visible:ring-offset-2 sm:h-14 sm:w-14"
+            className="absolute left-3 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/70 text-zinc-900 shadow-[var(--luxury-shadow-sm)] backdrop-blur-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30 focus-visible:ring-offset-2 sm:left-4 sm:h-14 sm:w-14 md:left-6"
             aria-label="Previous slide"
           >
             <Chevron dir="left" />
@@ -104,13 +104,13 @@ export function LuxuryFullscreenHero({ hero }: { hero: StoreMessages["hero"] }) 
           <button
             type="button"
             onClick={next}
-            className="absolute right-0 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/70 text-zinc-900 shadow-[var(--luxury-shadow-sm)] backdrop-blur-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30 focus-visible:ring-offset-2 sm:h-14 sm:w-14"
+            className="absolute right-3 top-1/2 z-20 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-white/70 text-zinc-900 shadow-[var(--luxury-shadow-sm)] backdrop-blur-md transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/30 focus-visible:ring-offset-2 sm:right-4 sm:h-14 sm:w-14 md:right-6"
             aria-label="Next slide"
           >
             <Chevron dir="right" />
           </button>
 
-          <div className="flex justify-center gap-2.5 pb-1 pt-8">
+          <div className="flex justify-center gap-2.5 px-14 pb-1 pt-8 sm:px-16 md:px-20">
             {HERO_SLIDES.map((id, i) => (
               <button
                 key={id}

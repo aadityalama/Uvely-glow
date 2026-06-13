@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-/* Light-on-frosted-glass: tuned for WCAG AA on dark marketing shells */
+/* Light-on-frosted-glass — About / legal / contact dark cards */
 const cardHeading =
-  "font-display text-2xl font-semibold leading-tight tracking-tight text-[#F8F5F0] sm:text-3xl sm:font-bold";
+  "font-display text-2xl font-semibold leading-tight tracking-tight text-[#ffffff] sm:text-3xl";
 const cardLabel =
-  "text-xs font-semibold uppercase tracking-[0.22em] text-[#E5E7EB]";
+  "text-xs font-semibold uppercase tracking-[0.12em] text-[#e5e7eb]";
 const cardBody =
-  "mt-4 space-y-4 text-base font-normal leading-[1.8] text-[#D1D5DB] sm:text-lg sm:leading-[1.85]";
+  "mt-4 space-y-4 text-[17px] font-normal leading-[1.8] text-[#d1d5db]";
 
 type LightGlassCardProps = {
   id?: string;
@@ -54,7 +54,7 @@ export function LightGlassCardSubheading({
   return (
     <h3
       className={cn(
-        "text-base font-semibold leading-snug text-[#F8F5F0] sm:text-lg sm:font-bold",
+        "text-lg font-semibold leading-snug text-[#ffffff] sm:text-xl",
         className,
       )}
     >
@@ -74,7 +74,7 @@ export function LightGlassCardMuted({
   return (
     <p
       className={cn(
-        "text-base font-normal leading-[1.8] text-[#D1D5DB] sm:leading-[1.85]",
+        "text-[17px] font-normal leading-[1.8] text-[#d1d5db]",
         className,
       )}
     >

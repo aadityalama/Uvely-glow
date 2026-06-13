@@ -188,7 +188,7 @@ export function SiteHeader({
     const active =
       pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
     return cn(
-      "inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[15px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200",
+      "inline-flex shrink-0 items-center rounded-full px-2.5 py-2 text-[15px] font-semibold uppercase tracking-[0.06em] text-zinc-700 transition-colors duration-200 md:px-3 md:tracking-[0.08em]",
       "hover:bg-zinc-100 hover:text-zinc-950",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2",
       active ? "text-accent" : "text-zinc-700",
@@ -234,12 +234,11 @@ export function SiteHeader({
 
       <Container
         className={cn(
-          "flex h-[var(--store-nav-h)] max-w-[1200px] items-center gap-4 px-5 sm:gap-5 sm:px-8 lg:px-10",
-          /* True center: equal side columns so primary nav aligns to viewport center on desktop */
-          "md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-2 lg:gap-x-4",
+          "flex h-[var(--store-nav-h)] max-w-[1200px] flex-nowrap items-center gap-3 px-5 sm:gap-4 sm:px-8 md:gap-4 lg:gap-5 lg:px-10",
         )}
       >
-        <div className="flex min-w-0 shrink-0 items-center gap-3 md:justify-self-start">
+        {/* Brand — fixed width column; does not compete with nav for flex space */}
+        <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-zinc-300 bg-white text-foreground md:hidden"
@@ -253,11 +252,12 @@ export function SiteHeader({
           <UvelyLogo size="md" href="/" wordmarkOnly className="hidden md:flex" />
         </div>
 
+        {/* Primary nav — own flex-1 region; never intrudes on tools/search column */}
         <nav
           aria-label="Primary"
-          className="relative z-20 hidden min-w-0 md:col-start-2 md:flex md:justify-center md:justify-self-center md:overflow-visible"
+          className="relative z-10 hidden min-h-0 min-w-0 flex-1 items-center justify-center overflow-visible md:flex"
         >
-          <div className="flex w-max max-w-full min-w-0 flex-none flex-nowrap items-center justify-center gap-x-2 md:gap-x-3 lg:gap-x-4 xl:gap-x-5">
+          <div className="flex min-w-0 max-w-full flex-none flex-nowrap items-center justify-center gap-x-1.5 md:gap-x-2 lg:gap-x-2.5 xl:gap-x-3">
             <Link href="/products" className={cn(linkClass("/products"), "inline-flex items-center gap-1")}>
               {t.nav.shop}
               <span className="text-[9px] leading-none text-zinc-400" aria-hidden>
@@ -284,7 +284,7 @@ export function SiteHeader({
               <Link
                 href="/admin"
                 prefetch={false}
-                className="inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[15px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2"
+                className="inline-flex shrink-0 items-center rounded-full px-2.5 py-2 text-[15px] font-semibold uppercase tracking-[0.06em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 md:px-3 md:tracking-[0.08em]"
               >
                 {t.nav.admin}
               </Link>
@@ -292,10 +292,11 @@ export function SiteHeader({
           </div>
         </nav>
 
-        <div className="relative z-10 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-1.5 sm:gap-2 md:col-start-3 md:ml-0 md:justify-self-end md:gap-3">
+        {/* Search + icons — separate shrink-0 column from nav; max-width caps search on desktop */}
+        <div className="relative z-20 ml-auto flex shrink-0 items-center justify-end gap-1.5 sm:gap-2 md:ml-0 md:gap-2.5">
           <form
             action={searchHref}
-            className="relative hidden w-[180px] shrink-0 sm:block lg:w-[220px] xl:w-[248px]"
+            className="relative hidden w-full max-w-[10.5rem] shrink-0 sm:block sm:max-w-[11rem] md:max-w-[10.75rem] lg:max-w-[11rem] xl:max-w-[11.5rem]"
             onSubmit={(e) => {
               e.preventDefault();
               window.location.href = searchHref;
@@ -306,9 +307,9 @@ export function SiteHeader({
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder={t.tools.searchPlaceholder}
-              className="h-11 w-full rounded-full border border-zinc-200/95 bg-white pl-5 pr-12 text-[14px] text-zinc-950 shadow-[var(--luxury-shadow-sm)] outline-none transition placeholder:text-zinc-500 focus:border-zinc-300 focus:shadow-[var(--luxury-shadow)] focus:ring-2 focus:ring-zinc-900/12"
+              className="h-11 w-full max-w-full min-w-0 rounded-full border border-zinc-200/95 bg-white pl-4 pr-11 text-[14px] text-zinc-950 shadow-[var(--luxury-shadow-sm)] outline-none transition placeholder:text-zinc-500 focus:border-zinc-300 focus:shadow-[var(--luxury-shadow)] focus:ring-2 focus:ring-zinc-900/12"
             />
-            <IconSearch className="pointer-events-none absolute right-4 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-zinc-500" />
+            <IconSearch className="pointer-events-none absolute right-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-zinc-500" />
           </form>
           <Link
             href="/wishlist"

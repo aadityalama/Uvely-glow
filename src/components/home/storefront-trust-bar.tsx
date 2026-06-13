@@ -88,7 +88,7 @@ export function StorefrontTrustBar({ trust }: { trust: StoreMessages["trustBar"]
               className="flex flex-1 flex-col items-center gap-2 px-2 py-4 text-center sm:py-[18px] sm:first:pl-0 sm:last:pr-0"
             >
               <Icon className="h-[18px] w-[18px] text-[#b08d55]" />
-              <p className="text-[10px] font-semibold uppercase leading-tight tracking-[0.16em] text-zinc-800">
+              <p className="text-[14px] font-semibold uppercase leading-tight tracking-[0.16em] text-zinc-800">
                 {title}
               </p>
               <p className="max-w-[11rem] text-[13px] font-normal leading-relaxed tracking-normal text-zinc-700 sm:max-w-[13rem]">

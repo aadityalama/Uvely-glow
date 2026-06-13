@@ -23,7 +23,7 @@ export function BestsellerCarousel({ products }: { products: Product[] }) {
       <div className="mx-auto max-w-[88rem] px-5 sm:px-8 lg:px-12">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.35em] text-rose-gold">
+            <p className="text-[14px] font-semibold uppercase tracking-[0.35em] text-rose-gold">
               Bestsellers
             </p>
             <h2 className="mt-4 font-display text-3xl font-semibold leading-[1.12] tracking-tight text-deep sm:text-4xl md:text-5xl">

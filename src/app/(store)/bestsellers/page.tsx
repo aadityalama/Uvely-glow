@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
-import { ProductGrid } from "@/components/product/product-grid";
+import { BestsellersGrid } from "@/components/product/bestsellers-grid";
 import { listCategories, listProducts } from "@/lib/services/catalog";
 
 export const metadata: Metadata = {
@@ -27,7 +27,7 @@ export default async function BestsellersPage() {
         routines.
       </p>
       <div className="mt-10">
-        <ProductGrid items={list} />
+        <BestsellersGrid items={list} />
       </div>
       <p className="mt-10 text-sm text-muted">
         Browse all categories:{" "}
