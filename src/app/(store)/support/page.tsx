@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
+import { ShippingInformationSection } from "@/components/support/shipping-information";
 import { getSupportSnapshot } from "@/lib/services/enterprise";
 
 export const metadata: Metadata = {
   title: "Customer Support",
   description:
-    "AI support assistant, FAQ knowledge base, and ticket system for Uvely Glow customers.",
+    "AI support assistant, FAQ, Nepal shipping rates by region, and ticket system for Uvely Glow customers.",
 };
 
 export default async function SupportPage() {
@@ -46,14 +47,8 @@ export default async function SupportPage() {
         </aside>
       </div>
 
-      <div className="mt-6 grid gap-6 md:grid-cols-2">
-        <section id="shipping" className="scroll-mt-28 rounded-2xl border border-line bg-card p-6">
-          <h2 className="font-display text-2xl text-deep">Shipping information</h2>
-          <p className="mt-3 text-sm text-muted">
-            Standard and express delivery across Nepal. Cut-off times, carriers, and customs notes are configured with
-            your operations team in production.
-          </p>
-        </section>
+      <div className="mt-6 space-y-6">
+        <ShippingInformationSection />
         <section id="returns" className="scroll-mt-28 rounded-2xl border border-line bg-card p-6">
           <h2 className="font-display text-2xl text-deep">Returns & exchanges</h2>
           <p className="mt-3 text-sm text-muted">
