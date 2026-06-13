@@ -94,8 +94,13 @@ export function SiteHeader({
 
   return (
     <header className="sticky top-0 z-50 border-b border-line/70 bg-background/90 backdrop-blur-xl">
-      <Container className="flex h-16 items-center justify-between gap-4 sm:h-[4.25rem]">
-        <div className="flex items-center gap-3">
+      {/*
+        Three-column flex (not justify-between): center nav must stay in its own flex-1 slot.
+        Otherwise the right cluster (search + icons) can paint over the last nav link on
+        mid-width desktops when the nav row is wider than the gap between logo and tools.
+      */}
+      <Container className="flex h-16 items-center gap-3 sm:h-[4.25rem] sm:gap-4">
+        <div className="flex shrink-0 items-center gap-3">
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line bg-card text-foreground md:hidden"
@@ -108,13 +113,13 @@ export function SiteHeader({
           <UvelyLogo size="md" href="/" className="hidden sm:flex" />
         </div>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="relative z-10 hidden min-w-0 flex-1 flex-wrap items-center justify-center gap-x-4 gap-y-1 md:flex lg:gap-x-8">
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "text-sm font-medium tracking-wide transition hover:text-accent",
+                "shrink-0 text-sm font-medium tracking-wide transition hover:text-accent",
                 pathname === item.href || pathname.startsWith(`${item.href}/`)
                   ? "text-accent"
                   : "text-muted",
@@ -125,13 +130,13 @@ export function SiteHeader({
           ))}
           <Link
             href="/admin"
-            className="text-sm font-medium tracking-wide text-muted transition hover:text-foreground"
+            className="shrink-0 text-sm font-medium tracking-wide text-muted transition hover:text-foreground"
           >
             Admin
           </Link>
         </nav>
 
-        <div className="flex flex-1 items-center justify-end gap-2 sm:flex-none sm:gap-3">
+        <div className="relative z-0 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-2 sm:gap-3 md:ml-0">
           {email ? (
             <span className="hidden max-w-[10rem] truncate text-xs text-muted lg:inline">
               {email}
