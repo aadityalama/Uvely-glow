@@ -179,10 +179,8 @@ export function SiteHeader({
   );
 
   const navRest = [
-    { href: "/quiz", label: t.nav.skinQuiz },
     { href: "/brands", label: t.nav.brands },
     { href: "/bestsellers", label: t.nav.bestsellers },
-    { href: "/blog", label: t.nav.journal },
     { href: "/about", label: t.nav.aboutUs },
   ] as const;
 
@@ -190,7 +188,7 @@ export function SiteHeader({
     const active =
       pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
     return cn(
-      "inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 xl:text-[11px] xl:tracking-[0.1em]",
+      "inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[15px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200",
       "hover:bg-zinc-100 hover:text-zinc-950",
       "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2",
       active ? "text-accent" : "text-zinc-700",
@@ -234,8 +232,14 @@ export function SiteHeader({
         </Container>
       </div>
 
-      <Container className="flex h-[var(--store-nav-h)] max-w-[1200px] items-center gap-4 px-5 sm:gap-5 sm:px-8 lg:px-10">
-        <div className="flex shrink-0 items-center gap-3">
+      <Container
+        className={cn(
+          "flex h-[var(--store-nav-h)] max-w-[1200px] items-center gap-4 px-5 sm:gap-5 sm:px-8 lg:px-10",
+          /* True center: equal side columns so primary nav aligns to viewport center on desktop */
+          "md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:items-center md:gap-x-2 lg:gap-x-4",
+        )}
+      >
+        <div className="flex min-w-0 shrink-0 items-center gap-3 md:justify-self-start">
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-zinc-300 bg-white text-foreground md:hidden"
@@ -251,9 +255,9 @@ export function SiteHeader({
 
         <nav
           aria-label="Primary"
-          className="relative z-20 hidden min-w-0 flex-1 md:flex md:justify-center md:overflow-visible"
+          className="relative z-20 hidden min-w-0 md:col-start-2 md:flex md:justify-center md:justify-self-center md:overflow-visible"
         >
-          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-1.5 md:gap-x-2.5 lg:gap-x-3 xl:gap-x-4">
+          <div className="flex w-max max-w-full min-w-0 flex-none flex-nowrap items-center justify-center gap-x-2 md:gap-x-3 lg:gap-x-4 xl:gap-x-5">
             <Link href="/products" className={cn(linkClass("/products"), "inline-flex items-center gap-1")}>
               {t.nav.shop}
               <span className="text-[9px] leading-none text-zinc-400" aria-hidden>
@@ -280,7 +284,7 @@ export function SiteHeader({
               <Link
                 href="/admin"
                 prefetch={false}
-                className="inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2 xl:text-[11px] xl:tracking-[0.1em]"
+                className="inline-flex shrink-0 items-center rounded-full px-3 py-2 text-[15px] font-semibold uppercase tracking-[0.08em] text-zinc-700 transition-colors duration-200 hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900/25 focus-visible:ring-offset-2"
               >
                 {t.nav.admin}
               </Link>
@@ -288,7 +292,7 @@ export function SiteHeader({
           </div>
         </nav>
 
-        <div className="relative z-10 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-1.5 sm:gap-2 md:ml-0 md:gap-3">
+        <div className="relative z-10 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-1.5 sm:gap-2 md:col-start-3 md:ml-0 md:justify-self-end md:gap-3">
           <form
             action={searchHref}
             className="relative hidden w-[180px] shrink-0 sm:block lg:w-[220px] xl:w-[248px]"
@@ -393,14 +397,14 @@ export function SiteHeader({
               <div className="flex flex-col gap-1">
                 <Link
                   href="/products"
-                  className="text-lg font-medium"
+                  className="text-[15px] font-semibold"
                   onClick={() => setOpen(false)}
                 >
                   {t.nav.shop}
                 </Link>
                 <Link
                   href="/categories"
-                  className="text-lg font-medium"
+                  className="text-[15px] font-semibold"
                   onClick={() => setOpen(false)}
                 >
                   {t.nav.categories}
@@ -471,7 +475,7 @@ export function SiteHeader({
                   <Link
                     key={item.href}
                     href={item.href}
-                    className="text-lg font-medium"
+                    className="text-[15px] font-semibold"
                     onClick={() => setOpen(false)}
                   >
                     {item.label}
@@ -480,7 +484,7 @@ export function SiteHeader({
                 {isAdmin ? (
                   <Link
                     href="/admin"
-                    className="text-lg font-medium text-muted"
+                    className="text-[15px] font-semibold text-muted"
                     prefetch={false}
                     onClick={() => setOpen(false)}
                   >
@@ -489,12 +493,12 @@ export function SiteHeader({
                 ) : null}
                 {email ? (
                   <form action={signOutAction}>
-                    <button type="submit" className="text-lg font-medium text-accent">
+                    <button type="submit" className="text-[15px] font-semibold text-accent">
                       {t.tools.logOut}
                     </button>
                   </form>
                 ) : (
-                  <Link href="/login" className="text-lg font-medium text-accent">
+                  <Link href="/login" className="text-[15px] font-semibold text-accent">
                     {t.tools.logIn}
                   </Link>
                 )}
