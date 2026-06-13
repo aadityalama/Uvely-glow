@@ -93,11 +93,12 @@ export function SiteHeader({
   }, [q]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-background/90 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 isolate border-b border-line/70 bg-background/90 backdrop-blur-xl">
       {/*
-        Three-column flex (not justify-between): center nav must stay in its own flex-1 slot.
-        Otherwise the right cluster (search + icons) can paint over the last nav link on
-        mid-width desktops when the nav row is wider than the gap between logo and tools.
+        Three-column flex: logo | flex-1 nav | tools. The search form uses flex-1 inside the
+        tools row; combined with a wide nav row, overflow could paint the Admin link under the
+        tools stack. Keep nav in a higher stacking level (z-20) and clip horizontal overflow
+        with scroll so links never sit beneath the toolbar hit targets.
       */}
       <Container className="flex h-16 items-center gap-3 sm:h-[4.25rem] sm:gap-4">
         <div className="flex shrink-0 items-center gap-3">
@@ -113,30 +114,36 @@ export function SiteHeader({
           <UvelyLogo size="md" href="/" className="hidden sm:flex" />
         </div>
 
-        <nav className="relative z-10 hidden min-w-0 flex-1 flex-wrap items-center justify-center gap-x-4 gap-y-1 md:flex lg:gap-x-8">
-          {nav.map((item) => (
+        <nav
+          aria-label="Primary"
+          className="relative z-20 hidden min-w-0 flex-1 overflow-x-auto overflow-y-visible scrollbar-hide md:flex md:justify-center"
+        >
+          <div className="flex w-max max-w-full flex-none flex-nowrap items-center gap-x-4 lg:gap-x-8">
+            {nav.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  "shrink-0 text-sm font-medium tracking-wide transition hover:text-accent",
+                  pathname === item.href || pathname.startsWith(`${item.href}/`)
+                    ? "text-accent"
+                    : "text-muted",
+                )}
+              >
+                {item.label}
+              </Link>
+            ))}
             <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "shrink-0 text-sm font-medium tracking-wide transition hover:text-accent",
-                pathname === item.href || pathname.startsWith(`${item.href}/`)
-                  ? "text-accent"
-                  : "text-muted",
-              )}
+              href="/admin"
+              prefetch={false}
+              className="shrink-0 text-sm font-medium tracking-wide text-muted transition hover:text-foreground"
             >
-              {item.label}
+              Admin
             </Link>
-          ))}
-          <Link
-            href="/admin"
-            className="shrink-0 text-sm font-medium tracking-wide text-muted transition hover:text-foreground"
-          >
-            Admin
-          </Link>
+          </div>
         </nav>
 
-        <div className="relative z-0 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-2 sm:gap-3 md:ml-0">
+        <div className="relative z-10 ml-auto flex min-w-0 shrink-0 items-center justify-end gap-2 sm:gap-3 md:ml-0">
           {email ? (
             <span className="hidden max-w-[10rem] truncate text-xs text-muted lg:inline">
               {email}
@@ -161,7 +168,7 @@ export function SiteHeader({
           )}
           <form
             action={searchHref}
-            className="relative hidden max-w-xs flex-1 sm:block"
+            className="relative hidden w-full max-w-xs shrink-0 sm:block sm:w-56 md:w-64 lg:max-w-xs"
             onSubmit={(e) => {
               e.preventDefault();
               window.location.href = searchHref;
