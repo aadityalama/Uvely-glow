@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { STORE_LOCALE_COOKIE } from "@/lib/i18n/constants";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -51,16 +53,19 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = (await cookies()).get(STORE_LOCALE_COOKIE)?.value;
+  const htmlLang = locale === "ko" ? "ko" : "en";
+  const htmlClass =
+    `${inter.variable} ${playfair.variable}`.trim() + (locale === "ko" ? " locale-ko" : "");
+
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${playfair.variable} antialiased`}>
-        {children}
-      </body>
+    <html lang={htmlLang} className={htmlClass}>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { LuxuryHome } from "@/components/home/luxury/luxury-home";
+import { getStoreMessages } from "@/lib/i18n/store-messages";
+import { getStoreLocale } from "@/lib/i18n/get-store-locale";
 import { listProducts } from "@/lib/services/catalog";
 
 export const metadata: Metadata = {
@@ -10,6 +12,8 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const products = await listProducts({ activeOnly: true });
+  const locale = await getStoreLocale();
+  const messages = getStoreMessages(locale);
 
-  return <LuxuryHome products={products} />;
+  return <LuxuryHome products={products} messages={messages} />;
 }

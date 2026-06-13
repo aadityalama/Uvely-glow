@@ -1,4 +1,5 @@
 import type { Product } from "@/types";
+import type { StoreMessages } from "@/lib/i18n/store-messages";
 import { BeforeAfterGallery } from "./before-after-gallery";
 import { BestsellerCarousel } from "./bestseller-carousel";
 import { BrandStorySection } from "./brand-story-section";
@@ -8,6 +9,8 @@ import { LuxuryEditorialGrid } from "./luxury-editorial-grid";
 import { LuxuryFullscreenHero } from "./luxury-fullscreen-hero";
 import { NewArrivalsSection } from "./new-arrivals-section";
 import { SkincareRoutineSection } from "./skincare-routine-section";
+import { StorefrontBrandStrip } from "../storefront-brand-strip";
+import { StorefrontTrustBar } from "../storefront-trust-bar";
 
 function pickBestsellers(products: Product[]) {
   const featured = products.filter((p) => p.isFeatured);
@@ -23,13 +26,21 @@ function pickNewArrivals(products: Product[]) {
   return unique.slice(0, 5);
 }
 
-export function LuxuryHome({ products }: { products: Product[] }) {
+export function LuxuryHome({
+  products,
+  messages,
+}: {
+  products: Product[];
+  messages: StoreMessages;
+}) {
   const bestsellers = pickBestsellers(products);
   const newArrivals = pickNewArrivals(products);
 
   return (
     <div className="bg-background">
-      <LuxuryFullscreenHero />
+      <LuxuryFullscreenHero hero={messages.hero} trust={messages.trustBar} />
+      <StorefrontTrustBar trust={messages.trustBar} />
+      <StorefrontBrandStrip title={messages.brands.title} />
       <LuxuryEditorialGrid />
       <BestsellerCarousel products={bestsellers} />
       <NewArrivalsSection products={newArrivals} />

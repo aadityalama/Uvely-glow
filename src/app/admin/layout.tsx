@@ -13,20 +13,14 @@ export const metadata: Metadata = {
 const links = [
   { href: "/admin", label: "Dashboard" },
   { href: "/admin/products", label: "Products" },
-  { href: "/admin/categories", label: "Categories" },
-  { href: "/admin/inventory", label: "Inventory" },
   { href: "/admin/orders", label: "Orders" },
-  { href: "/admin/analytics", label: "Analytics" },
-  { href: "/admin/executive", label: "Executive" },
-  { href: "/admin/operations", label: "Operations" },
-  { href: "/admin/marketplace", label: "Marketplace" },
-  { href: "/admin/support", label: "Support" },
-  { href: "/admin/marketing", label: "Marketing" },
-  { href: "/admin/security", label: "Security" },
-  { href: "/admin/mobile", label: "Mobile" },
-  { href: "/admin/seo", label: "SEO audit" },
   { href: "/admin/customers", label: "Customers" },
-  { href: "/admin/reviews", label: "Reviews" },
+  { href: "/admin/inventory", label: "Inventory" },
+  { href: "/admin/brands", label: "Brands" },
+  { href: "/admin/categories", label: "Categories" },
+  { href: "/admin/promotions", label: "Promotions" },
+  { href: "/admin/analytics", label: "Analytics" },
+  { href: "/admin/settings", label: "Settings" },
 ];
 
 export default async function AdminLayout({

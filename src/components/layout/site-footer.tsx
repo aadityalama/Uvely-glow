@@ -1,28 +1,30 @@
 import Link from "next/link";
 import { UvelyLogo } from "@/components/brand/uvely-logo";
+import { FooterNewsletterForm } from "@/components/layout/footer-newsletter-form";
+import type { StoreMessages } from "@/lib/i18n/store-messages";
 
-const shop = [
-  { href: "/products", label: "All products" },
-  { href: "/categories", label: "Categories" },
-  { href: "/brands", label: "Brands" },
-  { href: "/wishlist", label: "Wishlist" },
-];
+export function SiteFooter({ messages: t }: { messages: StoreMessages }) {
+  const shop = [
+    { href: "/products", label: t.nav.shop },
+    { href: "/categories", label: t.nav.categories },
+    { href: "/brands", label: t.nav.brands },
+    { href: "/wishlist", label: t.tools.wishlist },
+  ];
 
-const care = [
-  { href: "/account", label: "Account" },
-  { href: "/account/orders", label: "Orders" },
-  { href: "/checkout", label: "Checkout" },
-  { href: "/support", label: "Concierge" },
-];
+  const care = [
+    { href: "/account", label: "Account" },
+    { href: "/account/orders", label: "Orders" },
+    { href: "/checkout", label: "Checkout" },
+    { href: "/support", label: "Support" },
+  ];
 
-const legal = [
-  { href: "/about", label: "About" },
-  { href: "/contact", label: "Contact" },
-  { href: "/privacy", label: "Privacy" },
-  { href: "/terms", label: "Terms" },
-];
+  const legal = [
+    { href: "/about", label: t.nav.aboutUs },
+    { href: "/contact", label: "Contact" },
+    { href: "/privacy", label: "Privacy" },
+    { href: "/terms", label: "Terms" },
+  ];
 
-export function SiteFooter() {
   return (
     <footer className="relative mt-0 overflow-hidden border-t border-line/80 bg-deep text-ivory">
       <div className="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-rose-gold/20 blur-3xl" />
@@ -32,20 +34,20 @@ export function SiteFooter() {
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
             <UvelyLogo size="lg" inverted />
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65">
-              Luxury Korean beauty with editorial curation, authenticated sourcing,
-              and textures designed for visible radiance under real light.
+            <p className="mt-6 max-w-sm text-sm leading-relaxed text-white/65">{t.footer.tagline}</p>
+            <p className="mt-5 max-w-sm border-l-2 border-champagne/50 pl-4 text-xs leading-relaxed text-white/55">
+              {t.footer.languageNote}
             </p>
             <div className="mt-8 flex flex-wrap gap-3 text-[11px] font-semibold uppercase tracking-[0.28em] text-champagne/90">
-              <span className="rounded-full border border-white/15 px-4 py-2">Seoul lab tested</span>
-              <span className="rounded-full border border-white/15 px-4 py-2">Carbon-neutral ship</span>
+              <span className="rounded-full border border-white/15 px-4 py-2">{t.trustBar.authenticBadge}</span>
+              <span className="rounded-full border border-white/15 px-4 py-2">{t.announcement.freeShipping}</span>
             </div>
           </div>
 
-          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-5">
+          <div className="grid gap-10 sm:grid-cols-3 lg:col-span-4">
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.4em] text-champagne/80">
-                Shop
+                {t.footer.shop}
               </p>
               <ul className="mt-5 space-y-3 text-sm text-white/70">
                 {shop.map((item) => (
@@ -59,7 +61,7 @@ export function SiteFooter() {
             </div>
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.4em] text-champagne/80">
-                Client care
+                {t.footer.care}
               </p>
               <ul className="mt-5 space-y-3 text-sm text-white/70">
                 {care.map((item) => (
@@ -73,7 +75,7 @@ export function SiteFooter() {
             </div>
             <div>
               <p className="text-[10px] font-semibold uppercase tracking-[0.4em] text-champagne/80">
-                Maison
+                {t.footer.company}
               </p>
               <ul className="mt-5 space-y-3 text-sm text-white/70">
                 {legal.map((item) => (
@@ -87,44 +89,66 @@ export function SiteFooter() {
             </div>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-4">
             <p className="text-[10px] font-semibold uppercase tracking-[0.4em] text-champagne/80">
-              Private list
+              {t.footer.newsletterTitle}
             </p>
-            <p className="mt-4 text-sm leading-relaxed text-white/65">
-              First access to limited Seoul drops and ritual notes—no noise.
-            </p>
-            <form className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <input
-                type="email"
-                name="email"
-                required
-                autoComplete="email"
-                placeholder="Email address"
-                className="min-w-0 flex-1 rounded-full border border-white/20 bg-white/10 px-5 py-3 text-sm text-white outline-none placeholder:text-white/40 backdrop-blur transition focus:border-champagne/60 focus:ring-2 focus:ring-champagne/25"
-              />
-              <button
-                type="submit"
-                className="rounded-full bg-gradient-to-r from-champagne to-rose-gold-light px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.22em] text-deep shadow-lg transition hover:opacity-95"
-              >
-                Join
-              </button>
-            </form>
-            <p className="mt-4 text-xs text-white/45">
-              By subscribing you agree to our{" "}
-              <Link href="/privacy" className="underline underline-offset-4 hover:text-white">
-                privacy policy
-              </Link>
-              .
-            </p>
+            <p className="mt-4 text-sm leading-relaxed text-white/65">{t.footer.newsletterHint}</p>
+            <FooterNewsletterForm
+              emailPlaceholder={t.footer.emailPlaceholder}
+              subscribeLabel={t.footer.subscribe}
+              privacyNote={t.footer.privacyNote}
+              privacyLinkLabel={t.footer.privacyLink}
+            />
+
+            <div className="mt-10 border-t border-white/10 pt-8">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.4em] text-champagne/80">
+                {t.footer.contactTitle}
+              </p>
+              <address className="mt-4 not-italic text-sm leading-relaxed text-white/70">
+                {t.footer.addressLine1}
+                <br />
+                {t.footer.addressLine2}
+              </address>
+              <dl className="mt-4 grid gap-3 text-sm text-white/70 sm:grid-cols-2">
+                <div>
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-champagne/70">
+                    {t.footer.emailLabel}
+                  </dt>
+                  <dd className="mt-1">
+                    <a className="hover:text-white" href="mailto:hello@uvelyglow.com">
+                      hello@uvelyglow.com
+                    </a>
+                  </dd>
+                </div>
+                <div>
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-champagne/70">
+                    {t.footer.phoneLabel}
+                  </dt>
+                  <dd className="mt-1">
+                    <a className="hover:text-white" href={`tel:${t.footer.phoneValue.replace(/\s/g, "")}`}>
+                      {t.footer.phoneValue}
+                    </a>
+                  </dd>
+                </div>
+                <div className="sm:col-span-2">
+                  <dt className="text-[10px] font-semibold uppercase tracking-[0.2em] text-champagne/70">
+                    {t.footer.hoursLabel}
+                  </dt>
+                  <dd className="mt-1">{t.footer.hoursValue}</dd>
+                </div>
+              </dl>
+            </div>
           </div>
         </div>
 
         <div className="mt-16 flex flex-col gap-6 border-t border-white/10 pt-10 text-xs text-white/50 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Uvely Glow. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Uvely Glow. {t.footer.rights}
+          </p>
           <div className="flex flex-wrap gap-x-6 gap-y-2">
-            <span>Authenticity guarantee</span>
-            <span>Complimentary returns on qualifying orders</span>
+            <span>{t.footer.authenticity}</span>
+            <span>{t.footer.returns}</span>
           </div>
         </div>
       </div>

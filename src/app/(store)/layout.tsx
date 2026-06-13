@@ -1,24 +1,28 @@
 import { MergeGuestCart } from "@/components/auth/merge-guest-cart";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { NewsletterCapture } from "@/components/marketing/newsletter-capture";
 import { CartProvider } from "@/context/cart-context";
 import { SessionProvider } from "@/context/session-context";
 import { WishlistProvider } from "@/context/wishlist-context";
+import { getStoreLocale } from "@/lib/i18n/get-store-locale";
+import { getStoreMessages } from "@/lib/i18n/store-messages";
 import {
   getCartItemCount,
   getCartLinesForUser,
 } from "@/lib/services/cart";
-import { listProducts } from "@/lib/services/catalog";
+import { listCategories, listProducts } from "@/lib/services/catalog";
 import { getWishlistIdsForUser } from "@/lib/services/wishlist";
-import { getSessionUser } from "@/lib/supabase/session";
+import { getSessionUserWithAdmin } from "@/lib/supabase/session";
 
 export default async function StoreLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const user = await getSessionUser();
+  const { user, isAdmin } = await getSessionUserWithAdmin();
+  const locale = await getStoreLocale();
+  const messages = getStoreMessages(locale);
+  const categories = await listCategories();
   const catalog = await listProducts({ activeOnly: false });
   const initialLines = user ? await getCartLinesForUser(user.id) : [];
   const initialWishlist = user ? await getWishlistIdsForUser(user.id) : [];
@@ -26,7 +30,7 @@ export default async function StoreLayout({
   const serverWishlistCount = user ? initialWishlist.length : undefined;
 
   return (
-    <SessionProvider userId={user?.id ?? null} email={user?.email ?? null}>
+    <SessionProvider userId={user?.id ?? null} email={user?.email ?? null} isAdmin={isAdmin}>
       <MergeGuestCart userId={user?.id ?? null} />
       <CartProvider
         userId={user?.id ?? null}
@@ -41,10 +45,12 @@ export default async function StoreLayout({
             <SiteHeader
               serverCartCount={serverCartCount}
               serverWishlistCount={serverWishlistCount}
+              locale={locale}
+              messages={messages}
+              categories={categories}
             />
             <main className="flex-1">{children}</main>
-            <SiteFooter />
-            <NewsletterCapture />
+            <SiteFooter messages={messages} />
           </div>
         </WishlistProvider>
       </CartProvider>

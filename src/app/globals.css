@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  --store-announcement-h: 2.25rem;
+  --store-nav-h: 4.25rem;
+  --store-header-total: calc(var(--store-announcement-h) + var(--store-nav-h));
   --background: #faf6f7;
   --foreground: #1a1416;
   --muted: #6b5e62;
@@ -34,6 +37,18 @@
   --color-ivory: var(--ivory);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-playfair), ui-serif, Georgia, "Times New Roman", serif;
+}
+
+html.locale-ko body {
+  font-family:
+    "Apple SD Gothic Neo",
+    "Malgun Gothic",
+    "Noto Sans KR",
+    "Segoe UI",
+    var(--font-inter),
+    ui-sans-serif,
+    system-ui,
+    sans-serif;
 }
 
 html {
