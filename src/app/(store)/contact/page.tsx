@@ -47,7 +47,7 @@ export default function ContactPage() {
         </dl>
       </LightGlassCard>
 
-      <LightGlassCard eyebrow="Partners" title="Wholesale & creators">
+      <LightGlassCard id="careers" className="scroll-mt-28" eyebrow="Partners" title="Wholesale & creators">
         <p>
           Influencer workflows, affiliate attribution, and referral surfaces are
           scaffolded in the app shell—wire your CRM or partner portal when you go

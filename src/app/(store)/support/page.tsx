@@ -31,7 +31,7 @@ export default async function SupportPage() {
             ))}
           </div>
         </section>
-        <aside className="rounded-2xl border border-line bg-card p-6">
+        <aside id="faq" className="scroll-mt-28 rounded-2xl border border-line bg-card p-6">
           <h2 className="font-display text-2xl text-deep">FAQ knowledge base</h2>
           <ul className="mt-4 space-y-2 text-sm text-muted">
             {support.faqCategories.map((category) => (
@@ -44,6 +44,23 @@ export default async function SupportPage() {
             {support.openTickets} open tickets · {support.avgResponseHours}h average response.
           </p>
         </aside>
+      </div>
+
+      <div className="mt-6 grid gap-6 md:grid-cols-2">
+        <section id="shipping" className="scroll-mt-28 rounded-2xl border border-line bg-card p-6">
+          <h2 className="font-display text-2xl text-deep">Shipping information</h2>
+          <p className="mt-3 text-sm text-muted">
+            Standard and express delivery across Nepal. Cut-off times, carriers, and customs notes are configured with
+            your operations team in production.
+          </p>
+        </section>
+        <section id="returns" className="scroll-mt-28 rounded-2xl border border-line bg-card p-6">
+          <h2 className="font-display text-2xl text-deep">Returns & exchanges</h2>
+          <p className="mt-3 text-sm text-muted">
+            Start a return from your account orders, or message support for sizing exchanges. Eligibility windows and
+            label flows connect here when your policy service is wired in.
+          </p>
+        </section>
       </div>
     </Container>
   );

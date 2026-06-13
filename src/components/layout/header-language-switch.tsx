@@ -12,12 +12,18 @@ export function HeaderLanguageSwitch({
   koreanLabel,
   ariaLabel,
   variant = "onDark",
+  className,
+  labelClassName,
 }: {
   locale: StoreLocale;
   englishLabel: string;
   koreanLabel: string;
   ariaLabel: string;
-  variant?: "onDark" | "onLight";
+  variant?: "onDark" | "onLight" | "onLuxury";
+  /** Wrapper — use for spacing / base typography in footer etc. */
+  className?: string;
+  /** Per-button text sizing (defaults to compact header sizing). */
+  labelClassName?: string;
 }) {
   const router = useRouter();
   const [pending, start] = useTransition();
@@ -31,17 +37,24 @@ export function HeaderLanguageSwitch({
   }
 
   const inactive =
-    variant === "onDark" ? "text-white/55 hover:text-white/90" : "text-zinc-500 hover:text-zinc-800";
+    variant === "onLuxury"
+      ? "text-white/60 hover:text-champagne"
+      : variant === "onDark"
+        ? "text-white/55 hover:text-white/90"
+        : "text-zinc-500 hover:text-zinc-800";
   const active =
-    variant === "onDark" ? "text-white border-white" : "text-deep border-deep";
-  const sep = variant === "onDark" ? "text-white/35" : "text-zinc-300";
+    variant === "onLuxury"
+      ? "text-champagne border-champagne"
+      : variant === "onDark"
+        ? "text-white border-white"
+        : "text-deep border-deep";
+  const sep =
+    variant === "onLuxury" ? "text-white/35" : variant === "onDark" ? "text-white/35" : "text-zinc-300";
+
+  const labelBase = labelClassName ?? "text-[11px] font-semibold uppercase tracking-[0.14em]";
 
   return (
-    <div
-      className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.14em]"
-      role="group"
-      aria-label={ariaLabel}
-    >
+    <div className={cn("flex items-center gap-2", labelBase, className)} role="group" aria-label={ariaLabel}>
       <button
         type="button"
         disabled={pending}
@@ -53,7 +66,7 @@ export function HeaderLanguageSwitch({
       >
         {englishLabel}
       </button>
-      <span className={cn("select-none text-[10px] font-normal", sep)} aria-hidden>
+      <span className={cn("select-none font-normal opacity-80", sep)} aria-hidden>
         |
       </span>
       <button

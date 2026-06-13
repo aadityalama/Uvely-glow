@@ -19,7 +19,7 @@ export default function AboutPage() {
       title="Ritual-first Korean beauty"
       description="We obsess over texture, honest formulas, and calm shopping—so your shelf feels as considered as a Seoul vanity."
     >
-      <LightGlassCard eyebrow="Who we are" title="Curated, never crowded">
+      <LightGlassCard id="our-story" className="scroll-mt-28" eyebrow="Who we are" title="Curated, never crowded">
         <p>
           Uvely Glow is a demo luxury K-beauty storefront focused on editorial
           presentation, mobile-first checkout, and trustworthy product detail—

@@ -63,27 +63,52 @@ export type StoreMessages = {
   };
   footer: {
     tagline: string;
-    shop: string;
-    care: string;
-    company: string;
-    newsletterTitle: string;
+    location: string;
+    emailDisplay: string;
+    shopHeading: string;
+    helpHeading: string;
+    companyHeading: string;
+    subscribeHeading: string;
     newsletterHint: string;
     emailPlaceholder: string;
     subscribe: string;
     privacyNote: string;
     privacyLink: string;
-    languageNote: string;
-    contactTitle: string;
-    addressLine1: string;
-    addressLine2: string;
-    emailLabel: string;
-    phoneLabel: string;
-    phoneValue: string;
-    hoursLabel: string;
-    hoursValue: string;
+    shop: {
+      skincare: string;
+      makeup: string;
+      brands: string;
+      bestsellers: string;
+      newArrivals: string;
+      giftCards: string;
+    };
+    help: {
+      shipping: string;
+      returns: string;
+      faq: string;
+      trackOrder: string;
+      contact: string;
+    };
+    company: {
+      about: string;
+      story: string;
+      blog: string;
+      careers: string;
+      privacy: string;
+      terms: string;
+    };
+    customerCare: {
+      fastDelivery: string;
+      easyReturns: string;
+      securePayments: string;
+    };
+    craftedLine: string;
     rights: string;
-    authenticity: string;
-    returns: string;
+    langEnglishPrimary: string;
+    langKoreanSecondary: string;
+    langGroupAria: string;
+    socialInstagramAria: string;
+    socialFacebookAria: string;
   };
 };
 
@@ -151,30 +176,53 @@ const en: StoreMessages = {
     title: "",
   },
   footer: {
-    tagline:
-      "Luxury Korean beauty with editorial curation, authenticated sourcing, and textures designed for visible radiance under real light.",
-    shop: "Shop",
-    care: "Client care",
-    company: "Company",
-    newsletterTitle: "Newsletter",
-    newsletterHint: "First access to drops, journal notes, and member-only codes.",
+    tagline: "Luxury Korean Beauty Curated for Nepal",
+    location: "Kathmandu, Nepal",
+    emailDisplay: "hello@uvelyglow.com",
+    shopHeading: "Shop",
+    helpHeading: "Help",
+    companyHeading: "Company",
+    subscribeHeading: "Subscribe For Beauty Tips",
+    newsletterHint: "Editorial drops, ritual notes, and member-only codes—delivered quietly to your inbox.",
     emailPlaceholder: "Email address",
     subscribe: "Subscribe",
     privacyNote: "By subscribing you agree to our",
     privacyLink: "privacy policy",
-    languageNote:
-      "Uvely Glow is offered in English and Korean (한국어). Product names may appear in Korean as on packaging.",
-    contactTitle: "Visit & contact",
-    addressLine1: "Thamel Marg",
-    addressLine2: "Kathmandu 44600 · Nepal",
-    emailLabel: "Email",
-    phoneLabel: "Phone",
-    phoneValue: "+977 1-444-0000",
-    hoursLabel: "Hours",
-    hoursValue: "Sun–Thu · 10:00–18:00 NPT",
+    shop: {
+      skincare: "Skincare",
+      makeup: "Makeup",
+      brands: "Brands",
+      bestsellers: "Bestsellers",
+      newArrivals: "New Arrivals",
+      giftCards: "Gift Cards",
+    },
+    help: {
+      shipping: "Shipping Information",
+      returns: "Returns & Exchanges",
+      faq: "FAQ",
+      trackOrder: "Track Your Order",
+      contact: "Contact Us",
+    },
+    company: {
+      about: "About Us",
+      story: "Our Story",
+      blog: "Blog",
+      careers: "Careers",
+      privacy: "Privacy Policy",
+      terms: "Terms of Service",
+    },
+    customerCare: {
+      fastDelivery: "Fast Delivery",
+      easyReturns: "Easy Returns",
+      securePayments: "Secure Payments",
+    },
+    craftedLine: "Crafted in Korea. Curated for Nepal.",
     rights: "All rights reserved.",
-    authenticity: "Authenticity guarantee",
-    returns: "Complimentary returns on qualifying orders",
+    langEnglishPrimary: "English (Primary)",
+    langKoreanSecondary: "한국어 (Secondary)",
+    langGroupAria: "Store language",
+    socialInstagramAria: "Uvely Glow on Instagram",
+    socialFacebookAria: "Uvely Glow on Facebook",
   },
 };
 
@@ -242,30 +290,53 @@ const ko: StoreMessages = {
     title: "",
   },
   footer: {
-    tagline:
-      "에디토리얼 큐레이션, 정품 소싱, 실제 조명 아래에서도 돋보이는 광채를 위한 텍스처까지—럭셔리 한국 뷰티.",
-    shop: "쇼핑",
-    care: "고객 케어",
-    company: "회사",
-    newsletterTitle: "뉴스레터",
-    newsletterHint: "신상, 저널 노트, 회원 전용 코드를 가장 먼저 받아보세요.",
+    tagline: "네팔을 위한 럭셔리 한국 뷰티 큐레이션",
+    location: "네팔 카트만두",
+    emailDisplay: "hello@uvelyglow.com",
+    shopHeading: "쇼핑",
+    helpHeading: "고객 지원",
+    companyHeading: "회사",
+    subscribeHeading: "뷰티 팁 구독",
+    newsletterHint: "에디토리얼 신상, 리추얼 노트, 회원 전용 혜택을 차분하게 전해 드립니다.",
     emailPlaceholder: "이메일 주소",
     subscribe: "구독",
     privacyNote: "구독 시 당사",
     privacyLink: "개인정보 처리방침",
-    languageNote:
-      "Uvely Glow는 영어와 한국어(한국어)로 제공됩니다. 제품명은 패키지와 동일하게 한국어로 표기될 수 있습니다.",
-    contactTitle: "매장 및 연락처",
-    addressLine1: "Thamel Marg",
-    addressLine2: "Kathmandu 44600 · Nepal",
-    emailLabel: "이메일",
-    phoneLabel: "전화",
-    phoneValue: "+977 1-444-0000",
-    hoursLabel: "운영 시간",
-    hoursValue: "일–목 · 10:00–18:00 NPT",
+    shop: {
+      skincare: "스킨케어",
+      makeup: "메이크업",
+      brands: "브랜드",
+      bestsellers: "베스트셀러",
+      newArrivals: "신상품",
+      giftCards: "기프트 카드",
+    },
+    help: {
+      shipping: "배송 안내",
+      returns: "반품 및 교환",
+      faq: "자주 묻는 질문",
+      trackOrder: "주문 조회",
+      contact: "문의하기",
+    },
+    company: {
+      about: "회사 소개",
+      story: "브랜드 스토리",
+      blog: "블로그",
+      careers: "채용",
+      privacy: "개인정보 처리방침",
+      terms: "이용약관",
+    },
+    customerCare: {
+      fastDelivery: "빠른 배송",
+      easyReturns: "간편한 반품",
+      securePayments: "안전한 결제",
+    },
+    craftedLine: "한국에서 엄선했습니다. 네팔을 위해 큐레이션했습니다.",
     rights: "모든 권리 보유.",
-    authenticity: "정품 보증",
-    returns: "조건 충족 시 무료 반품",
+    langEnglishPrimary: "English (Primary)",
+    langKoreanSecondary: "한국어 (Secondary)",
+    langGroupAria: "스토어 언어",
+    socialInstagramAria: "인스타그램의 Uvely Glow",
+    socialFacebookAria: "페이스북의 Uvely Glow",
   },
 };
 

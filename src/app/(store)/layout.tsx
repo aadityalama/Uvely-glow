@@ -48,7 +48,7 @@ export default async function StoreLayout({
               messages={messages}
             />
             <main className="min-h-0 flex-1">{children}</main>
-            <SiteFooter messages={messages} />
+            <SiteFooter locale={locale} messages={messages} />
           </div>
         </WishlistProvider>
       </CartProvider>

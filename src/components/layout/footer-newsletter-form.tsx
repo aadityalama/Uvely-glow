@@ -15,10 +15,11 @@ export function FooterNewsletterForm({
   subscribeLabel: string;
   privacyNote: string;
   privacyLinkLabel: string;
-  theme?: "dark" | "light";
+  theme?: "dark" | "light" | "luxury";
 }) {
   const [state, formAction, pending] = useActionState(subscribeNewsletterAction, null);
   const light = theme === "light";
+  const luxury = theme === "luxury";
 
   return (
     <div>
@@ -31,20 +32,24 @@ export function FooterNewsletterForm({
           autoComplete="email"
           placeholder={emailPlaceholder}
           className={cn(
-            "min-h-[44px] min-w-0 flex-1 border px-4 py-2.5 text-sm outline-none transition focus:ring-2 focus:ring-offset-0",
+            "min-h-[48px] min-w-0 flex-1 border px-4 py-3 text-base outline-none transition focus:ring-2 focus:ring-offset-0",
             light
               ? "border-zinc-300 bg-white text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-zinc-900/15"
-              : "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:border-champagne/60 focus:ring-champagne/25",
+              : luxury
+                ? "border-white/15 bg-[#1a1a1a] text-white placeholder:text-white/45 focus:border-champagne/50 focus:ring-champagne/20"
+                : "border-white/20 bg-white/10 text-white placeholder:text-white/40 focus:border-champagne/60 focus:ring-champagne/25",
           )}
         />
         <button
           type="submit"
           disabled={pending}
           className={cn(
-            "min-h-[44px] shrink-0 px-6 text-[11px] font-semibold uppercase tracking-[0.2em] transition disabled:opacity-60",
+            "min-h-[48px] shrink-0 px-8 text-xs font-semibold uppercase tracking-[0.22em] transition disabled:opacity-60",
             light
               ? "border border-zinc-900 bg-zinc-900 text-white hover:bg-zinc-800"
-              : "rounded-full bg-gradient-to-r from-champagne to-rose-gold-light text-deep shadow-lg hover:opacity-95",
+              : luxury
+                ? "bg-gradient-to-r from-champagne via-champagne to-rose-gold-light text-deep shadow-[0_8px_30px_-8px_rgba(201,165,122,0.55)] hover:brightness-105"
+                : "rounded-full bg-gradient-to-r from-champagne to-rose-gold-light text-deep shadow-lg hover:opacity-95",
           )}
         >
           {pending ? "…" : subscribeLabel}
@@ -58,9 +63,15 @@ export function FooterNewsletterForm({
           Thank you — you are subscribed.
         </p>
       ) : null}
-      <p className={cn("mt-4 text-xs", light ? "text-zinc-500" : "text-white/45")}>
+      <p className={cn("mt-4 text-sm leading-relaxed", light ? "text-zinc-500" : "text-white/50")}>
         {privacyNote}{" "}
-        <a href="/privacy" className="underline underline-offset-4 hover:opacity-80">
+        <a
+          href="/privacy"
+          className={cn(
+            "underline underline-offset-4 hover:opacity-90",
+            light ? "text-zinc-800" : "text-champagne/90",
+          )}
+        >
           {privacyLinkLabel}
         </a>
         .
