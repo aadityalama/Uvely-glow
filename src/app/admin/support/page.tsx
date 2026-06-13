@@ -1,7 +1,7 @@
-import { getSupportSnapshot } from "@/lib/services/enterprise";
+import { getSupportSnapshot } from "@/lib/services/support-snapshot";
 
-export default async function AdminSupportPage() {
-  const support = await getSupportSnapshot();
+export default function AdminSupportPage() {
+  const support = getSupportSnapshot();
 
   return (
     <div className="space-y-8">

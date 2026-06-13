@@ -30,20 +30,6 @@ export async function getSubscriptionSnapshot(userId?: string) {
   };
 }
 
-export async function getSupportSnapshot() {
-  return {
-    aiAssistantName: "GlowBot",
-    openTickets: 6,
-    avgResponseHours: 4,
-    faqCategories: ["Orders", "Loyalty", "Subscriptions", "Mobile", "Returns"],
-    suggestedAnswers: [
-      "Track an order from Account > Orders.",
-      "K-Beauty Box renewals can be paused before the next billing date.",
-      "Reward points post after fulfillment confirmation.",
-    ],
-  };
-}
-
 export async function getOperationsSnapshot() {
   const products = await listProducts({ activeOnly: false });
   const lowStock = products.filter((product) => product.stock <= product.lowStockThreshold);

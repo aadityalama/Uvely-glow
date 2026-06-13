@@ -3,8 +3,8 @@ import {
   getEnterpriseDashboard,
   getLoyaltySnapshot,
   getSubscriptionSnapshot,
-  getSupportSnapshot,
 } from "@/lib/services/enterprise";
+import { getSupportSnapshot } from "@/lib/services/support-snapshot";
 
 export async function getMobileHomePayload(userId?: string) {
   const [products, enterprise] = await Promise.all([
@@ -20,6 +20,6 @@ export async function getMobileHomePayload(userId?: string) {
   };
 }
 
-export async function getMobileSupportPayload() {
+export function getMobileSupportPayload() {
   return getSupportSnapshot();
 }

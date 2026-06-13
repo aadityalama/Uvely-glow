@@ -81,12 +81,9 @@ function RateZoneCard({ zone }: { zone: RateZone }) {
                 key={row.place}
                 className="border-b border-line/70 last:border-b-0 [&>td]:py-2.5 sm:[&>td]:py-3"
               >
-                <th
-                  scope="row"
-                  className="px-3 font-normal text-foreground sm:px-4"
-                >
+                <td scope="row" className="px-3 font-normal text-foreground sm:px-4">
                   {row.place}
-                </th>
+                </td>
                 <td className="px-3 text-right tabular-nums text-muted sm:px-4">{row.rate}</td>
               </tr>
             ))}

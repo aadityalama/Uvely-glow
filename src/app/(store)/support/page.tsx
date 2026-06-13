@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { ShippingInformationSection } from "@/components/support/shipping-information";
-import { getSupportSnapshot } from "@/lib/services/enterprise";
+import { getSupportSnapshot } from "@/lib/services/support-snapshot";
 
 export const metadata: Metadata = {
   title: "Customer Support",
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
     "AI support assistant, FAQ, Nepal shipping rates by region, and ticket system for Uvely Glow customers.",
 };
 
-export default async function SupportPage() {
-  const support = await getSupportSnapshot();
+export default function SupportPage() {
+  const support = getSupportSnapshot();
 
   return (
     <Container className="py-12 sm:py-16">
