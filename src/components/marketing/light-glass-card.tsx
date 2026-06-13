@@ -1,11 +1,13 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-const cardHeading = "font-display text-2xl text-[#0F172A] sm:text-3xl";
+/* Light-on-frosted-glass: tuned for WCAG AA on dark marketing shells */
+const cardHeading =
+  "font-display text-2xl font-semibold leading-tight tracking-tight text-[#F8F5F0] sm:text-3xl sm:font-bold";
 const cardLabel =
-  "text-xs font-semibold uppercase tracking-[0.22em] text-[#475569]";
+  "text-xs font-semibold uppercase tracking-[0.22em] text-[#E5E7EB]";
 const cardBody =
-  "mt-4 space-y-4 text-sm leading-relaxed text-[#334155] sm:text-base";
+  "mt-4 space-y-4 text-base font-normal leading-[1.8] text-[#D1D5DB] sm:text-lg sm:leading-[1.85]";
 
 type LightGlassCardProps = {
   id?: string;
@@ -16,8 +18,8 @@ type LightGlassCardProps = {
 };
 
 /**
- * Light frosted glass panel on dark pages. Typography is tuned for contrast
- * (dark text); hero and page shell keep light-on-dark styling separately.
+ * Light frosted glass panel on dark pages. Copy uses high-contrast light
+ * typography so body and headings stay readable over the glass layer.
  */
 export function LightGlassCard({
   id,
@@ -41,7 +43,7 @@ export function LightGlassCard({
   );
 }
 
-/** Inline subheading inside a glass card (still on light glass). */
+/** Inline subheading inside a glass card (same ivory title treatment as card H2). */
 export function LightGlassCardSubheading({
   children,
   className,
@@ -52,7 +54,7 @@ export function LightGlassCardSubheading({
   return (
     <h3
       className={cn(
-        "text-base font-semibold text-[#0F172A] sm:text-lg",
+        "text-base font-semibold leading-snug text-[#F8F5F0] sm:text-lg sm:font-bold",
         className,
       )}
     >
@@ -70,6 +72,13 @@ export function LightGlassCardMuted({
   className?: string;
 }) {
   return (
-    <p className={cn("text-sm text-[#475569]", className)}>{children}</p>
+    <p
+      className={cn(
+        "text-base font-normal leading-[1.8] text-[#D1D5DB] sm:leading-[1.85]",
+        className,
+      )}
+    >
+      {children}
+    </p>
   );
 }

@@ -10,7 +10,7 @@ type DarkMarketingPageShellProps = {
 
 /**
  * Dark gradient page backdrop and hero (light-on-dark). Content cards should
- * use {@link LightGlassCard} so body copy stays on-spec for contrast.
+ * use {@link LightGlassCard} with light-on-glass typography for readable body copy.
  */
 export function DarkMarketingPageShell({
   eyebrow,
